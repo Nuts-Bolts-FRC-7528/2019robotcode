@@ -5,10 +5,9 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.common.robotMap;
 import frc.robot.common.OI;
-//import edu.wpi.first.wpilibj.GenericHID.Hand;
-
 import edu.wpi.first.cameraserver.CameraServer;
 //import camera server - BT 1/26/19
+//Fix depreceated import statement - EH 1/27/19
 
 public class Robot extends TimedRobot{
     private final SpeedControllerGroup m_left = new SpeedControllerGroup(robotMap.leftFrontDrive, robotMap.leftRearDrive);
@@ -29,10 +28,8 @@ public class Robot extends TimedRobot{
 
     @Override
     public void teleopPeriodic(){ //Happens roughly every 1/20th of a second while teleop is active
-        robotMap.miscellaneous.setSpeed(OI.manipulatorContoller.getY());
+        robotMap.miscellaneous.setSpeed(OI.manipulatorContoller.getY()); //Dummy manipulator (uses gamepad)
         m_drive.arcadeDrive((-OI.driveJoystick.getY()),(OI.driveJoystick.getX())); //Drives the robot arcade style using the joystick
-        //m_drive.arcadeDrive(OI.manipulatorContoller.getY(Hand.kLeft), OI.manipulatorContoller.getX(Hand.kLeft));
-        //Drives the robot arcade style using the game pad
         //We suspect that there may be an issue with the Joystick, b/c it is inverted/reversed. We resolved this by flipping Y,X to X,Y and putting a negative on Y.
     }
 }
