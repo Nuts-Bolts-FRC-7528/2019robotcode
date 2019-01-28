@@ -14,7 +14,7 @@ public class OI {
                 be referenced outside of this class.
     */
     public static final Joystick driveJoystick = new Joystick(0);
-    public final static XboxController manipulatorContoller = new XboxController(1);
+    public static final XboxController manipulatorContoller = new XboxController(1);
     /*
     To make a new variable here:
     Make it public and static so other classes can reference it

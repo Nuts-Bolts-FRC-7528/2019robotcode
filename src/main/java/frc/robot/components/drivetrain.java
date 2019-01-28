@@ -1,6 +1,15 @@
 package frc.robot.components;
 
 import frc.robot.common.robotMap;
+import edu.wpi.first.wpilibj.Timer;
+
+
+/*
+* These are a bunch of public methods I wrote for the drivetrain.
+* They can be called from any other class, just import this class and
+* use, for example, drivetrain.setLeftMotorSpeed(speed) to set the speed
+* of the left motors.
+*/
 
 public class drivetrain {
     /**
@@ -35,5 +44,15 @@ public class drivetrain {
      */
     public static double getRightMotorSpeed() {
         return((robotMap.rightFrontDrive.getSpeed()+robotMap.rightRearDrive.getSpeed())/2);
+    }
+
+    /*
+    * This is just a test method to check controller input and whatnot
+    * Will probably not be in final product unless we need it
+    */
+    public static void turnLeftForSecond() {
+        setLeftMotorSpeed(1);
+        Timer.delay(1);
+        setLeftMotorSpeed(0);
     }
 }
