@@ -32,7 +32,7 @@ public class Robot extends TimedRobot{
         robotMap.manipulatorA.setSpeed(OI.manipulatorContoller.getY()); //Dummy manipulator (uses gamepad)
         m_drive.arcadeDrive((-OI.driveJoystick.getY()),(OI.driveJoystick.getX())); //Drives the robot arcade style using the joystick
         //We suspect that there may be an issue with the Joystick, b/c it is inverted/reversed. We resolved this by flipping Y,X to X,Y and putting a negative on Y.
-        if(OI.manipulatorContoller.getRawButton(1)) {
+        if(OI.manipulatorContoller.getAButton()) {
             drivetrain.turnLeftForSecond();
         }
     }
