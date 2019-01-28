@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: edu.wpi.first.ntcore:ntcore-java:2019.2.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../../Public/frc2019/maven/edu/wpi/first/ntcore/ntcore-java/2019.2.1/ntcore-java-2019.2.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../../../Public/frc2019/maven/edu/wpi/first/ntcore/ntcore-java/2019.2.1/ntcore-java-2019.2.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
