@@ -8,7 +8,7 @@ import frc.robot.components.drivetrain;
 import frc.robot.common.OI;
 import edu.wpi.first.cameraserver.CameraServer;
 //import camera server - BT 1/26/19
-//Fix depreceated import statement - EH 1/27/19
+//Fix depreciated import statement - EH 1/27/19
 
 public class Robot extends TimedRobot{
     private final SpeedControllerGroup m_left = new SpeedControllerGroup(robotMap.leftFrontDrive, robotMap.leftRearDrive);

@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="8" />
+    <option name="CUSTOM_SCOPE_NAME" value="scope" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="ba565ece-adb1-4f9a-b643-eb188d4915a4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__edu_wpi_first_cameraserver_cameraserver_java_2019_2_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__edu_wpi_first_cscore_cscore_java_2019_2_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__edu_wpi_first_hal_hal_java_2019_2_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__edu_wpi_first_ntcore_ntcore_java_2019_2_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__edu_wpi_first_thirdparty_frc2019_opencv_opencv_java_3_4_4_4.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__edu_wpi_first_wpilibj_wpilibj_java_2019_2_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__edu_wpi_first_wpiutil_wpiutil_java_2019_2_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__junit_junit_4_12.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_hamcrest_hamcrest_core_1_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules/2019robotcode_main.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules/2019robotcode_test.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2019robotcode.iml" afterDir="false" />
+    <list default="true" id="96ce4b5c-56d0-49c2-b51e-2d5f02bf95fb" name="Default Changelist" comment="Added javadoc comments">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__edu_wpi_first_cameraserver_cameraserver_java_2019_2_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__edu_wpi_first_cscore_cscore_java_2019_2_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__edu_wpi_first_hal_hal_java_2019_2_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__edu_wpi_first_ntcore_ntcore_java_2019_2_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__edu_wpi_first_thirdparty_frc2019_opencv_opencv_java_3_4_4_4.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__edu_wpi_first_wpilibj_wpilibj_java_2019_2_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__edu_wpi_first_wpiutil_wpiutil_java_2019_2_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__junit_junit_4_12.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_hamcrest_hamcrest_core_1_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/2019robotcode_main.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/2019robotcode_test.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/Robot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/Robot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/common/OI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/common/OI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/common/robotMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/common/robotMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/components/drivetrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/components/drivetrain.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -34,44 +41,82 @@
       <ProjectState />
     </projectState>
   </component>
-  <component name="FUSProjectUsageTrigger">
-    <session id="72681736">
-      <usages-collector id="statistics.lifecycle.project">
-        <counts>
-          <entry key="project.open.time.5" value="1" />
-          <entry key="project.opened" value="1" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.open">
-        <counts>
-          <entry key="gradle" value="1" />
-          <entry key="java" value="2" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.open">
-        <counts>
-          <entry key="Groovy" value="1" />
-          <entry key="JAVA" value="2" />
-        </counts>
-      </usages-collector>
-    </session>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="2019robotCode" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="2019robotCode" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="FileEditorManager">
     <leaf>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/components/drivetrain.java">
+        <entry file="file://$PROJECT_DIR$/src/main/deploy/example.txt">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/Robot.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="15" column="18" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
+            <state relative-caret-position="-181">
+              <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/Main.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="123">
+              <caret line="16" column="19" selection-start-line="16" selection-start-column="19" selection-end-line="16" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/common/OI.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="6" column="62" selection-start-line="6" selection-start-column="62" selection-end-line="6" selection-end-column="62" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/common/robotMap.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="6" column="53" selection-start-line="6" selection-start-column="53" selection-end-line="6" selection-end-column="53" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/build.gradle">
+        <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/components/drivetrain.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="8" lean-forward="true" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="8" />
+            <state relative-caret-position="118">
+              <caret line="16" column="19" selection-start-line="16" selection-start-column="19" selection-end-line="16" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -81,528 +126,26 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GradleLocalSettings">
-    <option name="myGradleHomes">
-      <map>
-        <entry key="$PROJECT_DIR$" value="C:\Users\Student\.gradle\permwrapper\dists\gradle-5.0-bin\pu5208521seraqlersebvqk\gradle-5.0" />
-      </map>
-    </option>
-    <option name="myGradleVersions">
-      <map>
-        <entry key="$PROJECT_DIR$" value="5.0" />
-      </map>
-    </option>
-    <option name="availableProjects">
-      <map>
-        <entry>
-          <key>
-            <ExternalProjectPojo>
-              <option name="name" value="2019robotcode" />
-              <option name="path" value="$PROJECT_DIR$" />
-            </ExternalProjectPojo>
-          </key>
-          <value>
-            <list>
-              <ExternalProjectPojo>
-                <option name="name" value="2019robotcode" />
-                <option name="path" value="$PROJECT_DIR$" />
-              </ExternalProjectPojo>
-            </list>
-          </value>
-        </entry>
-      </map>
-    </option>
-    <option name="availableTasks">
-      <map>
-        <entry key="$PROJECT_DIR$">
-          <value>
-            <list>
-              <ExternalTaskPojo>
-                <option name="description" value="Displays the sub-projects of root project '2019robotcode'." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="projects" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="writeDebugInfo" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Generates Gradle wrapper files." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="wrapper" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Simulate External Task for Java/Kotlin/JVM. Exports a JSON file for use by editors / tools" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="simulateExternalJava" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Deploy all artifacts on all targets" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="deploy" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Assembles a jar archive containing the main classes." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="jar" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Displays the configuration model of root project '2019robotcode'. [incubating]" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="model" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="mergeDebugInfo" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="deployFrcJavaRoborio" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Processes main resources." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="processResources" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Displays the tasks runnable from root project '2019robotcode'." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="tasks" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Install the tool SmartDashboard" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="SmartDashboardInstall" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Run a console displaying output from the RoboRIO (roborio)" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="riologRoborio" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Install the tool RobotBuilder" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="RobotBuilderInstall" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Initializes a new Gradle build." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="init" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Determine the address(es) of target Roborio" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="discoverRoborio" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Runs the unit tests." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="test" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Run a console displaying output from the default RoboRIO (roborio)" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="riolog" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Compiles main Java source." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="compileJava" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Runs all checks." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="check" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Run the tool RobotBuilder" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="RobotBuilder" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Displays all dependencies declared in root project '2019robotcode'." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="dependencies" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Processes test resources." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="processTestResources" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Run the tool PathWeaver" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="PathWeaver" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Print all versions of the wpi block" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="wpi" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="externalSimulate" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Assembles and tests this project and all projects it depends on." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="buildNeeded" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Download all dependencies that may be used by this project" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="downloadAll" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Install the tool OutlineViewer" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="OutlineViewerInstall" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="deployJreRoborio" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="deployFrcStaticFileDeployRoborio" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Displays the components produced by root project '2019robotcode'. [incubating]" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="components" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Assembles and tests this project and all projects that depend on it." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="buildDependents" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Clean Clion IDE Files" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="cleanClion" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Assembles main classes." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="classes" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Displays the dependent components of components in root project '2019robotcode'. [incubating]" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="dependentComponents" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Run the tool OutlineViewer" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="OutlineViewer" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Displays all buildscript dependencies declared in root project '2019robotcode'." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="buildEnvironment" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="deployNativeLibsRoborio" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="deployNativeZipRoborio" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="deployRoborioCommandsRoborio" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Assembles test classes." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="testClasses" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Generates Javadoc API documentation for the main source code." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="javadoc" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Run the tool ShuffleBoard" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="ShuffleBoard" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Generate Editor Configuration for Build and Debugging" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="editorConfig" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Generate Clion CMakeLists.txt files." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="clion" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Explain all Maven Repos present on this project" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="explainRepositories" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="downloadDepsPreemptively" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Install the tool ShuffleBoard" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="ShuffleBoardInstall" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Launch simulation for Java/Kotlin/JVM" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="simulateJava" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Install the tool PathWeaver" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="PathWeaverInstall" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Displays the insight into a specific dependency in root project '2019robotcode'." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="dependencyInsight" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Assembles the outputs of this project." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="assemble" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Deletes the build directory." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="clean" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Compiles test Java source." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="compileTestJava" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Displays a help message." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="help" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Install All Tools" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="InstallAllTools" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Assembles and tests this project." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="build" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Run the tool SmartDashboard" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="SmartDashboard" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Extract Test JNI Native Libraries (nativeDesktopLib, nativeDesktopZip)" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="extractTestJNI" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Displays the properties of root project '2019robotcode'." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="properties" />
-              </ExternalTaskPojo>
-            </list>
-          </value>
-        </entry>
-      </map>
-    </option>
-    <option name="modificationStamps">
-      <map>
-        <entry key="$PROJECT_DIR$" value="6192197585347" />
-        <entry key="$PROJECT_DIR$/.gradle" value="0" />
-        <entry key="$PROJECT_DIR$/build.gradle" value="126230497" />
-        <entry key="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" value="2686650559" />
-        <entry key="$PROJECT_DIR$/settings.gradle" value="2000871635" />
-      </map>
-    </option>
-    <option name="projectBuildClasspath">
-      <map>
-        <entry key="$PROJECT_DIR$">
-          <value>
-            <ExternalProjectBuildClasspathPojo>
-              <option name="modulesBuildClasspath">
-                <map>
-                  <entry key="$PROJECT_DIR$">
-                    <value>
-                      <ExternalModuleBuildClasspathPojo>
-                        <option name="entries">
-                          <list>
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first/GradleRIO/2019.2.1/1fe72569cc427a1063ab62891c224fd2b5602b32/GradleRIO-2019.2.1-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.2.4/a6dc5db8a12928e583bd3f23e72d3ab611ecd58f/gson-2.2.4-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first/gradle-cpp-vscode/0.7.1/1ed4cbbef8930aa4c7c14ae38eac4b3424a50df0/gradle-cpp-vscode-0.7.1-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first/ToolchainPlugin/2019.2.1/df3ad6ed1a324a0fccd7a72470bb9c8433e311f3/ToolchainPlugin-2019.2.1-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/jaci.gradle/EmbeddedTools/2018.12.18/208b6868937296611ec03543a81225e30cdc069d/EmbeddedTools-2018.12.18-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/de.undercouch/gradle-download-task/3.1.2/a770cf45a3df7a09f2ae9f9d4d781338ca316189/gradle-download-task-3.1.2-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jcraft/jsch/0.1.53/791359d94d6edcace686a56d0727ee093a2f7c33/jsch-0.1.53-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpclient/4.5.2/b9f9e3e5255b6ddc3bf21be05428c7a60d00e042/httpclient-4.5.2-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpcore/4.4.4/c5c19e3e6af6b452def290cde12a3ee4c35c893c/httpcore-4.4.4-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.2/ecf26c7507d67782a3bbd148d170b31dfad001aa/commons-logging-1.2-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-codec/commons-codec/1.9/3f15fff45d57656685abfee9e8302bf14580044c/commons-codec-1.9-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first/GradleRIO/2019.2.1/b3399d159597b08b189c5c9e8631c2b85a3d531f/GradleRIO-2019.2.1.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.2.4/a60a5e993c98c864010053cb901b7eab25306568/gson-2.2.4.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first/gradle-cpp-vscode/0.7.1/b2c37e23be5a22f143261084b702eb0dfdefe04c/gradle-cpp-vscode-0.7.1.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first/ToolchainPlugin/2019.2.1/fdee14627bab2e7dde1bbfb7231bcfa5b66149ce/ToolchainPlugin-2019.2.1.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/jaci.gradle/EmbeddedTools/2018.12.18/83f6f4314ed8af649229e3893655551c5bbec206/EmbeddedTools-2018.12.18.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/de.undercouch/gradle-download-task/3.1.2/dbb5911739f1a18228847ad955c700a368db1ba4/gradle-download-task-3.1.2.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jcraft/jsch/0.1.53/658b682d5c817b27ae795637dfec047c63d29935/jsch-0.1.53.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpclient/4.5.2/733db77aa8d9b2d68015189df76ab06304406e50/httpclient-4.5.2.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpcore/4.4.4/b31526a230871fbe285fbcbe2813f9c0839ae9b0/httpcore-4.4.4.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.2/4bfc12adfe4842bf07b657f0369c4cb522955686/commons-logging-1.2.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-codec/commons-codec/1.9/9ce04e34240f674bc72680f8b843b1457383161a/commons-codec-1.9.jar" />
-                          </list>
-                        </option>
-                        <option name="path" value="$PROJECT_DIR$" />
-                      </ExternalModuleBuildClasspathPojo>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-              <option name="name" value="2019robotcode" />
-              <option name="projectBuildClasspath">
-                <list>
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/ant-1.9.13.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/ant-launcher-1.9.13.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/gradle-api-metadata-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/gradle-base-services-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/gradle-base-services-groovy-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/gradle-build-cache-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/gradle-build-option-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/gradle-cli-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/gradle-core-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/gradle-core-api-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/gradle-docs-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/gradle-files-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/gradle-installation-beacon-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/gradle-jvm-services-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/gradle-kotlin-dsl-1.0.4.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/gradle-kotlin-dsl-provider-plugins-1.0.4.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/gradle-kotlin-dsl-tooling-builders-1.0.4.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/gradle-kotlin-dsl-tooling-models-1.0.4.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/gradle-launcher-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/gradle-logging-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/gradle-messaging-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/gradle-model-core-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/gradle-model-groovy-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/gradle-native-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/gradle-persistent-cache-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/gradle-process-services-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/gradle-resources-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/gradle-runtime-api-info-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/gradle-snapshots-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/gradle-tooling-api-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/gradle-wrapper-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-announce-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-antlr-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-build-cache-http-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-build-comparison-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-build-init-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-code-quality-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-composite-builds-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-dependency-management-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-diagnostics-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-ear-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-ide-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-ide-native-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-ide-play-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-ivy-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-jacoco-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-javascript-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-language-groovy-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-language-java-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-language-jvm-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-language-native-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-language-scala-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-maven-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-osgi-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-platform-base-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-platform-jvm-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-platform-native-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-platform-play-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-plugin-development-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-plugin-use-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-plugins-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-publish-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-reporting-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-resources-gcs-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-resources-http-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-resources-s3-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-resources-sftp-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-scala-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-signing-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-test-kit-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-testing-base-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-testing-junit-platform-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-testing-jvm-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-testing-native-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-tooling-api-builders-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-tooling-native-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-version-control-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/gradle-workers-5.0.jar" />
-                  <option value="$USER_HOME$/.gradle/permwrapper/dists/gradle-5.0-bin/pu5208521seraqlersebvqk/gradle-5.0/lib/plugins/ivy-2.3.0.jar" />
-                </list>
-              </option>
-            </ExternalProjectBuildClasspathPojo>
-          </value>
-        </entry>
-      </map>
-    </option>
-    <option name="projectSyncType">
-      <map>
-        <entry key="$PROJECT_DIR$/../../2019robotCode" value="PREVIEW" />
-        <entry key="$PROJECT_DIR$/../../2019testCode" value="PREVIEW" />
-        <entry key="$PROJECT_DIR$" value="IMPORT" />
-      </map>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/main/java/frc/robot/common/OI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/frc/robot/common/robotMap.java" />
+        <option value="$PROJECT_DIR$/src/main/java/frc/robot/Robot.java" />
+        <option value="$PROJECT_DIR$/src/main/java/frc/robot/components/drivetrain.java" />
+      </list>
     </option>
   </component>
-  <component name="MavenRunner">
-    <option name="jreName" value="#JAVA_INTERNAL" />
+  <component name="NamedScopeManager">
+    <scope name="scope" pattern="src[2019robotCode*]:*..*&amp;&amp;!src[2019robotCode]:*..*" />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-8" />
+    <option name="y" value="-8" />
     <option name="width" value="1386" />
     <option name="height" value="788" />
   </component>
-  <component name="ProjectInspectionProfilesVisibleTreeState">
-    <entry key="Project Default">
-      <profile-state>
-        <expanded-state>
-          <State />
-          <State>
-            <id>Android</id>
-          </State>
-          <State>
-            <id>CorrectnessLintAndroid</id>
-          </State>
-          <State>
-            <id>Java</id>
-          </State>
-          <State>
-            <id>Java language level migration aidsJava</id>
-          </State>
-          <State>
-            <id>LintAndroid</id>
-          </State>
-          <State>
-            <id>PerformanceLintAndroid</id>
-          </State>
-        </expanded-state>
-      </profile-state>
-    </entry>
-  </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -612,38 +155,45 @@
         <subPane>
           <expand>
             <path>
-              <item name="2019robotcode" type="b2602c69:ProjectViewProjectNode" />
-              <item name="2019robotcode" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="2019robotCode" type="b2602c69:ProjectViewProjectNode" />
+              <item name="2019robotCode" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
             </path>
             <path>
-              <item name="2019robotcode" type="b2602c69:ProjectViewProjectNode" />
-              <item name="2019robotcode" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="2019robotCode" type="b2602c69:ProjectViewProjectNode" />
+              <item name="2019robotCode" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="2019robotcode" type="b2602c69:ProjectViewProjectNode" />
-              <item name="2019robotcode" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="2019robotCode" type="b2602c69:ProjectViewProjectNode" />
+              <item name="2019robotCode" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
             </path>
             <path>
-              <item name="2019robotcode" type="b2602c69:ProjectViewProjectNode" />
-              <item name="2019robotcode" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="2019robotCode" type="b2602c69:ProjectViewProjectNode" />
+              <item name="2019robotCode" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="deploy" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="2019robotCode" type="b2602c69:ProjectViewProjectNode" />
+              <item name="2019robotCode" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="2019robotcode" type="b2602c69:ProjectViewProjectNode" />
-              <item name="2019robotcode" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="2019robotCode" type="b2602c69:ProjectViewProjectNode" />
+              <item name="2019robotCode" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="robot" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="2019robotcode" type="b2602c69:ProjectViewProjectNode" />
-              <item name="2019robotcode" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="2019robotCode" type="b2602c69:ProjectViewProjectNode" />
+              <item name="2019robotCode" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
@@ -651,8 +201,8 @@
               <item name="common" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="2019robotcode" type="b2602c69:ProjectViewProjectNode" />
-              <item name="2019robotcode" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="2019robotCode" type="b2602c69:ProjectViewProjectNode" />
+              <item name="2019robotCode" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
@@ -663,16 +213,16 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1548637416045" />
-    <property name="project.structure.last.edited" value="Global Libraries" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="Errors" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1548651157422" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -686,118 +236,133 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
-    <configuration name="Unnamed" type="GradleRunConfiguration" factoryName="Gradle">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list />
-        </option>
-        <option name="vmOptions" value="" />
-      </ExternalSystemSettings>
-      <method v="2" />
-    </configuration>
-  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="ba565ece-adb1-4f9a-b643-eb188d4915a4" name="Default Changelist" comment="" />
-      <created>1548636819976</created>
+      <changelist id="96ce4b5c-56d0-49c2-b51e-2d5f02bf95fb" name="Default Changelist" comment="" />
+      <created>1548649460302</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1548636819976</updated>
+      <updated>1548649460302</updated>
+      <workItem from="1548649496174" duration="1643000" />
     </task>
     <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="1643000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Image Layers" />
       <window_info id="Designer" />
-      <window_info id="UI Designer" />
+      <window_info id="Image Layers" />
       <window_info id="Capture Tool" />
+      <window_info id="UI Designer" />
       <window_info id="Favorites" side_tool="true" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24962178" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Version Control" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Terminal" visible="true" weight="0.3295082" />
+      <window_info anchor="bottom" id="Build" weight="0.3293718" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info anchor="bottom" id="Build" weight="0.3295082" />
-      <window_info anchor="bottom" id="Messages" />
+      <window_info active="true" anchor="bottom" id="Messages" visible="true" weight="0.3293718" />
+      <window_info anchor="bottom" id="Database Changes" />
+      <window_info anchor="bottom" id="Version Control" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3293718" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="Maven" />
       <window_info anchor="right" id="Palette" />
-      <window_info anchor="right" id="Gradle" />
-      <window_info anchor="right" id="Theme Preview" />
       <window_info anchor="right" id="Capture Analysis" />
+      <window_info anchor="right" id="Gradle" weight="0.32980332" />
+      <window_info anchor="right" id="Database" />
       <window_info anchor="right" id="Palette&#9;" />
-      <window_info anchor="right" id="Maven Projects" />
+      <window_info anchor="right" id="Theme Preview" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
   </component>
-  <component name="VcsContentAnnotationSettings">
-    <option name="myLimit" value="2678400000" />
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added javadoc comments" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added javadoc comments" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/components/drivetrain.java">
+    <entry file="file://$PROJECT_DIR$/src/main/deploy/example.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.wpilibj/wpilibj-java/2019.2.1/599923037b305f46559b710b67dde971ea94fdb3/wpilibj-java-2019.2.1-sources.jar!/edu/wpi/first/wpilibj/RobotBase.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="15" column="18" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
+        <state relative-caret-position="-200">
+          <caret line="35" column="22" selection-start-line="35" selection-start-column="22" selection-end-line="35" selection-end-column="22" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.wpilibj/wpilibj-java/2019.2.1/599923037b305f46559b710b67dde971ea94fdb3/wpilibj-java-2019.2.1-sources.jar!/edu/wpi/first/wpilibj/IterativeRobotBase.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="8" lean-forward="true" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="8" />
+        <state relative-caret-position="150">
+          <caret line="45" column="54" selection-start-line="45" selection-start-column="54" selection-end-line="45" selection-end-column="54" />
+          <folding>
+            <element signature="e#3270#3271#0" expanded="true" />
+            <element signature="e#3344#3345#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/common/robotMap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="53" selection-start-line="6" selection-start-column="53" selection-end-line="6" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="123">
+          <caret line="16" column="19" selection-start-line="16" selection-start-column="19" selection-end-line="16" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/common/OI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="6" column="62" selection-start-line="6" selection-start-column="62" selection-end-line="6" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/Robot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-181">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/frc/robot/components/drivetrain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="118">
+          <caret line="16" column="19" selection-start-line="16" selection-start-column="19" selection-end-line="16" selection-end-column="19" />
         </state>
       </provider>
     </entry>
   </component>
   <component name="masterDetails">
     <states>
-      <state key="GlobalLibrariesConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="JdkListConfigurable.UI">
-        <settings>
-          <last-edited>11</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
       <state key="ProjectJDKs.UI">
         <settings>
-          <last-edited>11</last-edited>
+          <last-edited>1.8</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -807,8 +372,9 @@
           </splitter-proportions>
         </settings>
       </state>
-      <state key="ProjectLibrariesConfigurable.UI">
+      <state key="ScopeChooserConfigurable.UI">
         <settings>
+          <last-edited>scope</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -816,6 +382,9 @@
               </list>
             </option>
           </splitter-proportions>
+          <order>
+            <scope name="scope" />
+          </order>
         </settings>
       </state>
     </states>
