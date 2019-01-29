@@ -32,7 +32,7 @@ public class drivetrain {
 
     /**
      * Returns the average speed for left drivetrain motors
-     * @return
+     * @return speed
      */
     public static double getLeftMotorSpeed() {
         return((robotMap.leftFrontDrive.getSpeed()+robotMap.leftRearDrive.getSpeed())/2);
@@ -40,16 +40,15 @@ public class drivetrain {
 
     /**
      * Returns the average speed for right drivetrain motors
-     * @return
+     * @return speed
      */
     public static double getRightMotorSpeed() {
         return((robotMap.rightFrontDrive.getSpeed()+robotMap.rightRearDrive.getSpeed())/2);
     }
 
-    /*
-    * This is just a test method to check controller input and whatnot
-    * Will probably not be in final product unless we need it
-    */
+    /**
+     * Test method to test manipulator controller
+     */
     public static void turnLeftForSecond() {
         setLeftMotorSpeed(1);
         Timer.delay(1);
