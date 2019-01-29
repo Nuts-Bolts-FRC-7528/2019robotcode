@@ -35,6 +35,5 @@ public class Robot extends TimedRobot{
         if(OI.manipulatorContoller.getAButton()) {
             drivetrain.turnLeftForSecond();
         }
-        //rainbows and unicorns
     }
 }
