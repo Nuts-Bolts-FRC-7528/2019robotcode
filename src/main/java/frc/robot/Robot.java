@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -18,6 +19,8 @@ public class Robot extends TimedRobot{
     //Defines a SpeedControllerGroup for the right drive
     private final DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
     //Creates a DifferentialDrive using both SpeedControllerGroups
+
+    private final Encoder encoderThing = new Encoder(0,1);
     
     @Override
     public void robotInit(){ 
@@ -30,6 +33,7 @@ public class Robot extends TimedRobot{
 
     @Override
     public void teleopPeriodic(){ //Happens roughly every 1/20th of a second while teleop is active
+        System.out.println(encoderThing.getRate());
         robotMap.manipulatorA.setSpeed(OI.manipulatorContoller.getY()); //Dummy manipulator (uses gamepad)
         m_drive.arcadeDrive((-OI.driveJoystick.getY()),(OI.driveJoystick.getX())); //Drives the robot arcade style using the joystick
         //We suspect that there may be an issue with the Joystick, b/c it is inverted/reversed. We resolved this by flipping Y,X to X,Y and putting a negative on Y.
