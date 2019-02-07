@@ -1,9 +1,9 @@
 package frc.robot.sensors;
 
+import edu.wpi.first.wpilibj.I2C;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-
-import edu.wpi.first.wpilibj.I2C;
 
 public class REVColor {
     protected final static int CMD = 0x80;

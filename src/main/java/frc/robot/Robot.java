@@ -1,14 +1,14 @@
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import frc.robot.common.robotMap;
-import frc.robot.components.drivetrain;
 import frc.robot.common.OI;
-import edu.wpi.first.cameraserver.CameraServer;
+import frc.robot.common.robotMap;
+import frc.robot.components.DrivetrainPID;
+import frc.robot.components.Elevator;
 //import camera server - BT 1/26/19
 //Fix depreciated import statement - EH 1/27/19
 
@@ -21,6 +21,10 @@ public class Robot extends TimedRobot{
     //Creates a DifferentialDrive using both SpeedControllerGroups
 
     private final Encoder encoderThing = new Encoder(0,1);
+
+    private final Elevator m_elevator = new Elevator();
+
+    private final DrivetrainPID m_drivePID = new DrivetrainPID();
     
     @Override
     public void robotInit(){ 
@@ -33,17 +37,18 @@ public class Robot extends TimedRobot{
 
     @Override
     public void teleopPeriodic(){ //Happens roughly every 1/20th of a second while teleop is active
-        System.out.println(encoderThing.getRate());
         robotMap.manipulatorA.setSpeed(OI.manipulatorContoller.getY()); //Dummy manipulator (uses gamepad)
         m_drive.arcadeDrive((-OI.driveJoystick.getY()),(OI.driveJoystick.getX())); //Drives the robot arcade style using the joystick
         //We suspect that there may be an issue with the Joystick, b/c it is inverted/reversed. We resolved this by flipping Y,X to X,Y and putting a negative on Y.
-        if (OI.manipulatorContoller.getAButton()) {
-            drivetrain.turnLeftForSecond();
-        }
 
         if(OI.driveJoystick.getPOV() == 270){
-            System.out.println("yeet");
-            drivetrain.turnLeftToLine("blue");
+            DrivetrainPID.turnLeftToLine("blue");
+        }
+
+        if(OI.driveJoystick.getPOV() == 360) {
+            if (m_elevator.getSetpoint() != 150) {
+                m_elevator.setSetpoint(m_elevator.getSetpoint() + 50);
+            }
         }
         /*robotMap.colorA.read();
         System.out.println("Red: " + robotMap.colorA.red);

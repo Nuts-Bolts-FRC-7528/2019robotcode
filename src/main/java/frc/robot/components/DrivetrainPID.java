@@ -1,20 +1,45 @@
 package frc.robot.components;
 
-import frc.robot.common.robotMap;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import frc.robot.common.robotMap;
 
+public class DrivetrainPID extends PIDSubsystem {
 
-/*
-* These are a bunch of public methods I wrote for the drivetrain.
-* They can be called from any other class, just import this class and
-* use, for example, drivetrain.setLeftMotorSpeed(speed) to set the speed
-* of the left motors.
-*/
+    /**
+     * Instantiates a new DrivetrainPID object that extends PIDSubsystem
+     */
+    public DrivetrainPID() {
+        super("DrivetrainPID",1.0,0.0,0.0,12/6000.0);
+        setAbsoluteTolerance(0.05);
+    }
 
-public class drivetrain {
+    @Override
+    public void initDefaultCommand() {}
+
+    @Override
+    public double returnPIDInput() {
+        return robotMap.enc.get();
+    }
+
+    @Override
+    public void usePIDOutput(double output) {
+        pidSetMotorSpeeds(output, output);
+    }
+
+    /**
+     * PID Writes to all drivetrain motors
+     * @param leftSpeed PID signal being sent to left drivetrain motors
+     * @param rightSpeed PID signal being sent to right drivetrain motors
+     */
+    private static void pidSetMotorSpeeds(double leftSpeed, double rightSpeed) {
+        robotMap.rightFrontDrive.pidWrite(leftSpeed);
+        robotMap.leftFrontDrive.pidWrite(rightSpeed);
+    }
+
     /**
      * Sets the speed for the left drivetrain motors
-     * @param speed
+     * @param speed PWM signal, from either -1.0 (full reverse) to 1.0 (full forward)
      */
     public static void setLeftMotorSpeed(double speed) {
         robotMap.leftFrontDrive.set(speed);
@@ -23,7 +48,7 @@ public class drivetrain {
 
     /**
      * Sets the speed for the right drivetrain motors
-     * @param speed
+     * @param speed PWM signal, from either -1.0 (full reverse) to 1.0 (full forward)
      */
     public static void setRightMotorSpeed(double speed) {
         robotMap.rightFrontDrive.set(speed);
@@ -32,7 +57,7 @@ public class drivetrain {
 
     /**
      * Returns the average speed for left drivetrain motors
-     * @return speed
+     * @return Average of all PWM signals being currently sent to all left drives
      */
     public static double getLeftMotorSpeed() {
         return((robotMap.leftFrontDrive.getSpeed()+robotMap.leftRearDrive.getSpeed())/2);
@@ -40,19 +65,10 @@ public class drivetrain {
 
     /**
      * Returns the average speed for right drivetrain motors
-     * @return speed
+     * @return Average of all PWM signals currently being sent to all right drives
      */
     public static double getRightMotorSpeed() {
         return((robotMap.rightFrontDrive.getSpeed()+robotMap.rightRearDrive.getSpeed())/2);
-    }
-
-    /**
-     * Test method to test manipulator controller
-     */
-    public static void turnLeftForSecond() {
-        setLeftMotorSpeed(1);
-        Timer.delay(1);
-        setLeftMotorSpeed(0);
     }
 
     /**
@@ -96,9 +112,7 @@ public class drivetrain {
                         break; //Stop the loop (this is the last thing so we don't have to change abort)
                     }
                 }
-            }
-
-            abort = false; // In case we did have to abort, set it to false so we can use it again
+            } 
         }
     }
 }
