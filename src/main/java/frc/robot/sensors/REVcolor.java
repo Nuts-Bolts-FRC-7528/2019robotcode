@@ -6,6 +6,7 @@ import java.nio.ByteOrder;
 import edu.wpi.first.wpilibj.I2C;
 
 public class REVColor {
+    //changed filename
     protected final static int CMD = 0x80;
     protected final static int MULTI_BYTE_BIT = 0x20;        
     protected final static int ENABLE_REGISTER =  0x00;
