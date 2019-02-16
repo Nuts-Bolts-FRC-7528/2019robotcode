@@ -20,14 +20,15 @@ public class Robot extends TimedRobot{
     //Defines a SpeedControllerGroup for the right drive
     private final DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
     //Creates a DifferentialDrive using both SpeedControllerGroups
-
-    NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
-    NetworkTable table = ntinst.getTable("vision");
-    NetworkTableEntry center = table.getEntry("centerPix");
+    NetworkTable table;
+    
+    
     
     @Override
     public void robotInit(){ 
-        CameraServer.getInstance().startAutomaticCapture();
+        //CameraServer.getInstance().startAutomaticCapture();
+        NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
+        table = ntinst.getTable("vision");
     } //Defines stuff to happen when the robot is first turned on (initiating the cameraserver here)
     //Added camera - BT 1/26/19
 
@@ -36,7 +37,8 @@ public class Robot extends TimedRobot{
 
     @Override
     public void teleopPeriodic(){ //Happens roughlyevery 1/20th of a second while teleop is active
-        double ballCenterPix = center.getDouble(320);
+        NetworkTableEntry center = table.getEntry("centerPix");
+        int ballCenterPix = (int)center.getDouble(0);
         robotMap.manipulatorA.setSpeed(OI.manipulatorContoller.getY()); //Dummy manipulator  (uses gamepad)
         m_drive.arcadeDrive((-OI.driveJoystick.getY()),(OI.driveJoystick.getX())); //Drives the robot arcade style using the joystick
         //We suspect that there may be an issue with the Joystick, b/c it is inverted/reversed. We resolved this by flipping Y,X to X,Y and putting a negative on Y.
@@ -50,12 +52,16 @@ public class Robot extends TimedRobot{
         }
 
         if(OI.driveJoystick.getRawButton(2)) {
-            if(ballCenterPix > 320) { //Turn right
-                drivetrain.setRightMotorSpeed((drivetrain.getRightMotorSpeed()/2) + .2);
-                drivetrain.setLeftMotorSpeed((drivetrain.getLeftMotorSpeed()/2) - .2);
-            } else { //Turn left
-                drivetrain.setLeftMotorSpeed((drivetrain.getLeftMotorSpeed()/2) + .2);
-                drivetrain.setRightMotorSpeed((drivetrain.getRightMotorSpeed()/2) - .2);
+            if(ballCenterPix > 80) { //Turn right
+                System.out.println("Turning right!");
+                drivetrain.setRightMotorSpeed(.3);
+                drivetrain.setLeftMotorSpeed(.4);
+            } else if (ballCenterPix < 80) { //Turn left
+                System.out.println("Turning left!");
+                drivetrain.setLeftMotorSpeed(.3);
+                drivetrain.setRightMotorSpeed(.4);
+            } else {
+                System.out.println("Ball not found!");
             }
         }
         /*robotMap.colorA.read();

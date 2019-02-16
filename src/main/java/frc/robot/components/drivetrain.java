@@ -26,8 +26,8 @@ public class drivetrain {
      * @param speed
      */
     public static void setRightMotorSpeed(double speed) {
-        robotMap.rightFrontDrive.set(speed);
-        robotMap.rightRearDrive.set(speed);
+        robotMap.rightFrontDrive.set(-speed);
+        robotMap.rightRearDrive.set(-speed);
     }
 
     /**
