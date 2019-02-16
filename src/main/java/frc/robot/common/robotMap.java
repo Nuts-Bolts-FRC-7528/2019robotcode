@@ -1,6 +1,5 @@
 package frc.robot.common;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 import frc.robot.sensors.REVColor;
