@@ -1,12 +1,13 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.common.robotMap;
 import frc.robot.components.drivetrain;
 import frc.robot.common.OI;
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -29,6 +30,11 @@ public class Robot extends TimedRobot{
         //CameraServer.getInstance().startAutomaticCapture();
         NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
         table = ntinst.getTable("vision");
+
+        DoubleSolenoid solenoid = new DoubleSolenoid(4, 5);
+        solenoid.set(DoubleSolenoid.Value.kForward);
+        //solenoid.set(DoubleSolenoid.Value.kReverse);
+        //solenoid.set(DoubleSolenoid.Value.kOff);
     } //Defines stuff to happen when the robot is first turned on (initiating the cameraserver here)
     //Added camera - BT 1/26/19
 
