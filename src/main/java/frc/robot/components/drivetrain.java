@@ -53,8 +53,5 @@ public class drivetrain {
         setLeftMotorSpeed(1);
         Timer.delay(1);
         setLeftMotorSpeed(0);
-    }
-
-    
-    
+    } 
 }

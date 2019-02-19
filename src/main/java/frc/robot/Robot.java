@@ -1,7 +1,10 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.common.robotMap;
 import frc.robot.components.drivetrain;
@@ -28,6 +31,9 @@ public class Robot extends TimedRobot{
         //CameraServer.getInstance().startAutomaticCapture();
         NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
         table = ntinst.getTable("vision");
+
+        //solenoid.set(DoubleSolenoid.Value.kReverse);
+        //solenoid.set(DoubleSolenoid.Value.kOff);
     } //Defines stuff to happen when the robot is first turned on (initiating the cameraserver here)
     //Added camera - BT 1/26/19
 
@@ -57,6 +63,15 @@ public class Robot extends TimedRobot{
             } else {
                 System.out.println("Ball not found!");
             }
+        }
+        if (OI.manipulatorContoller.getBumperPressed(GenericHID.Hand.kLeft)){
+            robotMap.solenoid.set(DoubleSolenoid.Value.kForward); //Solenoid goes forward when left bumper is pressed.
+        }
+
+        if (OI.manipulatorContoller.getBumperReleased(GenericHID.Hand.kLeft)){
+            robotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
+            Timer.delay(3);
+            robotMap.solenoid.set(DoubleSolenoid.Value.kOff); //Solenoid goes back and turns off in ~3 seconds after bumper is released.
         }
     }
 }
