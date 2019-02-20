@@ -5,14 +5,14 @@ import frc.robot.auto.actions.Action;
 /**
  * Defines a base for all automodes. 
  */
-public abstract class AutoModeBase {
+public abstract class AutoModeBase implements Runnable {
     protected boolean active = false;
     protected double updateRate = 1.0 / 50.0;
 
     /**
      * Defines things to actually occour for the automode. All things the automode does lives in this method
      */
-    protected abstract void routine();
+    protected abstract void routine() throws AutoModeDoneException;
 
     /**
      * Runs the automode
@@ -58,5 +58,9 @@ public abstract class AutoModeBase {
         }
 
         action.done();
+    }
+
+    public void stop() {
+        active = false;
     }
 }

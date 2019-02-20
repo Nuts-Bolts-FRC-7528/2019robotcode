@@ -6,6 +6,9 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import frc.robot.auto.AutoModeExecutor;
+import frc.robot.auto.modes.MoveForwardAuto;
 import frc.robot.common.robotMap;
 import frc.robot.components.drivetrain;
 import frc.robot.common.OI;
@@ -23,7 +26,8 @@ public class Robot extends TimedRobot{
     private final DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
     //Creates a DifferentialDrive using both SpeedControllerGroups
     NetworkTable table;
-    
+    SendableChooser<AutoModeExecutor> autoChooser;
+    private AutoModeExecutor auto = new AutoModeExecutor(new MoveForwardAuto());
     
     
     @Override
@@ -31,6 +35,8 @@ public class Robot extends TimedRobot{
         //CameraServer.getInstance().startAutomaticCapture();
         NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
         table = ntinst.getTable("vision");
+        autoChooser = new SendableChooser<AutoModeExecutor>();
+        autoChooser.addOption("Move Forward auto",new AutoModeExecutor(new MoveForwardAuto()));
 
         //solenoid.set(DoubleSolenoid.Value.kReverse);
         //solenoid.set(DoubleSolenoid.Value.kOff);
@@ -38,10 +44,24 @@ public class Robot extends TimedRobot{
     //Added camera - BT 1/26/19
 
     @Override
+    public void autonomousInit() {
+        auto.start();
+        //autoChooser.getSelected().start();
+    }
+
+    @Override
+    public void autonomousPeriodic() {
+        if(OI.driveJoystick.getRawButton(12)) {
+            //autoChooser.getSelected().stop();
+            auto.start();
+        }
+    }
+
+    @Override
     public void teleopInit(){ } //Defines stuff to happen when teleop is enabled (nothing in this case)
 
     @Override
-    public void teleopPeriodic(){ //Happens roughlyevery 1/20th of a second while teleop is active
+    public void teleopPeriodic(){ //Happens roughly every 1/20th of a second while teleop is active
         NetworkTableEntry center = table.getEntry("centerPix");
         int ballCenterPix = (int)center.getDouble(0);
         robotMap.manipulatorA.setSpeed(OI.manipulatorContoller.getY()); //Dummy manipulator  (uses gamepad)
