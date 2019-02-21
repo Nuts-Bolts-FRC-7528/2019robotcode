@@ -5,6 +5,9 @@ import frc.robot.auto.AutoModeDoneException;
 import frc.robot.auto.actions.DriveForwardAction;
 import frc.robot.auto.actions.WaitAction;
 
+/**
+ * Runs the motors forward for 5 seconds and then halts until the end of the sandstorm period
+ */
 public class MoveForwardAuto extends AutoModeBase {
 
     @Override
@@ -12,8 +15,5 @@ public class MoveForwardAuto extends AutoModeBase {
         runAction(new DriveForwardAction(.2,5));
         runAction(new WaitAction(10));
     }
-
-    @Override
-    public void done() {}
 
 }

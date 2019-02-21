@@ -28,37 +28,36 @@ public class Robot extends TimedRobot{
     NetworkTable table;
     SendableChooser<AutoModeExecutor> autoChooser;
     private AutoModeExecutor auto = new AutoModeExecutor(new MoveForwardAuto());
+
     
     
     @Override
-    public void robotInit(){ 
-        //CameraServer.getInstance().startAutomaticCapture();
-        NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
-        table = ntinst.getTable("vision");
-        autoChooser = new SendableChooser<AutoModeExecutor>();
-        autoChooser.addOption("Move Forward auto",new AutoModeExecutor(new MoveForwardAuto()));
+    public void robotInit() {
+        NetworkTableInstance ntinst = NetworkTableInstance.getDefault(); //Gets global NetworkTable instance
+        table = ntinst.getTable("vision"); //Gets vision table from vision coprocessor (Raspberry Pi)
+        autoChooser = new SendableChooser<AutoModeExecutor>(); //Sets a new chooser on the driver station for auto mode selection
+        autoChooser.addOption("Move Forward auto", new AutoModeExecutor(new MoveForwardAuto())); //Adds the move forward auto autmode to the chooser
 
         //solenoid.set(DoubleSolenoid.Value.kReverse);
         //solenoid.set(DoubleSolenoid.Value.kOff);
-    } //Defines stuff to happen when the robot is first turned on (initiating the cameraserver here)
-    //Added camera - BT 1/26/19
+    }
 
     @Override
     public void autonomousInit() {
-        auto.start();
-        //autoChooser.getSelected().start();
+        autoChooser.getSelected().start(); //Starts the selected automode
     }
 
     @Override
     public void autonomousPeriodic() {
-        if(OI.driveJoystick.getRawButton(12)) {
-            //autoChooser.getSelected().stop();
-            auto.start();
+        if(OI.driveJoystick.getRawButton(12)) { //Aborts the automode if button 12 is pressed
+            autoChooser.getSelected().stop();
         }
     }
 
     @Override
-    public void teleopInit(){ } //Defines stuff to happen when teleop is enabled (nothing in this case)
+    public void teleopInit(){
+        autoChooser.getSelected().stop(); //Stops the automode
+    }
 
     @Override
     public void teleopPeriodic(){ //Happens roughly every 1/20th of a second while teleop is active

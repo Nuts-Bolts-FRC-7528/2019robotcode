@@ -1,27 +1,27 @@
 package frc.robot.auto.actions;
 
 /**
- * Action Interface, an interface that describes an iterative action. It is run by an autonomous action, called by the
- * method runAction in AutoModeBase (or more commonly in autonomous modes that extend AutoModeBase)
+ * This interface sets the base methods that an Action is required to have. All Actions must override the methods in
+ * this interface
  */
 public interface Action {
     /**
      * Returns whether or not the action is finished
      */
-    public abstract boolean finished();
+    boolean finished();
 
     /**
      * Called by runAction in AutoModeBase iteratively until finished is true. Iterative logic goes into this method
      */
-    public abstract void update();
+    void update();
 
     /**
      * Runs code when the action completes
      */
-    public abstract void done();
+    void done();
 
     /**
      * Runs code when the action starts
      */
-    public abstract void start();
+    void start();
 }

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: edu.wpi.first.thirdparty.frc2019.opencv:opencv-java:3.4.4-4">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../../Public/frc2019/maven/edu/wpi/first/thirdparty/frc2019/opencv/opencv-java/3.4.4-4/opencv-java-3.4.4-4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../../../Public/frc2019/maven/edu/wpi/first/thirdparty/frc2019/opencv/opencv-java/3.4.4-4/opencv-java-3.4.4-4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
