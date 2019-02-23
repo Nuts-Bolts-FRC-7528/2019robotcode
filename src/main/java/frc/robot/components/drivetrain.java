@@ -41,15 +41,4 @@ public class drivetrain {
     public static double getRightMotorSpeed() {
         return((robotMap.rightFrontDrive.getSpeed()+robotMap.rightRearDrive.getSpeed())/2);
     }
-
-    /**
-     * Test method to test manipulator controller. Marked as deprecated as its really just for testing only and serves
-     * no functional purpose
-     */
-    @Deprecated
-    public static void turnLeftForSecond() {
-        setLeftMotorSpeed(1);
-        Timer.delay(1);
-        setLeftMotorSpeed(0);
-    } 
 }

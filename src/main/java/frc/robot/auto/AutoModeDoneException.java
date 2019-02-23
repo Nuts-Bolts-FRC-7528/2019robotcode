@@ -2,8 +2,8 @@ package frc.robot.auto;
 
 /**
  * This exception gets raised if the AutoMode is already completed in the middle of performing it.
- * It gets raised by the isActiveThrowsException() method in AutoModeBase
- * If you're seeing this exception in you're code, it's possible you're taking too long - recall that sandstorm only lasts 15 seconds
+ * It gets raised by the isActiveThrowsException() method in AutoModeBase.
+ * If you're seeing this exception in your code, it's possible you're taking too long - recall that sandstorm only lasts 15 seconds
  *
  * @see AutoModeBase
  */

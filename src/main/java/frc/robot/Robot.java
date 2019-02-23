@@ -10,13 +10,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.auto.AutoModeExecutor;
 import frc.robot.auto.modes.MoveForwardAuto;
 import frc.robot.common.robotMap;
+import frc.robot.components.Elevator;
 import frc.robot.components.drivetrain;
 import frc.robot.common.OI;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-//import camera server - BT 1/26/19
-//Fix depreciated import statement - EH 1/27/19
 
 public class Robot extends TimedRobot{
     private final SpeedControllerGroup m_left = new SpeedControllerGroup(robotMap.leftFrontDrive, robotMap.leftRearDrive);
@@ -27,7 +26,6 @@ public class Robot extends TimedRobot{
     //Creates a DifferentialDrive using both SpeedControllerGroups
     NetworkTable table;
     SendableChooser<AutoModeExecutor> autoChooser;
-    private AutoModeExecutor auto = new AutoModeExecutor(new MoveForwardAuto());
 
     
     
@@ -61,28 +59,39 @@ public class Robot extends TimedRobot{
 
     @Override
     public void teleopPeriodic(){ //Happens roughly every 1/20th of a second while teleop is active
-        NetworkTableEntry center = table.getEntry("centerPix");
-        int ballCenterPix = (int)center.getDouble(0);
-        robotMap.manipulatorA.setSpeed(OI.manipulatorContoller.getY()); //Dummy manipulator  (uses gamepad)
+
+        /*
+                [ ROBOT DRIVE ]
+         */
+        Elevator.moveElevator(OI.manipulatorContoller.getY(GenericHID.Hand.kLeft)); //Moves the elevator manually with left analog stick
         m_drive.arcadeDrive((-OI.driveJoystick.getY()),(OI.driveJoystick.getX())); //Drives the robot arcade style using the joystick
         //We suspect that there may be an issue with the Joystick, b/c it is inverted/reversed. We resolved this by flipping Y,X to X,Y and putting a negative on Y.
-        if (OI.manipulatorContoller.getAButton()) {
-            drivetrain.turnLeftForSecond();
-        }
 
-        if(OI.driveJoystick.getRawButton(2)) {
-            if(ballCenterPix > 80) { //Turn right
+
+        /*
+                [ VISION ]
+         */
+        NetworkTableEntry center = table.getEntry("centerPix"); //Get centerPix NetworkTableEntry from coprocessor
+        int ballCenterPix = (int)center.getDouble(0); //Get the double from the entry above
+
+        if(OI.driveJoystick.getRawButton(2)) { //If thumb button on joystick is pressed
+            if(ballCenterPix > 80) { //If center pix of ball is PAST the center of the image (to the RIGHT of the robot)
                 System.out.println("Turning right!");
                 drivetrain.setRightMotorSpeed(.3);
-                drivetrain.setLeftMotorSpeed(.4);
-            } else if (ballCenterPix < 80) { //Turn left
+                drivetrain.setLeftMotorSpeed(.4); //Put more speed on the LEFT side of the chassis so it turns RIGHT
+
+            } else if (ballCenterPix < 80) { //If center pix of ball is BEFORE the center of the image (to the LEFT of the robot)
                 System.out.println("Turning left!");
                 drivetrain.setLeftMotorSpeed(.3);
-                drivetrain.setRightMotorSpeed(.4);
+                drivetrain.setRightMotorSpeed(.4); //Put more speed on the RIGHT side of the chassis so it turns LEFT
             } else {
                 System.out.println("Ball not found!");
             }
         }
+
+        /*
+                [ PNEUMATICS ]
+         */
         if (OI.manipulatorContoller.getBumperPressed(GenericHID.Hand.kLeft)){
             robotMap.solenoid.set(DoubleSolenoid.Value.kForward); //Solenoid goes forward when left bumper is pressed.
         }
@@ -91,6 +100,17 @@ public class Robot extends TimedRobot{
             robotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
             Timer.delay(3);
             robotMap.solenoid.set(DoubleSolenoid.Value.kOff); //Solenoid goes back and turns off in ~3 seconds after bumper is released.
+        }
+
+        /*
+                [ELEVATOR HALL EFFECT]
+         */
+        if(robotMap.elevatorHallEffect.get()) { //If hall effect is tripped
+            if(robotMap.elevator.getSpeed() > 0) { //If we were moving UP...
+                Elevator.setLevel(false); //...Increment the static int level (in the Elevator class) by one
+            } else if (robotMap.elevator.getSpeed() < 0) { //Else if we were moving DOWN...
+                Elevator.setLevel(true); //...Decrement the static int level (also in the Elevator class) by one
+            }
         }
     }
 }

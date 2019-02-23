@@ -1,8 +1,6 @@
 package frc.robot.common;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.PWMVictorSPX;
+import edu.wpi.first.wpilibj.*;
 
 
 /**
@@ -15,4 +13,9 @@ public class robotMap {
     public static final PWMVictorSPX rightFrontDrive = new PWMVictorSPX(6); //Defines a new PWMVictorSPX (motor controller) on PWM port 6
     public static final PWMVictorSPX manipulatorA = new PWMVictorSPX(2);
     public static final DoubleSolenoid solenoid = new DoubleSolenoid(4, 5);
+
+    public static final PWMVictorSPX elevator = new PWMVictorSPX(1);
+    public static final Encoder elevatorEncoder = new Encoder(1,2,false);
+    public static final DigitalInput elevatorHallEffect  = new DigitalInput(3);
+    public static final int cargoOffset = 25; //How many extra encoder ticks to move should we want to go to the hatch
 }
