@@ -7,6 +7,8 @@ package frc.robot.auto.actions;
 public interface Action {
     /**
      * Returns whether or not the action is finished
+     *
+     * @return Whether the action has finished or not
      */
     boolean finished();
 

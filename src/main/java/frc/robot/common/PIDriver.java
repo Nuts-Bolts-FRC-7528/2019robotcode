@@ -17,6 +17,7 @@ public class PIDriver {
      * @param IConstant Constant for Integral control
      * @param targetSetpoint Setpoint you want to move the actuator to
      * @param input PIDSource (ie an Encoder or Ultrasonic) used as input for the control loop
+     * @param isInverted Set to true if target is going down or reverse
      */
     public PIDriver(int PConstant, int IConstant, int targetSetpoint, PIDSource input, boolean isInverted) {
         P = PConstant;
@@ -30,6 +31,7 @@ public class PIDriver {
      * Creates a PIDriver and automatically sets P and I constants to 1
      * @param targetSetpoint Setpoint you want to move the actuator to
      * @param input PIDSource (ie an Encoder or Ultrasonic) used as input for the control loop
+     * @param isInverted Set to true if target is going down or reverse
      */
     public PIDriver(int targetSetpoint, PIDSource input, boolean isInverted) {
         P = 1;
@@ -44,9 +46,9 @@ public class PIDriver {
      * update() of an Action)
      */
     public void PIupdate() {
-        if(inverted) { error = -error;}
         error = setpoint - PIDInput.pidGet();
         integral += error * 0.2;
+        if(inverted) { error = -error;}
         drive = P*error + I*integral;
     }
 

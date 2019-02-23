@@ -46,6 +46,7 @@ public class Elevator {
     /**
      * Moves the elevator to a certain position
      * @param desiredLevel The level you wish to move the elevator to
+     * @param isCargo Set this to true if you wish to move the elevator to a scoring position for the cargo
      */
     public static void moveElevatorToPosition(int desiredLevel, boolean isCargo) {
         System.out.println("Beginning elevator placement to level " + desiredLevel);
