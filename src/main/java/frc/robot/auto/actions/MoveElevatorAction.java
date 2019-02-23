@@ -1,36 +1,52 @@
 package frc.robot.auto.actions;
 
 import frc.robot.common.PIDriver;
+import frc.robot.common.robotMap;
+import frc.robot.components.Elevator;
 
 import static frc.robot.common.robotMap.elevator;
 import static frc.robot.common.robotMap.elevatorEncoder;
 
 public class MoveElevatorAction implements Action {
-    private PIDriver driver; //PIDriver to help the elevator go to the right place
-    private int setpoint; //Amount of encoder ticks to go to
+    private int position; //Amount of encoder ticks to go to
     private int tolerance = 5; //Amount of tolerance the elevator has for slight misallignment
     private boolean finished = false;
+    private boolean isCargo;
 
+    /**
+     * Constructor for a new MoveElevatorAction
+     * @param level The level we desire to move the elevator to
+     * @param cargo Whether or not we want to place cargo. Leave false if you are placing hatches
+     */
     public MoveElevatorAction(int level, boolean cargo) {
-        if(level == 0) {
-
-        }
+        position = level;
+        isCargo = cargo;
     }
 
+    /**
+     * Returns whether or not the Action has finished
+     * @return Whether the Action has finished
+     */
     @Override
     public boolean finished() {
         return finished;
     }
 
-    //PI = P * error + I * sigma(error)
-    //P = P *error
-    //sigma(error) = s(error) += (error * updatetime)
+    /**
+     * Checks if the elevator has moved into the right spot yet
+     */
     @Override
     public void update() {
-        driver.PIupdate();
-        elevator.set(driver.getPI());
-        if(driver.getPI() == (setpoint-tolerance) || driver.getPI() == (setpoint+tolerance)) {
-            finished = true;
+        if(Elevator.getLevel() == position) { //If the elevator has hit the appropriate hall effect sensor
+            if(isCargo) { //If we are going to place cargo (which requires we move the elevator further)
+                elevatorEncoder.reset(); //Reset the encoder for the elevator
+                PIDriver driver = new PIDriver(robotMap.cargoOffset, elevatorEncoder,false); //Create a new PIDriver moving it to the desired location
+                while(driver.getError() > tolerance) { //While the error is outside our tolerance range
+                    driver.PIupdate(); //Update the PI loop
+                    elevator.set(driver.getPI()); //Set the motor based on the output of the PI loop
+                }
+            }
+            finished = true; //And we're done!
         }
     }
 
@@ -39,9 +55,12 @@ public class MoveElevatorAction implements Action {
         System.out.println("MoveElevatorAction Complete");
     }
 
+    /**
+     * Tells the elevator to move into position
+     */
     @Override
     public void start() {
         System.out.println("Initializing MoveElevatorAction");
-        elevatorEncoder.reset();
+        Elevator.moveElevatorToPosition(position,isCargo);
     }
 }

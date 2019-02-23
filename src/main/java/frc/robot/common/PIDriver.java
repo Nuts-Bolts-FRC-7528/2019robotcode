@@ -54,9 +54,7 @@ public class PIDriver {
      * Public accessor for the amount that the PIDriver has calculated the robot needs to drive at
      * @return A double to represent the speed the motors neeed to drive at. Should be between -1.0 and 1.0
      */
-    public double getPI() {
-        return drive;
-    }
+    public double getPI() { return drive; }
 
     /**
      * Public accessor for error

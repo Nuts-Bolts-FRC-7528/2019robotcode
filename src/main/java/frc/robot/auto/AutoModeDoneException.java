@@ -11,7 +11,7 @@ public class AutoModeDoneException extends Exception {
     private static final long serialVersionUID = 1L; //This is like a version number of sorts
     //While the above line is not entirely necessary, as Exception implements Serializable it should be defined
 
-    public AutoModeDoneException() {
+    AutoModeDoneException() {
         super("Auto mode already completed"); //This calls Exception's constructor, which will print out this as the stack trace
     }
 }
