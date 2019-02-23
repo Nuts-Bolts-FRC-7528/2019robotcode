@@ -11,7 +11,7 @@ public abstract class AutoModeBase implements Runnable {
 
     /**
      * Defines things to actually occour for the automode. All things the automode does lives in this method.
-     * As it is an abstract method, routine() gets defined by all */
+     * As it is an abstract method, routine() gets defined by all automodes */
     protected abstract void routine() throws AutoModeDoneException;
 
     /**
