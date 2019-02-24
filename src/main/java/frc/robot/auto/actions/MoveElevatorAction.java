@@ -12,6 +12,7 @@ public class MoveElevatorAction implements Action {
     private int tolerance = 5; //Amount of tolerance the elevator has for slight misallignment
     private boolean finished = false;
     private boolean isCargo;
+    private PIDriver driver;
 
     /**
      * Constructor for a new MoveElevatorAction
@@ -40,13 +41,15 @@ public class MoveElevatorAction implements Action {
         if(Elevator.getLevel() == position) { //If the elevator has hit the appropriate hall effect sensor
             if(isCargo) { //If we are going to place cargo (which requires we move the elevator further)
                 elevatorEncoder.reset(); //Reset the encoder for the elevator
-                PIDriver driver = new PIDriver(robotMap.cargoOffset, elevatorEncoder,false); //Create a new PIDriver moving it to the desired location
-                while(driver.getError() > tolerance) { //While the error is outside our tolerance range
+                if(driver.getError() > tolerance) { //While the PIDriver's error level is outside our tolerance range
                     driver.PIupdate(); //Update the PI loop
                     elevator.set(driver.getPI()); //Set the motor based on the output of the PI loop
+                } else { //If the elevator HAS reached the cargo position...
+                    finished = true; //Set the finished flag to true
                 }
+            } else { //If we didn't want to go to the cargo and just wanted to score a hatch...
+                finished = true; //Set the finished flag to true
             }
-            finished = true; //And we're done!
         }
     }
 
@@ -62,5 +65,8 @@ public class MoveElevatorAction implements Action {
     public void start() {
         System.out.println("Initializing MoveElevatorAction");
         Elevator.moveElevatorToPosition(position,isCargo);
+        if(isCargo) {
+            driver = new PIDriver(robotMap.cargoOffset, elevatorEncoder,false); //Create a new PIDriver moving it to the desired location
+        }
     }
 }

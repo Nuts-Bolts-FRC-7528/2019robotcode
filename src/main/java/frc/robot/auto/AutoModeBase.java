@@ -64,7 +64,7 @@ public abstract class AutoModeBase implements Runnable {
         isActiveThrowsException(); //Make sure the automode isn't done already
         action.start(); //Runs the Action's start() method
 
-        while (isActiveThrowsException() &&  !action.finished()) { //While the action is NOT done and the automode IS currently active
+        while (isActiveThrowsException() &&  !action.finished()) { //While the automode is ACTIVE and the individual action is NOT currently finished
             action.update(); //Run the Action's update() method
             long waitTime = (long) (updateRate * 1000.0); // == 20 milleseconds (1/5 of a second)
 
