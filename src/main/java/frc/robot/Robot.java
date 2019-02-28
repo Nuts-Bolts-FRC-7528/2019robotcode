@@ -44,19 +44,23 @@ public class Robot extends TimedRobot{
 
     @Override
     public void autonomousInit() {
-        autoChooser.getSelected().start(); //Starts the selected automode
+        auto.start();
+        //autoChooser.getSelected().start(); //Starts the selected automode
     }
 
     @Override
     public void autonomousPeriodic() {
         if(OI.driveJoystick.getRawButton(12)) { //Aborts the automode if button 12 is pressed
-            autoChooser.getSelected().stop();
+            auto.stop();
+            //autoChooser.getSelected().stop();
         }
     }
 
     @Override
     public void teleopInit(){
-        autoChooser.getSelected().stop(); //Stops the automode
+        auto.stop();
+        robotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
+        //autoChooser.getSelected().stop(); //Stops the automode
     }
 
     @Override
@@ -87,10 +91,9 @@ public class Robot extends TimedRobot{
             robotMap.solenoid.set(DoubleSolenoid.Value.kForward); //Solenoid goes forward when left bumper is pressed.
         }
 
-        if (OI.manipulatorContoller.getBumperReleased(GenericHID.Hand.kLeft)){
+        if (OI.manipulatorContoller.getBumperReleased(GenericHID.Hand.kRight)){
             robotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
-            Timer.delay(3);
-            robotMap.solenoid.set(DoubleSolenoid.Value.kOff); //Solenoid goes back and turns off in ~3 seconds after bumper is released.
+           
         }
     }
 }
