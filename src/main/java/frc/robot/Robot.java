@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,8 +15,6 @@ import frc.robot.common.OI;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-//import camera server - BT 1/26/19
-//Fix depreciated import statement - EH 1/27/19
 
 public class Robot extends TimedRobot{
     private final SpeedControllerGroup m_left = new SpeedControllerGroup(robotMap.leftFrontDrive, robotMap.leftRearDrive);
@@ -26,8 +23,8 @@ public class Robot extends TimedRobot{
     //Defines a SpeedControllerGroup for the right drive
     private final DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
     //Creates a DifferentialDrive using both SpeedControllerGroups
-    NetworkTable table;
-    SendableChooser<AutoModeExecutor> autoChooser;
+    NetworkTable table; //This table is for object recognition
+    SendableChooser<AutoModeExecutor> autoChooser; //Creates a SendableChooser that allows drivers to select an automode
     private AutoModeExecutor auto = new AutoModeExecutor(new MoveForwardAuto());
 
     
@@ -67,28 +64,40 @@ public class Robot extends TimedRobot{
 
     @Override
     public void teleopPeriodic(){ //Happens roughly every 1/20th of a second while teleop is active
-        NetworkTableEntry center = table.getEntry("centerPix");
-        int ballCenterPix = (int)center.getDouble(0);
+
+
+        /*
+                [ROBOT DRIVING]
+         */
         robotMap.manipulatorA.setSpeed(OI.manipulatorContoller.getY()); //Dummy manipulator  (uses gamepad)
         m_drive.arcadeDrive((-OI.driveJoystick.getY()),(OI.driveJoystick.getX())); //Drives the robot arcade style using the joystick
         //We suspect that there may be an issue with the Joystick, b/c it is inverted/reversed. We resolved this by flipping Y,X to X,Y and putting a negative on Y.
-        if (OI.manipulatorContoller.getAButton()) {
-            drivetrain.turnLeftForSecond();
-        }
 
-        if(OI.driveJoystick.getRawButton(2)) {
-            if(ballCenterPix > 80) { //Turn right
+        /*
+                [OBJECT RECOGNITION]
+         */
+        NetworkTableEntry center = table.getEntry("centerPix"); //Fetch the NetworkTableEntry of the centerPix of the cargo from the coprocesor
+        int ballCenterPix = (int)center.getDouble(0); //Gets the actual number from the NetworkTableEntry
+
+        if(OI.driveJoystick.getRawButton(2)) { //If thumb button is pressed
+            if(ballCenterPix > 80) { //If cargo is to the right of the image
                 System.out.println("Turning right!");
                 drivetrain.setRightMotorSpeed(.3);
-                drivetrain.setLeftMotorSpeed(.4);
-            } else if (ballCenterPix < 80) { //Turn left
+                drivetrain.setLeftMotorSpeed(.4); //Turn right
+
+            } else if (ballCenterPix < 80) { //If cargo is to the left of the image
                 System.out.println("Turning left!");
                 drivetrain.setLeftMotorSpeed(.3);
-                drivetrain.setRightMotorSpeed(.4);
+                drivetrain.setRightMotorSpeed(.4); //Turn left
             } else {
                 System.out.println("Ball not found!");
             }
         }
+
+        /*
+                [PNEUMATICS]
+         */
+
         if (OI.manipulatorContoller.getBumperPressed(GenericHID.Hand.kLeft)){
             robotMap.solenoid.set(DoubleSolenoid.Value.kForward); //Solenoid goes forward when left bumper is pressed.
         }
