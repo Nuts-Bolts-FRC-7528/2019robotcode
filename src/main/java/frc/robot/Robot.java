@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.auto.AutoModeExecutor;
 import frc.robot.auto.modes.MoveForwardAuto;
 import frc.robot.common.robotMap;
@@ -38,6 +39,7 @@ public class Robot extends TimedRobot{
         autoChooser = new SendableChooser<AutoModeExecutor>(); //Sets a new chooser on the driver station for auto mode selection
         autoChooser.addOption("Move Forward auto", new AutoModeExecutor(new MoveForwardAuto())); //Adds the move forward auto autmode to the chooser
 
+        SmartDashboard.putData("Select Automode: ",autoChooser);
         //solenoid.set(DoubleSolenoid.Value.kReverse);
         //solenoid.set(DoubleSolenoid.Value.kOff);
     }
