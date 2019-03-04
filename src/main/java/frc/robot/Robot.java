@@ -25,7 +25,7 @@ public class Robot extends TimedRobot{
     //Creates a DifferentialDrive using both SpeedControllerGroups
     NetworkTable table; //This table is for object recognition
     SendableChooser<AutoModeExecutor> autoChooser; //Creates a SendableChooser that allows drivers to select an automode
-    private AutoModeExecutor auto = new AutoModeExecutor(new MoveForwardAuto());
+    private AutoModeExecutor auto;
 
     
     
@@ -43,6 +43,7 @@ public class Robot extends TimedRobot{
 
     @Override
     public void autonomousInit() {
+        auto = new AutoModeExecutor(new MoveForwardAuto());
         auto.start();
         //autoChooser.getSelected().start(); //Starts the selected automode
     }
@@ -103,5 +104,9 @@ public class Robot extends TimedRobot{
             robotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
            
         }
+    }
+
+    public void disabledInit() {
+        auto.stop();
     }
 }
