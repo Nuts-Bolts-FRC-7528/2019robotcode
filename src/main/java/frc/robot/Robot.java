@@ -70,7 +70,7 @@ public class Robot extends TimedRobot{
         /*
                 [ROBOT DRIVING]
          */
-        robotMap.elevator.setSpeed(OI.manipulatorContoller.getY()/10); //Dummy manipulator  (uses gamepad)
+        robotMap.elevator.setSpeed(OI.manipulatorContoller.getY()*.6); //Elevator Motor (throttle limited to 60%)
         m_drive.arcadeDrive((-OI.driveJoystick.getY()),(OI.driveJoystick.getX())); //Drives the robot arcade style using the joystick
         //We suspect that there may be an issue with the Joystick, b/c it is inverted/reversed. We resolved this by flipping Y,X to X,Y and putting a negative on Y.
 
