@@ -70,7 +70,7 @@ public abstract class AutoModeBase implements Runnable {
             }
         }
 
-        action.done(); //After the action is completed, run the Action's stop() method
+        action.done(); //After the action is completed, run the Action's done() method
     }
 
     /**

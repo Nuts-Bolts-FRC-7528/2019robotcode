@@ -41,4 +41,16 @@ public class drivetrain {
     public static double getRightMotorSpeed() {
         return((robotMap.rightFrontDrive.getSpeed()+robotMap.rightRearDrive.getSpeed())/2);
     }
+
+    public static void align(int centerPix) {
+        if(centerPix > 80) {
+            setRightMotorSpeed(.3);
+            setLeftMotorSpeed(.4);
+            System.out.println("Turning right");
+        } else if(centerPix<80) {
+            setRightMotorSpeed(.4);
+            setLeftMotorSpeed(.3);
+            System.out.println("Turning left");
+        }
+    }
 }

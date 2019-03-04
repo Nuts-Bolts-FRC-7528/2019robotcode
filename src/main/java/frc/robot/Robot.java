@@ -69,29 +69,26 @@ public class Robot extends TimedRobot{
         /*
                 [ROBOT DRIVING]
          */
-        robotMap.elevator.setSpeed(OI.manipulatorContoller.getY()); //Dummy manipulator  (uses gamepad)
+        robotMap.elevator.setSpeed(OI.manipulatorContoller.getY()/10); //Dummy manipulator  (uses gamepad)
         m_drive.arcadeDrive((-OI.driveJoystick.getY()),(OI.driveJoystick.getX())); //Drives the robot arcade style using the joystick
         //We suspect that there may be an issue with the Joystick, b/c it is inverted/reversed. We resolved this by flipping Y,X to X,Y and putting a negative on Y.
 
         /*
                 [OBJECT RECOGNITION]
          */
-        NetworkTableEntry center = table.getEntry("centerPix"); //Fetch the NetworkTableEntry of the centerPix of the cargo from the coprocesor
-        int ballCenterPix = (int)center.getDouble(0); //Gets the actual number from the NetworkTableEntry
+        NetworkTableEntry centerCargo = table.getEntry("cargoCenterPix"); //Fetch the NetworkTableEntry of the centerPix of the cargo from the coprocesor
+        NetworkTableEntry centerHatch = table.getEntry("hatchCenterPix");
+        int ballCenterPix = (int)centerCargo.getDouble(0); //Gets the actual number from the NetworkTableEntry
+        int hatchCenterPix = (int)centerHatch.getDouble(0);
 
+        //CARGO ALIGNMENT
         if(OI.driveJoystick.getRawButton(2)) { //If thumb button is pressed
-            if(ballCenterPix > 80) { //If cargo is to the right of the image
-                System.out.println("Turning right!");
-                drivetrain.setRightMotorSpeed(.3);
-                drivetrain.setLeftMotorSpeed(.4); //Turn right
+            drivetrain.align(ballCenterPix);
+        }
 
-            } else if (ballCenterPix < 80) { //If cargo is to the left of the image
-                System.out.println("Turning left!");
-                drivetrain.setLeftMotorSpeed(.3);
-                drivetrain.setRightMotorSpeed(.4); //Turn left
-            } else {
-                System.out.println("Ball not found!");
-            }
+        //HATCH ALIGNMENT
+        if(OI.driveJoystick.getRawButton(3)) {
+            drivetrain.align(hatchCenterPix);
         }
 
         /*

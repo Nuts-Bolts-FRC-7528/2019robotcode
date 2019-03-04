@@ -15,5 +15,4 @@ public class MoveForwardAuto extends AutoModeBase {
         runAction(new DriveForwardAction(.2,5));
         runAction(new WaitAction(10));
     }
-
 }
