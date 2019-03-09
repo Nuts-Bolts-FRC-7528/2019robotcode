@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -73,13 +74,14 @@ public class Robot extends TimedRobot{
          */
 
         //Basically block this this from happening
-       /*
-        if (robotMap.solenoid.get() == DoubleSolenoid.Value.kForward){
+       
+        /** if (robotMap.solenoid.get() == DoubleSolenoid.Value.kForward){
             robotMap.elevator.setSpeed(0);
         }
         */
-        
+        if (robotMap.solenoid.get() == Value.kReverse){
         robotMap.elevator.setSpeed(OI.manipulatorContoller.getY()*.6); //Elevator Motor (throttle limited to 60%)
+        }
 
         m_drive.arcadeDrive((-OI.driveJoystick.getY()),(OI.driveJoystick.getX())); //Drives the robot arcade style using the joystick
         //We suspect that there may be an issue with the Joystick, b/c it is inverted/reversed. We resolved this by flipping Y,X to X,Y and putting a negative on Y.
@@ -114,6 +116,6 @@ public class Robot extends TimedRobot{
             robotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
            
          }
-         System.out.println(robotMap.photodiode.get());
+         System.out.println(OI.driveJoystick.getPOV());
     }
 }
