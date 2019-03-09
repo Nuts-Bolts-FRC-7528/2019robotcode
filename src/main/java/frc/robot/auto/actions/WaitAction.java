@@ -40,12 +40,10 @@ public class WaitAction implements Action {
 
     @Override
     public void done() {
-        System.out.println("WaitAction Complete");
     }
 
     @Override
     public void start() {
-        System.out.println("Starting WaitAction");
         startTime = Timer.getFPGATimestamp(); //Sets startTime to the current FPGA timestamp
     }
 }

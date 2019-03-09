@@ -26,13 +26,11 @@ public class SolenoidAction implements Action{
 
     @Override
     public void done() {
-        System.out.println("SolenoidAction complete");
         robotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
     }
 
     @Override
     public void start() {
-        System.out.println("Starting SolenoidAction");
         robotMap.solenoid.set(DoubleSolenoid.Value.kForward);
     }
 }

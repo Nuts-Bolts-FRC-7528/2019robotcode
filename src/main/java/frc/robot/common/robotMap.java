@@ -1,7 +1,7 @@
 package frc.robot.common;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 
 
@@ -15,4 +15,6 @@ public class robotMap {
     public static final PWMVictorSPX rightFrontDrive = new PWMVictorSPX(6); //Defines a new PWMVictorSPX (motor controller) on PWM port 6
     public static final PWMVictorSPX elevator = new PWMVictorSPX(2);
     public static final DoubleSolenoid solenoid = new DoubleSolenoid(4, 5);
+    public static final DigitalInput photodiode = new DigitalInput(6);
+    public static final DigitalInput click = new DigitalInput(9);
 }

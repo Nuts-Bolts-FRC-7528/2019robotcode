@@ -48,12 +48,10 @@ public class DriveForwardAction implements Action {
 
     @Override
     public void done() {
-        System.out.println("DriveForwardAction complete");
     }
 
     @Override
     public void start() {
-        System.out.println("Starting DriveForwardAction");
         startTime = Timer.getFPGATimestamp(); //Sets startTime to the current FPGA timestamp
     }
 }
