@@ -13,8 +13,11 @@ public class CargoAlignmentAction implements Action {
 
     @Override
         public boolean finished() {
-            if (robotMap.photodiode.get() == false);{
-            return true;}
+            if (robotMap.photodiode.get() == false){
+                return true;
+            }
+            else
+                return false;
         }
         
     
