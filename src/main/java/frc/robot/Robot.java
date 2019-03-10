@@ -73,13 +73,7 @@ public class Robot extends TimedRobot{
                 [ROBOT DRIVING]
          */
 
-        //Basically block this this from happening
-       
-        /** if (robotMap.solenoid.get() == DoubleSolenoid.Value.kForward){
-            robotMap.elevator.setSpeed(0);
-        }
-        */
-        if (robotMap.solenoid.get() == Value.kReverse){
+        if (robotMap.solenoid.get() == Value.kReverse){ //Elevator can only move if solenoid is in
         robotMap.elevator.setSpeed(OI.manipulatorContoller.getY()*.6); //Elevator Motor (throttle limited to 60%)
         }
 
