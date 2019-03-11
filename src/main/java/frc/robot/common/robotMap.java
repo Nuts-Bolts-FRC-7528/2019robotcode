@@ -16,5 +16,6 @@ public class robotMap {
     public static final PWMVictorSPX elevator = new PWMVictorSPX(2);
     public static final DoubleSolenoid solenoid = new DoubleSolenoid(4, 5);
     public static final DigitalInput photodiode = new DigitalInput(6);
-    public static final DigitalInput click = new DigitalInput(9);
+    public static final DigitalInput elevatorBottom = new DigitalInput(9);
+    public static final DigitalInput elevatorMiddle = new DigitalInput(7);
 }

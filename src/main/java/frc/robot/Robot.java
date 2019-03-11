@@ -4,13 +4,13 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.auto.AutoModeExecutor;
 import frc.robot.auto.modes.MoveForwardAuto;
 import frc.robot.common.robotMap;
+import frc.robot.components.Elevator;
 import frc.robot.components.drivetrain;
 import frc.robot.common.OI;
 import edu.wpi.first.networktables.NetworkTable;
@@ -61,6 +61,7 @@ public class Robot extends TimedRobot{
     @Override
     public void teleopInit(){
         //auto.stop();
+        Elevator.reset();
         robotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
         //autoChooser.getSelected().stop(); //Stops the automode
     }
@@ -73,8 +74,20 @@ public class Robot extends TimedRobot{
                 [ROBOT DRIVING]
          */
 
-        if (robotMap.solenoid.get() == Value.kReverse){ //Elevator can only move if solenoid is in
+        //Basically block this this from happening
+       /*
+        if (robotMap.solenoid.get() == DoubleSolenoid.Value.kForward){
+            robotMap.elevator.setSpeed(0);
+        }
+        */
+        
         robotMap.elevator.setSpeed(OI.manipulatorContoller.getY()*.6); //Elevator Motor (throttle limited to 60%)
+        Elevator.iterate();
+        if(OI.driveJoystick.getPOV() == 0) {
+            Elevator.setGoal(true);
+        }
+        if(OI.driveJoystick.getPOV() == 180) {
+            Elevator.setGoal(false);
         }
 
         m_drive.arcadeDrive((-OI.driveJoystick.getY()),(OI.driveJoystick.getX())); //Drives the robot arcade style using the joystick
@@ -110,6 +123,5 @@ public class Robot extends TimedRobot{
             robotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
            
          }
-         System.out.println(OI.driveJoystick.getPOV());
     }
 }

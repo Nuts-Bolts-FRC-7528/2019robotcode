@@ -2,7 +2,6 @@ package frc.robot.auto.actions;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
-import frc.robot.common.robotMap;
 import frc.robot.components.drivetrain;
 
 public class CargoAlignmentAction implements Action {
@@ -13,13 +12,8 @@ public class CargoAlignmentAction implements Action {
 
     @Override
         public boolean finished() {
-            if (robotMap.photodiode.get() == false){
-                return true;
-            }
-            else
-                return false;
+            return true;
         }
-        
     
     NetworkTable table; // Used for object recognition
 
