@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.auto.AutoModeExecutor;
@@ -78,14 +79,24 @@ public class Robot extends TimedRobot{
             robotMap.elevator.setSpeed(0);
         }
         */
-        
-        robotMap.elevator.setSpeed(OI.manipulatorContoller.getY()*.6); //Elevator Motor (throttle limited to 60%)
-        elevator.iterate();
-        if(OI.driveJoystick.getPOV() == 0) {
-            elevator.setGoal(true);
+        if(robotMap.solenoid.get() == Value.kReverse){
+            robotMap.elevator.setSpeed(OI.manipulatorContoller.getY()*.6); //Elevator Motor (throttle limited to 60%)
+            elevator.iterate();
         }
-        if(OI.driveJoystick.getPOV() == 180) {
-            elevator.setGoal(false);
+        // if(OI.driveJoystick.getPOV() == 0) { //<--- bad code
+            // elevator.setGoal(true);
+        // }
+        // if(OI.driveJoystick.getPOV() == 180) { //<---- more bad code jk Ethan is an awesome dood XD
+            // elevator.setGoal(false);
+        // }
+        if(OI.driveJoystick.getRawButtonPressed(7)){ //If joystick button 7 is pressed
+            elevator.setGoal(3); //Sets the elevator to level 3
+        }
+        if(OI.driveJoystick.getRawButtonPressed(9)){ //If joystick button 9 is pressed
+            elevator.setGoal(2); //Sets the elevator to level 2
+        }
+        if(OI.driveJoystick.getRawButtonPressed(11)){ //If joystick button 11 is pressed
+            elevator.setGoal(1); //Sets the elevator to level 1
         }
 
         m_drive.arcadeDrive((-OI.driveJoystick.getY()),(OI.driveJoystick.getX())); //Drives the robot arcade style using the joystick
@@ -122,7 +133,7 @@ public class Robot extends TimedRobot{
            
          }
     }
-    
+
     @Override
     public void testPeriodic() {
         robotMap.elevator.setSpeed(OI.manipulatorContoller.getY()*.6); //Elevator Motor (throttle limited to 60%)
