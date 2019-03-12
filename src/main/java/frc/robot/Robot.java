@@ -6,11 +6,9 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.auto.AutoModeExecutor;
-import frc.robot.auto.modes.MoveForwardAuto;
 import frc.robot.common.robotMap;
-import frc.robot.components.Elevator;
+import frc.robot.components.elevator;
 import frc.robot.components.drivetrain;
 import frc.robot.common.OI;
 import edu.wpi.first.networktables.NetworkTable;
@@ -61,7 +59,7 @@ public class Robot extends TimedRobot{
     @Override
     public void teleopInit(){
         //auto.stop();
-        Elevator.reset();
+        elevator.reset();
         robotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
         //autoChooser.getSelected().stop(); //Stops the automode
     }
@@ -82,12 +80,12 @@ public class Robot extends TimedRobot{
         */
         
         robotMap.elevator.setSpeed(OI.manipulatorContoller.getY()*.6); //Elevator Motor (throttle limited to 60%)
-        Elevator.iterate();
+        elevator.iterate();
         if(OI.driveJoystick.getPOV() == 0) {
-            Elevator.setGoal(true);
+            elevator.setGoal(true);
         }
         if(OI.driveJoystick.getPOV() == 180) {
-            Elevator.setGoal(false);
+            elevator.setGoal(false);
         }
 
         m_drive.arcadeDrive((-OI.driveJoystick.getY()),(OI.driveJoystick.getX())); //Drives the robot arcade style using the joystick
@@ -123,5 +121,11 @@ public class Robot extends TimedRobot{
             robotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
            
          }
+    }
+    
+    @Override
+    public void testPeriodic() {
+        robotMap.elevator.setSpeed(OI.manipulatorContoller.getY()*.6); //Elevator Motor (throttle limited to 60%)
+        m_drive.arcadeDrive((-OI.driveJoystick.getY()),(OI.driveJoystick.getX())); //Drives the robot arcade style using the joystick
     }
 }
