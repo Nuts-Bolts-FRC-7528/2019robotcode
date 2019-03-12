@@ -5,7 +5,7 @@ import frc.robot.common.robotMap;
 /**
  * Provides an automatic control loop for the elevator. 
  */
-public class Elevator {
+public class elevator {
     private static int level = 1;
     private static int goal = 1;
 
