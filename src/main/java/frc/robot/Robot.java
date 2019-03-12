@@ -27,7 +27,7 @@ public class Robot extends TimedRobot{
     NetworkTable table; //This table is for object recognition
     SendableChooser<AutoModeExecutor> autoChooser; //Creates a SendableChooser that allows drivers to select an automode
     //private AutoModeExecutor auto;
-
+// This is michael and I'm testing using git from my house at home
     
     
     @Override
