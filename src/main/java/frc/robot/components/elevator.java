@@ -21,8 +21,8 @@ public class elevator {
      * backwards.
      */
     public static void iterate() {
-        if(goal > 2) { //Checks if goal is higher than it should be
-            goal = 2; //If it is, reset to highest possible level
+        if(goal > 3) { //Checks if goal is higher than it should be
+            goal = 3; //If it is, reset to highest possible level
         } else if (goal < 1) { //Checks if goal is lower than it should be
             goal = 1; //If it is, reset to lowest possible level
         }
@@ -38,6 +38,10 @@ public class elevator {
         if(!robotMap.elevatorMiddle.get()) { //If the hall effect sensor on the middle is hit (flipped because that's how the sensor is)
             level = 2; //Set the level value to two
         }
+        if(robotMap.elevatorTop.get()){ //If the limit switch on the top is hit
+            level = 3; //Set the level value to 3
+        }
+        System.out.println(getLevel());
     }
 
     /**
@@ -50,6 +54,11 @@ public class elevator {
             goal++; 
         } else if (!up && level > 0) {
             goal--;
+        }
+    }
+    public static void setGoal(int height){
+        if(height <= 3 && height >= 1){ //Checks if goal is between 1 and 3 inclusive
+            goal = height; //Sets goal equal to the input level
         }
     }
 

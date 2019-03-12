@@ -3,6 +3,7 @@ package frc.robot.common;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 
 /**
@@ -18,4 +19,6 @@ public class robotMap {
     public static final DigitalInput photodiode = new DigitalInput(6);
     public static final DigitalInput elevatorBottom = new DigitalInput(9);
     public static final DigitalInput elevatorMiddle = new DigitalInput(7);
+    public static final DigitalInput elevatorTop = new DigitalInput(5);
+    
 }
