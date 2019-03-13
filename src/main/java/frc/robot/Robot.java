@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.auto.AutoModeExecutor;
 import frc.robot.common.robotMap;
-import frc.robot.components.elevator;
-import frc.robot.components.drivetrain;
+import frc.robot.components.Drivetrain;
+import frc.robot.components.Elevator;
 import frc.robot.common.OI;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -60,7 +60,7 @@ public class Robot extends TimedRobot{
     @Override
     public void teleopInit(){
         //auto.stop();
-        elevator.reset();
+        Elevator.reset();
         robotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
         //autoChooser.getSelected().stop(); //Stops the automode
     }
@@ -76,28 +76,24 @@ public class Robot extends TimedRobot{
         //Basically block this this from happening
        /*
         if (robotMap.solenoid.get() == DoubleSolenoid.Value.kForward){
-            robotMap.elevator.setSpeed(0);
+            robotMap.Elevator.setSpeed(0);
         }
         */
         if(robotMap.solenoid.get() == Value.kReverse){
-            robotMap.elevator.setSpeed(OI.manipulatorContoller.getY()*.6); //Elevator Motor (throttle limited to 60%)
-            elevator.iterate();
+            robotMap.elevator.setSpeed(OI.manipulatorContoller.getY()*.5); //Elevator Motor (throttle limited to 60%)
+            Elevator.iterate();
         }
-        // if(OI.driveJoystick.getPOV() == 0) { //<--- bad code
-            // elevator.setGoal(true);
-        // }
-        // if(OI.driveJoystick.getPOV() == 180) { //<---- more bad code jk Ethan is an awesome dood XD
-            // elevator.setGoal(false);
-        // }
         if(OI.driveJoystick.getRawButtonPressed(7)){ //If joystick button 7 is pressed
-            elevator.setGoal(3); //Sets the elevator to level 3
+            Elevator.setGoal(3); //Sets the Elevator to level 3
         }
         if(OI.driveJoystick.getRawButtonPressed(9)){ //If joystick button 9 is pressed
-            elevator.setGoal(2); //Sets the elevator to level 2
+            Elevator.setGoal(2); //Sets the Elevator to level 2
         }
         if(OI.driveJoystick.getRawButtonPressed(11)){ //If joystick button 11 is pressed
-            elevator.setGoal(1); //Sets the elevator to level 1
+            Elevator.setGoal(1); //Sets the Elevator to level 1
         }
+
+
 
         m_drive.arcadeDrive((-OI.driveJoystick.getY()),(OI.driveJoystick.getX())); //Drives the robot arcade style using the joystick
         //We suspect that there may be an issue with the Joystick, b/c it is inverted/reversed. We resolved this by flipping Y,X to X,Y and putting a negative on Y.
@@ -112,12 +108,12 @@ public class Robot extends TimedRobot{
 
         //CARGO ALIGNMENT
         if(OI.driveJoystick.getRawButton(2)) { //If thumb button is pressed
-            drivetrain.align(ballCenterPix);
+            Drivetrain.align(ballCenterPix);
         }
 
         //HATCH ALIGNMENT
         if(OI.driveJoystick.getRawButton(3)) {
-            drivetrain.align(hatchCenterPix);
+            Drivetrain.align(hatchCenterPix);
         }
 
         /*

@@ -3,9 +3,9 @@ package frc.robot.components;
 import frc.robot.common.robotMap;
 
 /**
- * Provides an automatic control loop for the elevator. 
+ * Provides an automatic control loop for the Elevator.
  */
-public class elevator {
+public class Elevator {
     private static int level = 1;
     private static int goal = 1;
 
@@ -16,8 +16,8 @@ public class elevator {
 
     /**
      * Runs iteratively in teleopPeriodic() and in update() of actions
-     * Note that the elevator runs forward when going down and backwards
-     * when going up - this is because the elevator motor is flipped
+     * Note that the Elevator runs forward when going down and backwards
+     * when going up - this is because the Elevator motor is flipped
      * backwards.
      */
     public static void iterate() {
@@ -27,10 +27,10 @@ public class elevator {
             goal = 1; //If it is, reset to lowest possible level
         }
         if (goal > level) { //If goal level is HIGHER than the current level
-            robotMap.elevator.setSpeed(-.6); //Run elevator upwards (runs backwards because motor is flipped around)
+            robotMap.elevator.setSpeed(-.6); //Run Elevator upwards (runs backwards because motor is flipped around)
         }
         else if (goal < level) { //If goal level is LOWER than the current level
-            robotMap.elevator.setSpeed(.6); //Run elevator downwards (runs forwards because motor is flipped around)
+            robotMap.elevator.setSpeed(.6); //Run Elevator downwards (runs forwards because motor is flipped around)
         }
         if(robotMap.elevatorBottom.get()) { //If the limit switch on the bottom is hit
             level = 1; //Set the level value to one
@@ -63,9 +63,9 @@ public class elevator {
     }
 
     /**
-     * Public accessor method for the current level of the elevator
+     * Public accessor method for the current level of the Elevator
      *
-     * @return The current level of the elevator
+     * @return The current level of the Elevator
      */
     public static int getLevel() { return level; }
 }

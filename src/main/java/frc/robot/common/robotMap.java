@@ -15,6 +15,9 @@ public class robotMap {
     public static final PWMVictorSPX leftFrontDrive = new PWMVictorSPX(5); //Defines a new PWMVictorSPX (motor controller) on PWM port 5
     public static final PWMVictorSPX rightFrontDrive = new PWMVictorSPX(6); //Defines a new PWMVictorSPX (motor controller) on PWM port 6
     public static final PWMVictorSPX elevator = new PWMVictorSPX(2);
+    public static final PWMVictorSPX cargoIntake = new PWMVictorSPX(1);
+    public static final PWMVictorSPX cargoPivitOne = new PWMVictorSPX(0);
+    public static final PWMVictorSPX cargoPivitTwo = new PWMVictorSPX(7);
     public static final DoubleSolenoid solenoid = new DoubleSolenoid(4, 5);
     public static final DigitalInput photodiode = new DigitalInput(6);
     public static final DigitalInput elevatorBottom = new DigitalInput(9);

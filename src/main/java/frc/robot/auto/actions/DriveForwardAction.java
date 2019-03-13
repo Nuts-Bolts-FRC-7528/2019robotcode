@@ -1,7 +1,7 @@
 package frc.robot.auto.actions;
 
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.components.drivetrain;
+import frc.robot.components.Drivetrain;
 
 /**
  * Drives the motors at a given speed for a given number of seconds
@@ -42,8 +42,8 @@ public class DriveForwardAction implements Action {
      */
     @Override
     public void update() {
-        drivetrain.setLeftMotorSpeed(speed);
-        drivetrain.setRightMotorSpeed(speed);
+        Drivetrain.setLeftMotorSpeed(speed);
+        Drivetrain.setRightMotorSpeed(speed);
     }
 
     @Override

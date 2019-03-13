@@ -2,7 +2,7 @@ package frc.robot.auto.actions;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
-import frc.robot.components.drivetrain;
+import frc.robot.components.Drivetrain;
 
 public class CargoAlignmentAction implements Action {
 
@@ -26,7 +26,7 @@ public class CargoAlignmentAction implements Action {
         NetworkTableEntry centerCargo = table.getEntry("cargoCenterPix");
         int ballCenterPix = (int) centerCargo.getDouble(0);
 
-        drivetrain.align(ballCenterPix);
+        Drivetrain.align(ballCenterPix);
     }
 
     @Override
