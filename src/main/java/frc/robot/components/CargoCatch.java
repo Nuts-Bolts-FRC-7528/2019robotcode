@@ -1,54 +1,40 @@
 package frc.robot.components;
 
-import edu.wpi.first.wpilibj.PWMVictorSPX;
-import edu.wpi.first.wpilibj.command.PIDSubsystem;
-import frc.robot.common.OI;
 import frc.robot.common.robotMap;
 
-import static edu.wpi.first.wpilibj.GenericHID.Hand.kRight;
+public class CargoCatch {
+    private static double drive, setpoint = 0;
+    private static boolean holdPosition = true;
+    private static  double integral, error = 0;
 
+    private static final int P = 1;
+    private static final int I = 1;
 
-public class CargoCatch extends PIDSubsystem {
-
-    PWMVictorSPX motor = robotMap.cargoPivitOne;
-
-
-
-    public CargoCatch() {
-        super("CargoCatch", 2.0, 0.0, 0.0);
-        setAbsoluteTolerance(0.05);
-        getPIDController().setContinuous(false);
-
+    public static void iterate() {
+        PI(setpoint);
+        System.out.println(drive);
+        //robotMap.cargoPivotOne.set(drive);
+        //robotMap.cargoPivotTwo.set(drive);
     }
 
-    public void initDefaultCommand() {
-
+    public static void setSetpoint(int set) {
+        setpoint = set;
     }
 
-    @Override
-    protected double returnPIDInput() {
-        return robotMap.encoderPivitOne.getDistance() - robotMap.encoderPivitTwo.getDistance();
+    public static void setHoldPosition(boolean hold) {
+        holdPosition = hold;
     }
 
-    @Override
-    protected void usePIDOutput(double output) {
-        motor.pidWrite(output);
-
+    private static void PI(double set) {
+        if(holdPosition) {
+            error = 0 - robotMap.encoderPivotOneEnc.getRate();
+        } else {
+            error = set - robotMap.encoderPivotOneEnc.get();
+            if (error < 5) {
+                holdPosition = true;
+            }
+        }
+        integral += error*.02;
+        drive = P*error + I * integral;
     }
-
-    public void returnPIDOutput(double output) {
-        robotMap.cargoPivitOne.setSpeed(OI.manipulatorContoller.getY(kRight) + output);
-
-
-    }
-
-/*
-        driveTrain.arcadeDrive(baseSpeed, output);
-    }
-
-}
-*/
-
-
-
 }

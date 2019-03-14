@@ -41,7 +41,6 @@ public class Elevator {
         if(robotMap.elevatorTop.get()){ //If the limit switch on the top is hit
             level = 3; //Set the level value to 3
         }
-        System.out.println(getLevel());
     }
 
     /**
