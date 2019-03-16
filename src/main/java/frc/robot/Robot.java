@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.auto.AutoModeExecutor;
@@ -92,12 +93,13 @@ public class Robot extends TimedRobot{
         CargoCatch.iterate();
 
         if(OI.manipulatorContoller.getAButtonPressed()) {
-            CargoCatch.setSetpoint(300);
+            CargoCatch.setSetpoint(250);
         }
         if(OI.manipulatorContoller.getBButtonPressed()) {
             CargoCatch.setSetpoint(0);
         }
 
+        robotMap.cargoIntake.set(OI.manipulatorContoller.getY(Hand.kLeft)*.6);
         m_drive.arcadeDrive((-OI.driveJoystick.getY()),(OI.driveJoystick.getX())); //Drives the robot arcade style using the joystick
         //We suspect that there may be an issue with the Joystick, b/c it is inverted/reversed. We resolved this by flipping Y,X to X,Y and putting a negative on Y.
 
