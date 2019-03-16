@@ -5,10 +5,12 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.auto.AutoModeExecutor;
 import frc.robot.common.robotMap;
+import frc.robot.components.CargoCatch;
 import frc.robot.components.Drivetrain;
 import frc.robot.components.Elevator;
 import frc.robot.common.OI;
@@ -73,12 +75,7 @@ public class Robot extends TimedRobot{
                 [ROBOT DRIVING]
          */
 
-        //Basically block this this from happening
-       /*
-        if (robotMap.solenoid.get() == DoubleSolenoid.Value.kForward){
-            robotMap.Elevator.setSpeed(0);
-        }
-        */
+
         if(robotMap.solenoid.get() == Value.kReverse){
             robotMap.elevator.setSpeed(OI.manipulatorContoller.getY()*.5); //Elevator Motor (throttle limited to 60%)
             Elevator.iterate();
@@ -93,8 +90,16 @@ public class Robot extends TimedRobot{
             Elevator.setGoal(1); //Sets the Elevator to level 1
         }
 
+        CargoCatch.iterate();
 
+        if(OI.manipulatorContoller.getAButtonPressed()) {
+            CargoCatch.setSetpoint(250);
+        }
+        if(OI.manipulatorContoller.getBButtonPressed()) {
+            CargoCatch.setSetpoint(0);
+        }
 
+        robotMap.cargoIntake.set(OI.manipulatorContoller.getY(Hand.kLeft)*.6);
         m_drive.arcadeDrive((-OI.driveJoystick.getY()),(OI.driveJoystick.getX())); //Drives the robot arcade style using the joystick
         //We suspect that there may be an issue with the Joystick, b/c it is inverted/reversed. We resolved this by flipping Y,X to X,Y and putting a negative on Y.
 
