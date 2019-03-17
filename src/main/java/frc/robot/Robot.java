@@ -132,7 +132,14 @@ public class Robot extends TimedRobot{
         if (OI.manipulatorContoller.getBumperReleased(GenericHID.Hand.kRight)){
             robotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
            
-         }
+        }
+        if(OI.manipulatorContoller.getXButtonPressed()){
+            robotMap.solenoidBase.set(DoubleSolenoid.Value.kForward);
+        }
+        if(OI.manipulatorContoller.getYButtonPressed()){
+            robotMap.solenoidBase.set(DoubleSolenoid.Value.kReverse);
+        }
+        
     }
 
     @Override

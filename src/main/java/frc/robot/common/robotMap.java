@@ -24,4 +24,5 @@ public class robotMap {
     public static final DigitalInput elevatorMiddle = new DigitalInput(7);
     public static final DigitalInput elevatorTop = new DigitalInput(5);
     public static final Encoder encoderPivotOneEnc = new Encoder(1,0);
+    public static final DoubleSolenoid solenoidBase = new DoubleSolenoid(6, 7);
 }
