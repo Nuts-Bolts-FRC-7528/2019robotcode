@@ -3,7 +3,32 @@ package frc.robot.components;
 import frc.robot.common.OI;
 import frc.robot.common.robotMap;
 
-public class CargoSync {
+public class cargoSync {
+    public static void synchronize() {
+        motor1(robotMap.encoderPivitOne.getRate(),robotMap.encoderPivitTwo.getRate());
+        motor2(robotMap.encoderPivitOne.getRate(), robotMap.encoderPivitTwo.getRate());
+    }
+
+    public static void motor1(double encoder1, double encoder2) {
+        double P1 = 0.1;
+        double I1 = 0.0;
+        double D1 = 0.0;
+        double pv1 = (robotMap.encoderPivitOne.getRate() + robotMap.encoderPivitTwo.getRate()) / 2;
+        double output = pidMethod(P1, I1, D1, RLPC(), pv1) + pidMethod(P1, I1, D1, encoder2, encoder1);
+        robotMap.cargoPivitOne.setSpeed((percentSpeed()*OI.manipulatorContoller.getY())+output);
+    }
+    public static void motor2 (double encoder1, double encoder2) {
+        double P2 = 0.1;
+        double I2 = 0.0;
+        double D2 = 0.0;
+        double pv2 = (robotMap.encoderPivitOne.getRate() + robotMap.encoderPivitTwo.getRate()) / 2;
+        double output = pidMethod(P2, I2, D2, RLPC(), pv2) + pidMethod(P2, I2, D2, encoder1, encoder2);
+        robotMap.cargoPivitTwo.setSpeed((percentSpeed()*OI.manipulatorContoller.getY())+output);
+    }
+    public static double percentSpeed() {
+        return 0.2; // % motor speed recommended max .9
+    }
+
 
    // private double encoder1tix = robotMap.encoderPivitOne.getRate(); //What we read from the first motor
     //private double encoder2tix = robotMap.encoderPivitTwo.getRate(); // What we read from the second motor
@@ -31,13 +56,9 @@ public class CargoSync {
 
     }
 
-    public static void motor1(double encoder1, double encoder2, double baseSpeed) {
-        double P1 = 0.0;
-        double I1 = 0.0;
-        double D1 = 0.0;
-        double output = pidMethod(P1, I1, D1, RLPC(), robotMap.encoderPivitTwo.getRate());
-        robotMap.cargoPivitOne.setSpeed(baseSpeed+output);
-    }
+
+
+
     public static double RLPC() {
         double change; // math
         double PosCmd = OI.manipulatorContoller.getY(); // THE DESIRED INPUT OF THE MANIPULATOR
