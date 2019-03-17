@@ -31,8 +31,12 @@ public class CargoSync {
 
     }
 
-    public static void motor1(double encoder1, double encoder2) {
-        robotMap.cargoPivitOne.setSpeed(.09);
+    public static void motor1(double encoder1, double encoder2, double baseSpeed) {
+        double P1 = 0.0;
+        double I1 = 0.0;
+        double D1 = 0.0;
+        double output = pidMethod(P1, I1, D1, RLPC(), robotMap.encoderPivitTwo.getRate());
+        robotMap.cargoPivitOne.setSpeed(baseSpeed+output);
     }
     public static double RLPC() {
         double change; // math
