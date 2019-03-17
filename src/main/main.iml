@@ -8,5 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Gradle: edu.wpi.first.wpilibj:wpilibj-java:2019.3.1" level="project" />
+    <orderEntry type="library" name="Gradle: edu.wpi.first.ntcore:ntcore-java:2019.3.1" level="project" />
   </component>
 </module>
