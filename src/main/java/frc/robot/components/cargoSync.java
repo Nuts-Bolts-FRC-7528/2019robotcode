@@ -8,14 +8,19 @@ public class cargoSync {
     private static double I = 0.0;
     private static double D = 0.0;
     public static void go() {
-    robotMap.cargoPivitOne.setSpeed(drive(output1(robotMap.encoderPivitOne.getRate(), robotMap.encoderPivitTwo.getRate()),max()));
-    robotMap.cargoPivitTwo.setSpeed(drive(output2(robotMap.encoderPivitOne.getRate(), robotMap.encoderPivitTwo.getRate()), max()));
+    //robotMap.cargoPivitOne.setSpeed(
+            System.out.println("out1: " +
+                    drive(output1(robotMap.encoderPivitOne.getRate(), robotMap.encoderPivitTwo.getRate()),max()));
+   // robotMap.cargoPivitTwo.setSpeed(
+            System.out.println("out2: " +
+                    drive(output2(robotMap.encoderPivitOne.getRate(), robotMap.encoderPivitTwo.getRate()), max()));
+            System.out.println("")
 
 }
     //the motor equation is roughly equal to percentSpeed * (AnalogInput + syncOutput + setPosOutput)
     private static double targetDistanceOrCount() {
 
-            return 1.0;
+            return 100.0;
 }
 private static double max() {
         return 0.8;
