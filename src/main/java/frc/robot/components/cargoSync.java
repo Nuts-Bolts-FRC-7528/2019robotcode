@@ -4,26 +4,56 @@ import frc.robot.common.OI;
 import frc.robot.common.robotMap;
 
 public class cargoSync {
-    public static void synchronize() {
-        motor1(robotMap.encoderPivitOne.getRate(),robotMap.encoderPivitTwo.getRate());
-        motor2(robotMap.encoderPivitOne.getRate(), robotMap.encoderPivitTwo.getRate());
+    //the motor equation is roughly equal to percentSpeed * (AnalogInput + syncOutput + setPosOutput)
+    public static double targetDistanceOrCount() {
+
+            return 1.0;
+}
+    public static void go() {
+        robotMap.cargoPivitOne.setSpeed(
+                //desiredMax motor speed
+                percentSpeed() *
+                 (
+                         OI.manipulatorController.getY()
+                                 //output of motor sync PID
+                                 + motor1(
+                                         robotMap.encoderPivitOne.getRate(),
+                                 robotMap.encoderPivitTwo.getRate()
+                         )
+                + moveCargo(targetDistanceOrCount(), robotMap.encoderPivitOne.get()))
+        );
+        robotMap.cargoPivitTwo.setSpeed(
+                percentSpeed() *
+                        (
+                                OI.manipulatorController.getY()
+                //output of motor sync PID
+                 + motor2(
+                         robotMap.encoderPivitOne.getRate(),
+                                        robotMap.encoderPivitTwo.getRate()
+                                )
+                                + moveCargo(targetDistanceOrCount(), robotMap.encoderPivitTwo.get())
+                        )
+        );
     }
 
-    public static void motor1(double encoder1, double encoder2) {
+
+
+
+    public static double motor1(double encoder1, double encoder2) {
         double P1 = 0.1;
         double I1 = 0.0;
         double D1 = 0.0;
         double pv1 = (robotMap.encoderPivitOne.getRate() + robotMap.encoderPivitTwo.getRate()) / 2;
         double output = pidMethod(P1, I1, D1, RLPC(), pv1) + pidMethod(P1, I1, D1, encoder2, encoder1);
-        robotMap.cargoPivitOne.setSpeed((percentSpeed()*OI.manipulatorContoller.getY())+output);
+        return output;
     }
-    public static void motor2 (double encoder1, double encoder2) {
+    public static double motor2 (double encoder1, double encoder2) {
         double P2 = 0.1;
         double I2 = 0.0;
         double D2 = 0.0;
         double pv2 = (robotMap.encoderPivitOne.getRate() + robotMap.encoderPivitTwo.getRate()) / 2;
         double output = pidMethod(P2, I2, D2, RLPC(), pv2) + pidMethod(P2, I2, D2, encoder1, encoder2);
-        robotMap.cargoPivitTwo.setSpeed((percentSpeed()*OI.manipulatorContoller.getY())+output);
+        return output;
     }
     public static double percentSpeed() {
         return 0.2; // % motor speed recommended max .9
@@ -61,9 +91,9 @@ public class cargoSync {
 
     public static double RLPC() {
         double change; // math
-        double PosCmd = OI.manipulatorContoller.getY(); // THE DESIRED INPUT OF THE MANIPULATOR
 
-        // initialize these:
+
+        // initialize this:
 
         double RLPC = 0;  // Rate-Limited Position Command
 
@@ -74,12 +104,20 @@ public class cargoSync {
         // rate-limit the change in position command
 
 
-        change =PosCmd -RLPC;
+        change = OI.manipulatorController.getY() - RLPC;
         if(change >rateLimit)change =rateLimit;
         else if(change< -rateLimit)change =-rateLimit;
         RLPC +=change;
         return RLPC;
     }
+    public static double moveCargo(double targetcount, double encoder1) {
+        double P = 0.1;
+        double I = 0.0;
+        double D = 0.0;
+
+        return pidMethod(P,I,D, targetcount, encoder1);
+    }
+
 
 
 /*

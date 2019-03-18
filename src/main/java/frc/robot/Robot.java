@@ -25,7 +25,7 @@ public class Robot extends TimedRobot {
     private final SpeedControllerGroup m_right = new SpeedControllerGroup(robotMap.rightFrontDrive, robotMap.rightRearDrive);
     //Defines a SpeedControllerGroup for the right drive
     private final DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
-    public static double RightAnalog = OI.manipulatorContoller.getY(kRight);
+    public static double RightAnalog = OI.manipulatorController.getY(kRight);
 
 
     //Creates a DifferentialDrive using both SpeedControllerGroups
@@ -79,8 +79,8 @@ public class Robot extends TimedRobot {
 
         //I reallly really hope this works - By Kobe Nguyen
 
-        if (OI.manipulatorContoller.getY() > 0)
-            cargoSync.synchronize();
+        if (OI.manipulatorController.getY() > 0)
+            cargoSync.go();
 
 
 
@@ -98,7 +98,7 @@ public class Robot extends TimedRobot {
         if(robotMap.solenoid.get()==Value.kReverse)
 
     {
-        robotMap.elevator.setSpeed(OI.manipulatorContoller.getY() * .5); //Elevator Motor (throttle limited to 60%)
+        robotMap.elevator.setSpeed(OI.manipulatorController.getY() * .5); //Elevator Motor (throttle limited to 60%)
         Elevator.iterate();
     }
         if(OI.driveJoystick.getRawButtonPressed(7))
@@ -148,13 +148,13 @@ public class Robot extends TimedRobot {
                 [PNEUMATICS]
          */
 
-        if(OI.manipulatorContoller.getBumperPressed(GenericHID.Hand.kLeft))
+        if(OI.manipulatorController.getBumperPressed(GenericHID.Hand.kLeft))
 
     {
         robotMap.solenoid.set(DoubleSolenoid.Value.kForward); //Solenoid goes forward when left bumper is pressed.
     }
 
-        if(OI.manipulatorContoller.getBumperReleased(GenericHID.Hand.kRight))
+        if(OI.manipulatorController.getBumperReleased(GenericHID.Hand.kRight))
 
     {
         robotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
@@ -165,7 +165,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void testPeriodic() {
-        robotMap.elevator.setSpeed(OI.manipulatorContoller.getY()*.6); //Elevator Motor (throttle limited to 60%)
+        robotMap.elevator.setSpeed(OI.manipulatorController.getY()*.6); //Elevator Motor (throttle limited to 60%)
         m_drive.arcadeDrive((-OI.driveJoystick.getY()),(OI.driveJoystick.getX())); //Drives the robot arcade style using the joystick
     }
 }
