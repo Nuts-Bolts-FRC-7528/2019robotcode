@@ -3,8 +3,6 @@ package frc.robot;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -65,7 +63,7 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         //auto.stop();
         Elevator.reset();
-        robotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
+        //robotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
         //autoChooser.getSelected().stop(); //Stops the automode
     }
 
@@ -79,9 +77,14 @@ public class Robot extends TimedRobot {
 
         //I reallly really hope this works - By Kobe Nguyen
 
-        if (OI.manipulatorController.getY() > 0)
+       // if (OI.manipulatorController.getY() > 0)
             cargoSync.go();
+            if (OI.manipulatorController.getAButtonPressed())
+                cargoSync.setSetPoint(260);
+            if (OI.manipulatorController.getBButtonPressed())
+                cargoSync.setSetPoint(0);
 
+            //robotMap.cargoIntake.set(OI.manipulatorController.getY(GenericHID.Hand.kLeft));
 
 
 
@@ -95,24 +98,19 @@ public class Robot extends TimedRobot {
             robotMap.Elevator.setSpeed(0);
         }
         */
-        if(robotMap.solenoid.get()==Value.kReverse)
-
-    {
+        if(/*robotMap.solenoid.get()==Value.kReverse*/true) {
         robotMap.elevator.setSpeed(OI.manipulatorController.getY() * .5); //Elevator Motor (throttle limited to 60%)
-        Elevator.iterate();
+        //Elevator.iterate();
     }
         if(OI.driveJoystick.getRawButtonPressed(7))
-
     { //If joystick button 7 is pressed
         Elevator.setGoal(3); //Sets the Elevator to level 3
     }
         if(OI.driveJoystick.getRawButtonPressed(9))
-
     { //If joystick button 9 is pressed
         Elevator.setGoal(2); //Sets the Elevator to level 2
     }
         if(OI.driveJoystick.getRawButtonPressed(11))
-
     { //If joystick button 11 is pressed
         Elevator.setGoal(1); //Sets the Elevator to level 1
     }
@@ -151,13 +149,13 @@ public class Robot extends TimedRobot {
         if(OI.manipulatorController.getBumperPressed(GenericHID.Hand.kLeft))
 
     {
-        robotMap.solenoid.set(DoubleSolenoid.Value.kForward); //Solenoid goes forward when left bumper is pressed.
+        //robotMap.solenoid.set(DoubleSolenoid.Value.kForward); //Solenoid goes forward when left bumper is pressed.
     }
 
         if(OI.manipulatorController.getBumperReleased(GenericHID.Hand.kRight))
 
     {
-        robotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
+        //robotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
 
     }
 

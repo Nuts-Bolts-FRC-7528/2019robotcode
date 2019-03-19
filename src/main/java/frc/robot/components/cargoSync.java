@@ -4,31 +4,52 @@ import frc.robot.common.OI;
 import frc.robot.common.robotMap;
 
 public class cargoSync {
-    private static double P = 0.1;
-    private static double I = 0.0;
-    private static double D = 0.0;
+    private static double P = 0.50;
+    private static double I = 0.50;
+    private static double D = 0.50;
+    private static double setPoint = 0; // 90 degrees ~ 260
+    private static double previous_setPoint = 0;
     public static void go() {
+        System.out.println("**********");
     //robotMap.cargoPivitOne.setSpeed(
-            System.out.println("out1: " +
-                    drive(output1(robotMap.encoderPivitOne.getRate(), robotMap.encoderPivitTwo.getRate()),max()));
-   // robotMap.cargoPivitTwo.setSpeed(
-            System.out.println("out2: " +
-                    drive(output2(robotMap.encoderPivitOne.getRate(), robotMap.encoderPivitTwo.getRate()), max()));
-            System.out.println("")
+        System.out.println("Setpoint: " + setPoint);
+        System.out.println("out1: " +
+                drive(output1(robotMap.encoderPivitOne.getRate(), robotMap.encoderPivitTwo.getRate()),max()));
+        robotMap.cargoPivitOne.setSpeed(drive(output1(robotMap.encoderPivitOne.getRate(), robotMap.encoderPivitTwo.getRate()),max()));
+        //set motor2 output to negative just in case
+        robotMap.cargoPivitTwo.setSpeed(drive(output2(robotMap.encoderPivitOne.getRate(), robotMap.encoderPivitTwo.getRate()), max()));
+        System.out.println("out2: " +
+                drive(output2(robotMap.encoderPivitOne.getRate(), robotMap.encoderPivitTwo.getRate()), max()));
+        System.out.println("Encoder1: " + robotMap.encoderPivitOne.get());
+            System.out.println("Encoder2: " + robotMap.encoderPivitTwo.get());
+
 
 }
     //the motor equation is roughly equal to percentSpeed * (AnalogInput + syncOutput + setPosOutput)
     private static double targetDistanceOrCount() {
-
-            return 100.0;
+            return setPoint;
+}
+public static void setSetPoint(double set) {
+        setPoint = set;
 }
 private static double max() {
-        return 0.8;
+        return 0.6;
     }
-private static double drive( double output, double maxMotorSpeed) {
+    private static double percentSpeed() {
+        return 0.2; // % motor speed recommended max .9
+    }
 
-        if (output < maxMotorSpeed)
+    private static double drive( double output, double maxMotorSpeed) {
+
+        if (output > maxMotorSpeed)
             output = maxMotorSpeed;
+        else if (output < -maxMotorSpeed)
+            output = -maxMotorSpeed;
+
+
+
+
+
         return output;
 
 }
@@ -68,9 +89,6 @@ private static double drive( double output, double maxMotorSpeed) {
         double pv2 = (robotMap.encoderPivitOne.getRate() + robotMap.encoderPivitTwo.getRate()) / 2;
         double output = pidMethod(P, I, D, RLPC(), pv2) + pidMethod(P, I, D, encoder1, encoder2);
         return output;
-    }
-    private static double percentSpeed() {
-        return 0.2; // % motor speed recommended max .9
     }
 
 
