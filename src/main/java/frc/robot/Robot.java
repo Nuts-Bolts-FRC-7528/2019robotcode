@@ -4,7 +4,6 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -61,6 +60,7 @@ public class Robot extends TimedRobot{
     public void teleopInit(){
         //auto.stop();
         Elevator.reset();
+        CargoCatch.setTerminate(false);
         //robotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
         //autoChooser.getSelected().stop(); //Stops the automode
     }
@@ -75,7 +75,7 @@ public class Robot extends TimedRobot{
 
 
         //if(robotMap.solenoid.get() == Value.kReverse){
-            robotMap.elevator.setSpeed(OI.manipulatorContoller.getY()*.5); //Elevator Motor (throttle limited to 60%)
+            robotMap.elevator.setSpeed(OI.manipulatorContoller.getY(GenericHID.Hand.kRight)*.5); //Elevator Motor (throttle limited to 60%)
             //Elevator.iterate();
         //}
         if(OI.driveJoystick.getRawButtonPressed(7)){ //If joystick button 7 is pressed
@@ -91,13 +91,15 @@ public class Robot extends TimedRobot{
         CargoCatch.iterate();
 
         if(OI.manipulatorContoller.getAButtonPressed()) {
-            CargoCatch.setSetpoint(250);
+            CargoCatch.setSetpoint(true);
         }
         if(OI.manipulatorContoller.getBButtonPressed()) {
-            CargoCatch.setSetpoint(0);
+            CargoCatch.setSetpoint(false);
         }
+        robotMap.cargoIntake.set(OI.manipulatorContoller.getY(GenericHID.Hand.kLeft));
 
-        robotMap.cargoIntake.set(OI.manipulatorContoller.getY(Hand.kLeft)*.6);
+
+
         m_drive.arcadeDrive((-OI.driveJoystick.getY()),(OI.driveJoystick.getX())); //Drives the robot arcade style using the joystick
         //We suspect that there may be an issue with the Joystick, b/c it is inverted/reversed. We resolved this by flipping Y,X to X,Y and putting a negative on Y.
 
@@ -144,5 +146,10 @@ public class Robot extends TimedRobot{
     public void testPeriodic() {
         robotMap.elevator.setSpeed(OI.manipulatorContoller.getY()*.6); //Elevator Motor (throttle limited to 60%)
         m_drive.arcadeDrive((-OI.driveJoystick.getY()),(OI.driveJoystick.getX())); //Drives the robot arcade style using the joystick
+    }
+
+    @Override
+    public void disabledPeriodic() {
+        CargoCatch.setTerminate(true);
     }
 }
