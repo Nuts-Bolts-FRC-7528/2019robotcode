@@ -1,8 +1,6 @@
 package frc.robot.auto.actions;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.common.robotMap;
 
 public class SolenoidAction implements Action{
 
@@ -26,11 +24,11 @@ public class SolenoidAction implements Action{
 
     @Override
     public void done() {
-        robotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
+        //robotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
     }
 
     @Override
     public void start() {
-        robotMap.solenoid.set(DoubleSolenoid.Value.kForward);
+        //robotMap.solenoid.set(DoubleSolenoid.Value.kForward);
     }
 }

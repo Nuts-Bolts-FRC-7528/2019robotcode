@@ -1,7 +1,6 @@
 package frc.robot.common;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 
@@ -15,14 +14,14 @@ public class robotMap {
     public static final PWMVictorSPX leftFrontDrive = new PWMVictorSPX(5); //Defines a new PWMVictorSPX (motor controller) on PWM port 5
     public static final PWMVictorSPX rightFrontDrive = new PWMVictorSPX(6); //Defines a new PWMVictorSPX (motor controller) on PWM port 6
     public static final PWMVictorSPX elevator = new PWMVictorSPX(2);
-    public static final PWMVictorSPX cargoIntake = new PWMVictorSPX(1);
-    public static final PWMVictorSPX cargoPivotOne = new PWMVictorSPX(0);
-    public static final PWMVictorSPX cargoPivotTwo = new PWMVictorSPX(7);
-    public static final DoubleSolenoid solenoid = new DoubleSolenoid(4, 5);
+    public static final PWMVictorSPX cargoIntake = new PWMVictorSPX(0);
+    public static final PWMVictorSPX cargoPivitOne = new PWMVictorSPX(7);
+    public static final PWMVictorSPX cargoPivitTwo = new PWMVictorSPX(1);
+    //public static final DoubleSolenoid solenoid = new DoubleSolenoid(4, 5);
     public static final DigitalInput photodiode = new DigitalInput(6);
     public static final DigitalInput elevatorBottom = new DigitalInput(9);
     public static final DigitalInput elevatorMiddle = new DigitalInput(7);
     public static final DigitalInput elevatorTop = new DigitalInput(5);
-    public static final Encoder encoderPivotOneEnc = new Encoder(1,0);
-    public static final DoubleSolenoid solenoidBase = new DoubleSolenoid(6, 7);
+    public static final Encoder encoderPivitOne = new Encoder(1,0);
+    public static final Encoder encoderPivitTwo = new Encoder(3,2);
 }

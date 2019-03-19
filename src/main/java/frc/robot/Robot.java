@@ -1,22 +1,20 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.auto.AutoModeExecutor;
+import frc.robot.common.OI;
 import frc.robot.common.robotMap;
 import frc.robot.components.CargoCatch;
 import frc.robot.components.Drivetrain;
 import frc.robot.components.Elevator;
-import frc.robot.common.OI;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class Robot extends TimedRobot{
     private final SpeedControllerGroup m_left = new SpeedControllerGroup(robotMap.leftFrontDrive, robotMap.leftRearDrive);
@@ -63,7 +61,7 @@ public class Robot extends TimedRobot{
     public void teleopInit(){
         //auto.stop();
         Elevator.reset();
-        robotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
+        //robotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
         //autoChooser.getSelected().stop(); //Stops the automode
     }
 
@@ -76,10 +74,10 @@ public class Robot extends TimedRobot{
          */
 
 
-        if(robotMap.solenoid.get() == Value.kReverse){
+        //if(robotMap.solenoid.get() == Value.kReverse){
             robotMap.elevator.setSpeed(OI.manipulatorContoller.getY()*.5); //Elevator Motor (throttle limited to 60%)
-            Elevator.iterate();
-        }
+            //Elevator.iterate();
+        //}
         if(OI.driveJoystick.getRawButtonPressed(7)){ //If joystick button 7 is pressed
             Elevator.setGoal(3); //Sets the Elevator to level 3
         }
@@ -126,18 +124,18 @@ public class Robot extends TimedRobot{
          */
 
         if (OI.manipulatorContoller.getBumperPressed(GenericHID.Hand.kLeft)){
-            robotMap.solenoid.set(DoubleSolenoid.Value.kForward); //Solenoid goes forward when left bumper is pressed.
+            //robotMap.solenoid.set(DoubleSolenoid.Value.kForward); //Solenoid goes forward when left bumper is pressed.
         }
 
         if (OI.manipulatorContoller.getBumperReleased(GenericHID.Hand.kRight)){
-            robotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
+            //robotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
            
         }
         if(OI.manipulatorContoller.getXButtonPressed()){
-            robotMap.solenoidBase.set(DoubleSolenoid.Value.kForward);
+            //robotMap.solenoidBase.set(DoubleSolenoid.Value.kForward);
         }
         if(OI.manipulatorContoller.getYButtonPressed()){
-            robotMap.solenoidBase.set(DoubleSolenoid.Value.kReverse);
+            //robotMap.solenoidBase.set(DoubleSolenoid.Value.kReverse);
         }
         
     }
