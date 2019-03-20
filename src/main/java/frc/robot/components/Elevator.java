@@ -9,9 +9,15 @@ public class Elevator {
     private static int level = 1;
     private static int goal = 1;
 
+    private static double setpoint, error, integral, drive = 0;
+    private static double integrator_limit = 0;
+    private static final double P = 0.8;
+    private static final double I = 1.0;
+
     public static void reset() {
         level = 1;
         goal = 1;
+        //robotMap.elevatorEncoder.reset();
     }
 
     /**
@@ -26,37 +32,29 @@ public class Elevator {
         } else if (goal < 1) { //Checks if goal is lower than it should be
             goal = 1; //If it is, reset to lowest possible level
         }
-        if (goal > level) { //If goal level is HIGHER than the current level
-            robotMap.elevator.setSpeed(-.6); //Run Elevator upwards (runs backwards because motor is flipped around)
-        }
-        else if (goal < level) { //If goal level is LOWER than the current level
-            robotMap.elevator.setSpeed(.6); //Run Elevator downwards (runs forwards because motor is flipped around)
-        }
-        if(robotMap.elevatorBottom.get()) { //If the limit switch on the bottom is hit
-            level = 1; //Set the level value to one
-        }
-        if(!robotMap.elevatorMiddle.get()) { //If the hall effect sensor on the middle is hit (flipped because that's how the sensor is)
-            level = 2; //Set the level value to two
-        }
-        if(robotMap.elevatorTop.get()){ //If the limit switch on the top is hit
-            level = 3; //Set the level value to 3
+        setSetpoint();
+        PI(setpoint);
+
+        //robotMap.elevator.set(drive);
+
+        System.out.println("Encoder value: " + robotMap.encoderPivotTwoEnc.get());
+        System.out.println("Drive value: " + drive);
+        System.out.println("Integral: " + integral);
+        System.out.println("**********");
+    }
+
+    private static void setSetpoint() {
+        if(goal == 1) {
+            setpoint = 10;
+        } else if (goal == 2) {
+            setpoint = 100;
+        } else if (goal == 3) {
+            setpoint = 150;
         }
     }
 
-    /**
-     * Public mutator method to set the goal level. Will set it up or down one level at a time
-     *
-     * @param up If this is true, it will increment the goal by one. If not, it will decrement it by one
-     */
-    public static void setGoal(boolean up) {
-        if(up && level < 3) { 
-            goal++; 
-        } else if (!up && level > 0) {
-            goal--;
-        }
-    }
     public static void setGoal(int height){
-        if(height <= 3 && height >= 1){ //Checks if goal is between 1 and 3 inclusive
+        if(height < 4 && height > 0){ //Checks if goal is between 1 and 3 inclusive
             goal = height; //Sets goal equal to the input level
         }
     }
@@ -67,4 +65,21 @@ public class Elevator {
      * @return The current level of the Elevator
      */
     public static int getLevel() { return level; }
+
+    private static void PI(double set) {
+
+        error = setpoint - robotMap.encoderPivotTwoEnc.get();
+        integral += error*.02;
+        if(integral > integrator_limit) {
+            integral = integrator_limit;
+        } else if(integral < -integrator_limit) {
+            integral = -integrator_limit;
+        }
+        drive = (P * error + I * integral /*+ D * derivative*/) / 100.0;
+        if(drive > 0.3) {
+            drive = .3;
+        } else if (drive < -.3) {
+            drive = -.3;
+        }
+    }
 }

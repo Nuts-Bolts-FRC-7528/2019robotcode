@@ -8,7 +8,7 @@ import frc.robot.common.robotMap;
 public class CargoCatch {
     private static double drive, setpoint = 0;
     private static boolean terminate = true;
-    private static double integral, error, derivative, previous_error = 0;
+    private static double integral, error = 0;
 
 
     //NEVER SET P,I, OR D > 1,
@@ -18,23 +18,22 @@ public class CargoCatch {
     private static final double I = 1; //Integrator Constant
     private static final double D = 0.5; //Derivative Constant
     private static final double integrator_limit = 1.0; //Used to prevent integrator windup
-    private static final double multiply = 0.5;
-
-    private static final int[] LEVELS = {0,20,100,200};
-    private static int currentIndex = 0;
 
     /**
      * Is called by teleopPeriodic. Handles iterative logic for the arm.
      */
     public static void iterate() {
         if(!terminate) {
-            PID(setpoint);
-            System.out.println("Encoder value: " + robotMap.encoderPivotTwoEnc.get());
+            PI(setpoint);
+            /*System.out.println("Encoder value: " + robotMap.encoderPivotTwoEnc.get());
             System.out.println("Encoder rate: " + robotMap.encoderPivotTwoEnc.getRate());
             System.out.println("Drive value: " + drive);
             System.out.println("Integral: " + integral);
             System.out.println("Derivative: " + derivative);
-            System.out.println("**********");
+            System.out.println("**********");*/
+            if(setpoint < 10) {
+                setpoint = 10;
+            }
             robotMap.cargoPivotOne.set(drive);
             robotMap.cargoPivotTwo.set(drive);
         }
@@ -66,24 +65,15 @@ public class CargoCatch {
      * too much oscillation with the PI loop and thus decided to add the derivative
      * @param set The current setpoint
      */
-    private static void PID(double set) {
-        
-        //if(holdPosition) {
-          //  error = 0 - robotMap.encoderPivotOneEnc.getRate();
-        //} else {
-            error = setpoint - robotMap.encoderPivotTwoEnc.get();
-          //  if (error < 5) {
-            //    holdPosition = true;
-            //}
-        //}
+    private static void PI(double set) {
+
+        error = setpoint - robotMap.encoderPivotTwoEnc.get();
         integral += error*.02;
         if(integral > integrator_limit) {
             integral = integrator_limit;
         } else if(integral < -integrator_limit) {
             integral = -integrator_limit;
         }
-        derivative = (error - previous_error)/.02;
-        previous_error = error;
         drive = (P * error + I * integral /*+ D * derivative*/) / 100.0;
         if(drive > 0.8) { 
             drive = .2;

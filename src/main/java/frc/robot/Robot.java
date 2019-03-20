@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -36,6 +37,7 @@ public class Robot extends TimedRobot{
         //autoChooser = new SendableChooser<AutoModeExecutor>(); //Sets a new chooser on the driver station for auto mode selection
         //autoChooser.addOption("Move Forward auto", new AutoModeExecutor(new MoveForwardAuto())); //Adds the move forward auto autmode to the chooser
 
+        CameraServer.getInstance().startAutomaticCapture();
         //SmartDashboard.putData("Select Automode: ",autoChooser);
         //solenoid.set(DoubleSolenoid.Value.kReverse);
         //solenoid.set(DoubleSolenoid.Value.kOff);
@@ -59,8 +61,9 @@ public class Robot extends TimedRobot{
     @Override
     public void teleopInit(){
         //auto.stop();
-        Elevator.reset();
+        //Elevator.reset();
         CargoCatch.setTerminate(false);
+        CargoCatch.reset();
         //robotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
         //autoChooser.getSelected().stop(); //Stops the automode
     }
@@ -98,7 +101,7 @@ public class Robot extends TimedRobot{
         }
         robotMap.cargoIntake.set(OI.manipulatorContoller.getY(GenericHID.Hand.kLeft));
 
-
+        //Elevator.iterate();
 
         m_drive.arcadeDrive((-OI.driveJoystick.getY()),(OI.driveJoystick.getX())); //Drives the robot arcade style using the joystick
         //We suspect that there may be an issue with the Joystick, b/c it is inverted/reversed. We resolved this by flipping Y,X to X,Y and putting a negative on Y.
