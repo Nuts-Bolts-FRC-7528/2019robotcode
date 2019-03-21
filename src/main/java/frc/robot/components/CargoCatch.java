@@ -41,7 +41,7 @@ public class CargoCatch {
 
     public static void reset() {
         setpoint = 0;
-        robotMap.encoderPivotTwoEnc.reset();
+        robotMap.encoderPivotTwo.reset();
     }
 
     /**
@@ -67,7 +67,7 @@ public class CargoCatch {
      */
     private static void PI(double set) {
 
-        error = setpoint - robotMap.encoderPivotTwoEnc.get();
+        error = setpoint - robotMap.encoderPivotTwo.get();
         integral += error*.02;
         if(integral > integrator_limit) {
             integral = integrator_limit;

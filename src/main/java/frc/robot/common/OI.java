@@ -15,5 +15,5 @@ public class OI {
     /**
      * The gamepad that our manipulator pilot uses. While not an actual xbox controller, the button bindings all match
      */
-    public static final XboxController manipulatorContoller = new XboxController(1);
+    public static final XboxController manipulatorController = new XboxController(1);
 }

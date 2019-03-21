@@ -17,7 +17,7 @@ public class Elevator {
     public static void reset() {
         level = 1;
         goal = 1;
-        //robotMap.elevatorEncoder.reset();
+        robotMap.elevatorEncoder.reset();
     }
 
     /**
@@ -33,11 +33,11 @@ public class Elevator {
             goal = 1; //If it is, reset to lowest possible level
         }
         setSetpoint();
-        PI(setpoint);
+        PI();
 
         //robotMap.elevator.set(drive);
 
-        System.out.println("Encoder value: " + robotMap.encoderPivotTwoEnc.get());
+        System.out.println("Encoder value: " + robotMap.elevatorEncoder.get());
         System.out.println("Drive value: " + drive);
         System.out.println("Integral: " + integral);
         System.out.println("**********");
@@ -66,9 +66,9 @@ public class Elevator {
      */
     public static int getLevel() { return level; }
 
-    private static void PI(double set) {
+    private static void PI() {
 
-        error = setpoint - robotMap.encoderPivotTwoEnc.get();
+        error = setpoint - robotMap.elevatorEncoder.get();
         integral += error*.02;
         if(integral > integrator_limit) {
             integral = integrator_limit;
@@ -76,8 +76,8 @@ public class Elevator {
             integral = -integrator_limit;
         }
         drive = (P * error + I * integral /*+ D * derivative*/) / 100.0;
-        if(drive > 0.3) {
-            drive = .3;
+        if(drive > 0.4) {
+            drive = .4;
         } else if (drive < -.3) {
             drive = -.3;
         }

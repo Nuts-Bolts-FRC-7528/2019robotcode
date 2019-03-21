@@ -61,7 +61,7 @@ public class Robot extends TimedRobot{
     @Override
     public void teleopInit(){
         //auto.stop();
-        //Elevator.reset();
+        Elevator.reset();
         CargoCatch.setTerminate(false);
         CargoCatch.reset();
         //robotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
@@ -78,8 +78,8 @@ public class Robot extends TimedRobot{
 
 
         //if(robotMap.solenoid.get() == Value.kReverse){
-            robotMap.elevator.setSpeed(OI.manipulatorContoller.getY(GenericHID.Hand.kRight)*.5); //Elevator Motor (throttle limited to 60%)
-            //Elevator.iterate();
+            robotMap.elevator.setSpeed(OI.manipulatorController.getY(GenericHID.Hand.kRight)*.5); //Elevator Motor (throttle limited to 60%)
+            Elevator.iterate();
         //}
         if(OI.driveJoystick.getRawButtonPressed(7)){ //If joystick button 7 is pressed
             Elevator.setGoal(3); //Sets the Elevator to level 3
@@ -93,13 +93,13 @@ public class Robot extends TimedRobot{
 
         CargoCatch.iterate();
 
-        if(OI.manipulatorContoller.getAButtonPressed()) {
+        if(OI.manipulatorController.getAButtonPressed()) {
             CargoCatch.setSetpoint(true);
         }
-        if(OI.manipulatorContoller.getBButtonPressed()) {
+        if(OI.manipulatorController.getBButtonPressed()) {
             CargoCatch.setSetpoint(false);
         }
-        robotMap.cargoIntake.set(OI.manipulatorContoller.getY(GenericHID.Hand.kLeft));
+        robotMap.cargoIntake.set(OI.manipulatorController.getY(GenericHID.Hand.kLeft) / 2);
 
         //Elevator.iterate();
 
@@ -111,12 +111,13 @@ public class Robot extends TimedRobot{
          */
         NetworkTableEntry centerCargo = table.getEntry("cargoCenterPix"); //Fetch the NetworkTableEntry of the centerPix of the cargo from the coprocesor
         NetworkTableEntry centerHatch = table.getEntry("hatchCenterPix");
-        int ballCenterPix = (int)centerCargo.getDouble(0); //Gets the actual number from the NetworkTableEntry
-        int hatchCenterPix = (int)centerHatch.getDouble(0);
+        int ballCenterPix = (int)centerCargo.getDouble(-1); //Gets the actual number from the NetworkTableEntry
+        int hatchCenterPix = (int)centerHatch.getDouble(-1);
 
         //CARGO ALIGNMENT
         if(OI.driveJoystick.getRawButton(2)) { //If thumb button is pressed
-            Drivetrain.align(ballCenterPix);
+            //Drivetrain.align(ballCenterPix);
+            System.out.println("BALL CENTER PIX: " + ballCenterPix);
         }
 
         //HATCH ALIGNMENT
@@ -128,18 +129,18 @@ public class Robot extends TimedRobot{
                 [PNEUMATICS]
          */
 
-        if (OI.manipulatorContoller.getBumperPressed(GenericHID.Hand.kLeft)){
+        if (OI.manipulatorController.getBumperPressed(GenericHID.Hand.kLeft)){
             //robotMap.solenoid.set(DoubleSolenoid.Value.kForward); //Solenoid goes forward when left bumper is pressed.
         }
 
-        if (OI.manipulatorContoller.getBumperReleased(GenericHID.Hand.kRight)){
+        if (OI.manipulatorController.getBumperReleased(GenericHID.Hand.kRight)){
             //robotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
            
         }
-        if(OI.manipulatorContoller.getXButtonPressed()){
+        if(OI.manipulatorController.getXButtonPressed()){
             //robotMap.solenoidBase.set(DoubleSolenoid.Value.kForward);
         }
-        if(OI.manipulatorContoller.getYButtonPressed()){
+        if(OI.manipulatorController.getYButtonPressed()){
             //robotMap.solenoidBase.set(DoubleSolenoid.Value.kReverse);
         }
         
@@ -147,7 +148,7 @@ public class Robot extends TimedRobot{
 
     @Override
     public void testPeriodic() {
-        robotMap.elevator.setSpeed(OI.manipulatorContoller.getY()*.6); //Elevator Motor (throttle limited to 60%)
+        robotMap.elevator.setSpeed(OI.manipulatorController.getY()*.6); //Elevator Motor (throttle limited to 60%)
         m_drive.arcadeDrive((-OI.driveJoystick.getY()),(OI.driveJoystick.getX())); //Drives the robot arcade style using the joystick
     }
 
