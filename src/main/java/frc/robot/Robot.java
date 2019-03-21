@@ -4,12 +4,11 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import frc.robot.auto.AutoModeExecutor;
 import frc.robot.common.OI;
 import frc.robot.common.robotMap;
 import frc.robot.components.CargoCatch;
@@ -22,50 +21,26 @@ public class Robot extends TimedRobot{
     private final SpeedControllerGroup m_right = new SpeedControllerGroup(robotMap.rightFrontDrive, robotMap.rightRearDrive);
     //Defines a SpeedControllerGroup for the right drive
     private final DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
-
     //Creates a DifferentialDrive using both SpeedControllerGroups
-    NetworkTable table; //This table is for object recognition
-    SendableChooser<AutoModeExecutor> autoChooser; //Creates a SendableChooser that allows drivers to select an automode
-    //private AutoModeExecutor auto;
 
-    
+    private NetworkTable table; //This table is for object recognition
     
     @Override
     public void robotInit() {
         NetworkTableInstance ntinst = NetworkTableInstance.getDefault(); //Gets global NetworkTable instance
         table = ntinst.getTable("vision"); //Gets vision table from vision coprocessor (Raspberry Pi)
-        //autoChooser = new SendableChooser<AutoModeExecutor>(); //Sets a new chooser on the driver station for auto mode selection
-        //autoChooser.addOption("Move Forward auto", new AutoModeExecutor(new MoveForwardAuto())); //Adds the move forward auto autmode to the chooser
-
         CameraServer.getInstance().startAutomaticCapture();
-        //SmartDashboard.putData("Select Automode: ",autoChooser);
-        //solenoid.set(DoubleSolenoid.Value.kReverse);
-        //solenoid.set(DoubleSolenoid.Value.kOff);
     }
 
     @Override
     public void autonomousInit() {
-        //auto = new AutoModeExecutor(new MoveForwardAuto());
-        //auto.start();
-        //autoChooser.getSelected().start(); //Starts the selected automode
+        Elevator.reset(); //Reset elevator position and encoder
+        CargoCatch.reset(); //Reset manipulator position and encoder
     }
 
     @Override
     public void autonomousPeriodic() {
-        if(OI.driveJoystick.getRawButton(12)) { //Aborts the automode if button 12 is pressed
-            //auto.stop();
-            //autoChooser.getSelected().stop();
-        }
-    }
-
-    @Override
-    public void teleopInit(){
-        //auto.stop();
-        Elevator.reset();
-        CargoCatch.setTerminate(false);
-        CargoCatch.reset();
-        //robotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
-        //autoChooser.getSelected().stop(); //Stops the automode
+        teleopPeriodic(); //Run all normal teleop functions
     }
 
     @Override
@@ -75,12 +50,10 @@ public class Robot extends TimedRobot{
         /*
                 [ROBOT DRIVING]
          */
+        m_drive.arcadeDrive((-OI.driveJoystick.getY()),(OI.driveJoystick.getX())); //Actually drives the robot. Uses the joystick.
+        //We suspect that there may be an issue with the Joystick, b/c it is inverted/reversed. We resolved this by flipping Y,X to X,Y and putting a negative on Y
+        robotMap.elevator.setSpeed(OI.manipulatorController.getY(GenericHID.Hand.kRight)*.5); //Allows manual control of the elevator
 
-
-        //if(robotMap.solenoid.get() == Value.kReverse){
-            robotMap.elevator.setSpeed(OI.manipulatorController.getY(GenericHID.Hand.kRight)*.5); //Elevator Motor (throttle limited to 60%)
-            Elevator.iterate();
-        //}
         if(OI.driveJoystick.getRawButtonPressed(7)){ //If joystick button 7 is pressed
             Elevator.setGoal(3); //Sets the Elevator to level 3
         }
@@ -91,69 +64,71 @@ public class Robot extends TimedRobot{
             Elevator.setGoal(1); //Sets the Elevator to level 1
         }
 
-        CargoCatch.iterate();
-
-        if(OI.manipulatorController.getAButtonPressed()) {
-            CargoCatch.setSetpoint(true);
+        if(OI.manipulatorController.getAButtonPressed()) { //If A button is pressed...
+            CargoCatch.setSetpoint(true); //...go down
         }
-        if(OI.manipulatorController.getBButtonPressed()) {
-            CargoCatch.setSetpoint(false);
+        if(OI.manipulatorController.getBButtonPressed()) { //If B button is pressed...
+            CargoCatch.setSetpoint(false); //...go up
         }
-        robotMap.cargoIntake.set(OI.manipulatorController.getY(GenericHID.Hand.kLeft) / 2);
+        robotMap.cargoIntake.set(OI.manipulatorController.getY(GenericHID.Hand.kLeft) / 2); //Run the intake wheels
 
-        //Elevator.iterate();
-
-        m_drive.arcadeDrive((-OI.driveJoystick.getY()),(OI.driveJoystick.getX())); //Drives the robot arcade style using the joystick
-        //We suspect that there may be an issue with the Joystick, b/c it is inverted/reversed. We resolved this by flipping Y,X to X,Y and putting a negative on Y.
+        Elevator.iterate(); //Update where the elevator should be
+        CargoCatch.iterate(); //Update where the cargo manipulator should be
 
         /*
                 [OBJECT RECOGNITION]
          */
         NetworkTableEntry centerCargo = table.getEntry("cargoCenterPix"); //Fetch the NetworkTableEntry of the centerPix of the cargo from the coprocesor
-        NetworkTableEntry centerHatch = table.getEntry("hatchCenterPix");
-        int ballCenterPix = (int)centerCargo.getDouble(-1); //Gets the actual number from the NetworkTableEntry
-        int hatchCenterPix = (int)centerHatch.getDouble(-1);
+        NetworkTableEntry centerHatch = table.getEntry("hatchCenterPix"); //Fetch NetworkTableEntry for center pixel of hatch
+        NetworkTableEntry centerTargets = table.getEntry("vtCenterPix"); //Fetch NetworkTablEntry for center pixel of vision targets
+        int ballCenterPix = (int)centerCargo.getDouble(-1); //Gets the actual number from the cargo NetworkTableEntry
+        int hatchCenterPix = (int)centerHatch.getDouble(-1); //Gets the actual number from the hatch NetworkTableEntry
+        int vtCenterPix = (int)centerTargets.getDouble(-1); //Gets the actual number from the vision targets NetworkTableEntry
 
         //CARGO ALIGNMENT
         if(OI.driveJoystick.getRawButton(2)) { //If thumb button is pressed
-            //Drivetrain.align(ballCenterPix);
-            System.out.println("BALL CENTER PIX: " + ballCenterPix);
+            Drivetrain.align(ballCenterPix); //Align to cargo
         }
 
         //HATCH ALIGNMENT
-        if(OI.driveJoystick.getRawButton(3)) {
-            Drivetrain.align(hatchCenterPix);
+        if(OI.driveJoystick.getRawButton(3)) { //If button 3 is pressed
+            Drivetrain.align(hatchCenterPix); //Align to hatch
+        }
+
+        //VISION TARGET ALIGNMENT
+        if(OI.driveJoystick.getRawButton(1)) { //If trigger is pressed
+            Drivetrain.align(vtCenterPix); //Align to vision targets
         }
 
         /*
                 [PNEUMATICS]
          */
 
-        if (OI.manipulatorController.getBumperPressed(GenericHID.Hand.kLeft)){
-            //robotMap.solenoid.set(DoubleSolenoid.Value.kForward); //Solenoid goes forward when left bumper is pressed.
-        }
+        if(CargoCatch.getSetpoint() < 20) { //If cargo manipulator is trying to go up
+            if (OI.manipulatorController.getBumperPressed(GenericHID.Hand.kLeft)) { //If left bumper pressed
+                robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); //Push out hatch catching solenoid
+            }
 
-        if (OI.manipulatorController.getBumperReleased(GenericHID.Hand.kRight)){
-            //robotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
-           
+            if (OI.manipulatorController.getBumperReleased(GenericHID.Hand.kRight)) {
+                robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse);
+            }
+
+            if (OI.manipulatorController.getPOV() == 0) {
+                robotMap.hatchPushOne.set(DoubleSolenoid.Value.kForward);
+                robotMap.hatchPushTwo.set(DoubleSolenoid.Value.kForward);
+            }
+
+            if (OI.manipulatorController.getPOV() == 180) {
+                robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse);
+                robotMap.hatchPushTwo.set(DoubleSolenoid.Value.kReverse);
+            }
         }
-        if(OI.manipulatorController.getXButtonPressed()){
-            //robotMap.solenoidBase.set(DoubleSolenoid.Value.kForward);
-        }
-        if(OI.manipulatorController.getYButtonPressed()){
-            //robotMap.solenoidBase.set(DoubleSolenoid.Value.kReverse);
-        }
-        
     }
+
 
     @Override
     public void testPeriodic() {
         robotMap.elevator.setSpeed(OI.manipulatorController.getY()*.6); //Elevator Motor (throttle limited to 60%)
         m_drive.arcadeDrive((-OI.driveJoystick.getY()),(OI.driveJoystick.getX())); //Drives the robot arcade style using the joystick
-    }
-
-    @Override
-    public void disabledPeriodic() {
-        CargoCatch.setTerminate(true);
     }
 }

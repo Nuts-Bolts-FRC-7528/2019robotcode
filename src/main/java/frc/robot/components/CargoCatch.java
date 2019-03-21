@@ -11,34 +11,34 @@ public class CargoCatch {
     private static double integral, error = 0;
 
 
-    //NEVER SET P,I, OR D > 1,
-    // b/c iterate every 0.02 seconds == exponential change in acceleration
-    // == breaks robot
+    //Be careful setting the proportional or integral constants > 1
+    //This can cause the manipulator to violently flop and potentially
+    //damage itself
     private static final double P = 0.8; //Proportional Constant
     private static final double I = 1; //Integrator Constant
-    private static final double D = 0.5; //Derivative Constant
     private static final double integrator_limit = 1.0; //Used to prevent integrator windup
 
     /**
      * Is called by teleopPeriodic. Handles iterative logic for the arm.
      */
     public static void iterate() {
-        if(!terminate) {
-            PI(setpoint);
-            /*System.out.println("Encoder value: " + robotMap.encoderPivotTwoEnc.get());
-            System.out.println("Encoder rate: " + robotMap.encoderPivotTwoEnc.getRate());
-            System.out.println("Drive value: " + drive);
-            System.out.println("Integral: " + integral);
-            System.out.println("Derivative: " + derivative);
-            System.out.println("**********");*/
-            if(setpoint < 10) {
-                setpoint = 10;
-            }
-            robotMap.cargoPivotOne.set(drive);
-            robotMap.cargoPivotTwo.set(drive);
+        PI(); //Calculate control loop values
+        if(setpoint < 10) {
+            setpoint = 10; //Make sure the manipulator doesn't go *all* the way back, preventing the ball from being pushed out
         }
+        robotMap.cargoPivotOne.set(drive); //Drive pivot one based on the PI values
+        robotMap.cargoPivotTwo.set(drive); //Drive pivot two based on the PI values
     }
 
+    /**
+     * Accessor for the setpoint.
+     * @return The current setpoint
+     */
+    public static double getSetpoint() { return setpoint; }
+
+    /**
+     * Resets the current setpoint and the encoder for the arm
+     */
     public static void reset() {
         setpoint = 0;
         robotMap.encoderPivotTwo.reset();
@@ -49,36 +49,34 @@ public class CargoCatch {
      * @param down Whether to set the setpoint to go down (if true, it will attempt to go down)
      */
     public static void setSetpoint(boolean down) {
-        if(down && setpoint < 250) {
-            setpoint += 60;
-        } else if (!down && setpoint > 0) {
-            setpoint -= 60;
+        if(down && setpoint < 250) { //If we want to go down AND we are not all the way down
+            setpoint += 60; //Go down by 60 encoder ticks
+        } else if (!down && setpoint > 0) { //If we want to go up AND we are not all the way up
+            setpoint -= 60; //Go up by 60 encoder ticks
         }
-    }
-
-    public static void setTerminate(boolean t) {
-        terminate = t;
     }
 
     /**
-     * Handles the actual PID logic for the arm. While full PID is usually not necessary, we were getting
-     * too much oscillation with the PI loop and thus decided to add the derivative
-     * @param set The current setpoint
+     * Runs the calculations for the PI loop based on the
+     * current setpoint and the current encoder value
      */
-    private static void PI(double set) {
+    private static void PI() {
 
-        error = setpoint - robotMap.encoderPivotTwo.get();
-        integral += error*.02;
-        if(integral > integrator_limit) {
-            integral = integrator_limit;
-        } else if(integral < -integrator_limit) {
-            integral = -integrator_limit;
+        //PI = P * error + I * (previous error)
+        //Where P and I are constants and error is the difference between the setpoint and the current position
+
+        error = setpoint - robotMap.encoderPivotTwo.get(); //Set error to the difference of the setpoint and the current position
+        integral += error*.02; //Calculate integral sum
+        if(integral > integrator_limit) { //If the integral is too high...
+            integral = integrator_limit; //Set it to the intergrator limit
+        } else if(integral < -integrator_limit) { //Else if the integral is too low...
+            integral = -integrator_limit; //Set it to -integrator
         }
-        drive = (P * error + I * integral /*+ D * derivative*/) / 100.0;
-        if(drive > 0.8) { 
-            drive = .2;
-        } else if (drive < -.8) {
-            drive = -.6;
+        drive = (P * error + I * integral) / 100.0; //Calculate the PI loop based on the above equation
+        if(drive > 0.8) { //If we want to go forward too fast...
+            drive = .2; //...limit it to 20% power
+        } else if (drive < -.8) { //Else we want to go backwards too fast...
+            drive = -.6; //...limit it to -60% power
         }
     }
 }
