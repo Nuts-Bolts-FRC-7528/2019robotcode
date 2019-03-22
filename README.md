@@ -1,6 +1,6 @@
 # 2019robotcode
 
-This repository consists of FRC 7528's code for our 2019 robot, x. X's code is written in Java and is based off of the WPILib framework. It was written using IntelliJ IDEA and VSCode. This README file explains setup instructions, a breakdown of what each package does, as well as acknowledgments.
+This repository consists of FRC 7528's code for our 2019 robot. Our code is written in Java and is based off of the WPILib framework. It was written using IntelliJ IDEA and VSCode. This README file explains setup instructions, a breakdown of what each package does, as well as acknowledgments.
 
 **Also See:** The repository [2019Vision](https://github.com/Uberlyuber/2019Vision), which contains the source code ran on our vision coprocessor. It was successfully able to track the hatch and the cargo.
 
