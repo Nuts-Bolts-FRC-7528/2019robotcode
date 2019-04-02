@@ -15,7 +15,7 @@ public class CargoCatch {
     //This can cause the manipulator to violently flop and potentially
     //damage itself
     private static final double P = 0.8; //Proportional Constant
-    private static final double I = 1; //Integrator Constant
+    private static final double I = .8; //Integrator Constant
     private static final double integrator_limit = 1.0; //Used to prevent integrator windup
 
     /**

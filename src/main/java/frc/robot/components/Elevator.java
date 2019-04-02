@@ -35,7 +35,7 @@ public class Elevator {
         setSetpoint();
         PI();
 
-        robotMap.elevator.set(drive);
+//        robotMap.elevator.set(drive);
     }
 
     /**

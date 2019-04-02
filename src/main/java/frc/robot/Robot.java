@@ -1,13 +1,9 @@
 package frc.robot;
 
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.common.OI;
 import frc.robot.common.robotMap;
@@ -104,7 +100,7 @@ public class Robot extends TimedRobot{
                 [PNEUMATICS]
          */
 
-        if(CargoCatch.getSetpoint() < 20) { //If cargo manipulator is trying to go up
+        /*if(CargoCatch.getSetpoint() < 20) { //If cargo manipulator is trying to go up
             if (OI.manipulatorController.getBumperPressed(GenericHID.Hand.kLeft)) { //If left bumper pressed
                 robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); //Push out hatch catching solenoid
             }
@@ -122,7 +118,12 @@ public class Robot extends TimedRobot{
                 robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse);
                 robotMap.hatchPushTwo.set(DoubleSolenoid.Value.kReverse);
             }
-        }
+        }*/
+    }
+
+    @Override
+    public void robotPeriodic() {
+//        System.out.println("Right analog stick: " + OI.manipulatorController.getY(GenericHID.Hand.kRight) * .5);
     }
 
 
