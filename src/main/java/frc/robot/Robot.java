@@ -4,7 +4,6 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -66,9 +65,12 @@ public class Robot extends TimedRobot{
 
         if(OI.manipulatorController.getAButtonPressed()) { //If A button is pressed...
             CargoCatch.setSetpoint(true); //...go down
+            robotMap.cargoIntake.set(-.5); // initiate intake w/ down
         }
         if(OI.manipulatorController.getBButtonPressed()) { //If B button is pressed...
             CargoCatch.setSetpoint(false); //...go up
+            robotMap.cargoIntake.set(-.1); // initiate intake w/ up for added safety in Cargo hold
+            // :)
         }
         robotMap.cargoIntake.set(OI.manipulatorController.getY(GenericHID.Hand.kLeft) / 2); //Run the intake wheels
 
@@ -104,6 +106,7 @@ public class Robot extends TimedRobot{
                 [PNEUMATICS]
          */
 
+        /*
         if(CargoCatch.getSetpoint() < 20) { //If cargo manipulator is trying to go up
             if (OI.manipulatorController.getBumperPressed(GenericHID.Hand.kLeft)) { //If left bumper pressed
                 robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); //Push out hatch catching solenoid
@@ -123,6 +126,7 @@ public class Robot extends TimedRobot{
                 robotMap.hatchPushTwo.set(DoubleSolenoid.Value.kReverse);
             }
         }
+        */
     }
 
 

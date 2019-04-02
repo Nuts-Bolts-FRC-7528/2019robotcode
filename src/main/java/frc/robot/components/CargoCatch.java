@@ -15,7 +15,7 @@ public class CargoCatch {
     //This can cause the manipulator to violently flop and potentially
     //damage itself
     private static final double P = 0.8; //Proportional Constant
-    private static final double I = 1; //Integrator Constant
+    private static final double I = 0.08; //Integrator Constant
     private static final double integrator_limit = 1.0; //Used to prevent integrator windup
 
     /**
@@ -73,7 +73,7 @@ public class CargoCatch {
             integral = -integrator_limit; //Set it to -integrator
         }
         drive = (P * error + I * integral) / 100.0; //Calculate the PI loop based on the above equation
-        if(drive > 0.8) { //If we want to go forward too fast...
+        if(drive > 0.2) { //If we want to go forward too fast...
             drive = .2; //...limit it to 20% power
         } else if (drive < -.8) { //Else we want to go backwards too fast...
             drive = -.6; //...limit it to -60% power

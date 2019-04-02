@@ -35,7 +35,13 @@ public class Elevator {
         setSetpoint();
         PI();
 
-        robotMap.elevator.set(drive);
+        System.out.println("*****");
+        System.out.println("Setpoint: " + setpoint);
+        System.out.println("Drive Value: " + drive);
+        System.out.println("Integral: " + integral);
+        System.out.println("Encoder Value" + robotMap.elevatorEncoder.get());
+
+        //robotMap.elevator.set(drive);
     }
 
     /**
