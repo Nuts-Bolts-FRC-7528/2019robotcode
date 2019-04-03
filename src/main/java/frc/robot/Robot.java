@@ -3,7 +3,9 @@ package frc.robot;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.common.OI;
 import frc.robot.common.robotMap;
@@ -25,7 +27,7 @@ public class Robot extends TimedRobot{
     public void robotInit() {
         NetworkTableInstance ntinst = NetworkTableInstance.getDefault(); //Gets global NetworkTable instance
         table = ntinst.getTable("vision"); //Gets vision table from vision coprocessor (Raspberry Pi)
-        CameraServer.getInstance().startAutomaticCapture();
+       //getInstance().startAutomaticCapture();
     }
 
     @Override
