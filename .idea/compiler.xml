@@ -4,6 +4,8 @@
     <bytecodeTargetLevel>
       <module name="2019robotcode.main" target="11" />
       <module name="2019robotcode.test" target="11" />
+      <module name="GitHub.2019robotcode.main" target="11" />
+      <module name="GitHub.2019robotcode.test" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -1,9 +1,10 @@
 package frc.robot.components;
 
+import frc.robot.Robot;
 import frc.robot.common.OI;
 import frc.robot.common.robotMap;
 
-import static frc.robot.Robot.toggleOn;
+import static frc.robot.Robot.*;
 
 /**
  * Creates a PID loop for the pivoting cargo arm.
@@ -84,16 +85,17 @@ public class CargoCatch {
      * @param down Whether to set the setpoint to go down (if true, it will attempt to go down)
      */
     public static void setSetpoint(boolean down) {
-         int set = 480;
+        int set = 480;
         if (down && setpoint < 520) { //If we want to go down AND we are not all the way down
             setpoint += set; //Go down by 60 encoder ticks
-            if ( setpoint > 520)
+            if (setpoint > 520)
                 setpoint = 520;
         } else if (!down && setpoint > 0) { //If we want to go up AND we are not all the way up
             setpoint -= set; //Go up by 60 encoder ticks
             if (setpoint < 0)
                 setpoint = 0;
         }
+//        robotMap.cargoIntake.set(0.5);
     }
 
     /**
@@ -126,16 +128,26 @@ public class CargoCatch {
         }
     }
 
-    public static void updateToggle()
-    {
-        if(OI.manipulatorController.getAButtonPressed()) {
-            if (!frc.robot.Robot.togglePressed) {
-                toggleOn = !toggleOn;
-                frc.robot.Robot.togglePressed = true;
+    public static void updateToggleAButton() {
+        if (OI.manipulatorController.getAButtonPressed()) {
+            if (!Robot.togglePressedAButton) {
+                toggleOnAButton = !toggleOnAButton;
+                Robot.togglePressedAButton = true;
             }
-        }else{
-            frc.robot.Robot.togglePressed = false;
+        } else {
+            Robot.togglePressedAButton = false;
         }
 
+    }
+
+    public static void updateToggleBButton() {
+        if (OI.manipulatorController.getBButtonPressed()) {
+            if (!Robot.togglePressedBButton) {
+                toggleOnBButton = !togglePressedBButton;
+                togglePressedAButton = true;
+            }
+        } else {
+            togglePressedBButton = false;
+        }
     }
 }
