@@ -43,7 +43,7 @@ public class Robot extends TimedRobot{
 
     @Override
     public void teleopInit(){
-        CargoCatch.reset(); //Temporary resest for easy testing of PID loop(so we don't have to reset robot code everytime we enable)
+        CargoCatch.reset(); //Temporary reset for easy testing of PID loop(so we don't have to reset robot code everytime we enable)
     }
     @Override
     public void teleopPeriodic(){ //Happens roughly every 1/20th of a second while teleop is active
