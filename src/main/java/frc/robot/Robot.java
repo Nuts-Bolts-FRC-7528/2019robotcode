@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -133,7 +134,7 @@ public class Robot extends TimedRobot {
                 [PNEUMATICS]
          */
 
-        /*if(CargoCatch.getSetpoint() < 20) { //If cargo manipulator is trying to go up
+        if(CargoCatch.getSetpoint() < 20) { //If cargo manipulator is trying to go up
             if (OI.manipulatorController.getBumperPressed(GenericHID.Hand.kLeft)) { //If left bumper pressed
                 robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); //Push out hatch catching solenoid
             }
@@ -144,14 +145,12 @@ public class Robot extends TimedRobot {
 
             if (OI.manipulatorController.getPOV() == 0) {
                 robotMap.hatchPushOne.set(DoubleSolenoid.Value.kForward);
-                robotMap.hatchPushTwo.set(DoubleSolenoid.Value.kForward);
             }
 
             if (OI.manipulatorController.getPOV() == 180) {
                 robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse);
-                robotMap.hatchPushTwo.set(DoubleSolenoid.Value.kReverse);
             }
-        }*/
+        }
     }
 
 
