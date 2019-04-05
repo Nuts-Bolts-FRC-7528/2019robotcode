@@ -1,10 +1,6 @@
 package frc.robot.components;
 
-import frc.robot.Robot;
-import frc.robot.common.OI;
 import frc.robot.common.robotMap;
-
-import static frc.robot.Robot.*;
 
 /**
  * Creates a PID loop for the pivoting cargo arm.
@@ -20,7 +16,7 @@ public class CargoCatch {
     //Be careful setting the proportional or integral constants > 1
     //This can cause the manipulator to violently flop and potentially
     //damage itself
-    private static final double P = 0.15; //Proportional Constant
+    private static final double P = .15; //Proportional Constant
     private static final double I = 0.1; //Integrator Constant
     private static final double integrator_limit = 1.0; //Used to prevent integrator windup
     private static final double D = 0.25; //Derivative Constant
@@ -30,8 +26,8 @@ public class CargoCatch {
      */
     public static void iterate() {
         PI(); //Calculate control loop values
-        if (setpoint < 10) {
-            setpoint = 10; //Make sure the manipulator doesn't go *all* the way back, preventing the ball from being pushed out
+        if (setpoint > -10) {
+            setpoint = -10; //Make sure the manipulator doesn't go *all* the way back, preventing the ball from being pushed out
         }
         robotMap.cargoPivotOne.set(upOrDown(drive)); //Drive pivot one based on the PI values
         robotMap.cargoPivotTwo.set(upOrDown(drive)); //Drive pivot two based on the PI values
@@ -53,12 +49,15 @@ public class CargoCatch {
 
 
     public static double upOrDown(double drive) {
-        if (drive > 0)
+        if (drive > 0.0)
             drive *= .6; //0.3; //Sets drive lower if the maniuplator is going down (compensates for gravity)
-        else if (drive < 0)
-            drive *= 1.0; //Sets drive higher if the manipulator is going up
-        if (drive < 0.25 && drive > 0) // roughly the minimum amount for motor movement
+        else if (drive < 0.0) {
+            drive *= 1.0; //Sets drive higher if the manipulator is going up}}
+        }
+        if (drive < 0.25 && drive > .1) // roughly the minimum amount for motor movement
             drive = 0.25;
+        if (drive > -0.25 && drive < -0.1)
+            drive = -.25;
         return drive;
     }
 
@@ -75,8 +74,8 @@ public class CargoCatch {
      * Resets the current setpoint and the encoder for the arm
      */
     public static void reset() {
-        setpoint = 0;
-        robotMap.encoderPivotTwo.reset();
+        setpoint = -10;
+        robotMap.encoderPivotOne.reset();
     }
 
     /**
@@ -85,15 +84,14 @@ public class CargoCatch {
      * @param down Whether to set the setpoint to go down (if true, it will attempt to go down)
      */
     public static void setSetpoint(boolean down) {
-        int set = 480;
-        if (down && setpoint < 520) { //If we want to go down AND we are not all the way down
+        int set = -380;
+        if (down && setpoint > -520) { //If we want to go down AND we are not all the way down
             setpoint += set; //Go down by 60 encoder ticks
-            if (setpoint > 520)
-                setpoint = 520;
+            if (setpoint < -520)
+                setpoint = -520;
         } else if (!down && setpoint > 0) { //If we want to go up AND we are not all the way up
             setpoint -= set; //Go up by 60 encoder ticks
-            if (setpoint < 0)
-                setpoint = 0;
+
         }
 //        robotMap.cargoIntake.set(0.5);
     }
@@ -111,7 +109,7 @@ public class CargoCatch {
 //        derivative = currentValue - previousValue; //Sets derivative equal to change in last tick and current tick
 
         previousError = error;
-        error = setpoint - robotMap.encoderPivotTwo.get(); //Set error to the difference of the setpoint and the current position
+        error = -setpoint + robotMap.encoderPivotOne.get(); //Set error to the difference of the setpoint and the current position
         derivative = error - previousError;
 
         integral += error * .02; //Calculate integral sum
@@ -124,30 +122,30 @@ public class CargoCatch {
         if (drive > 0.8) { //If we want to go forward too fast...
             drive = .2; //...limit it to 20% power
         } else if (drive < -.8) { //Else we want to go backwards too fast...
-            drive = -.8; //...limit it to -80% power
+            drive = -.2; //...limit it to -80% power
         }
     }
-
-    public static void updateToggleAButton() {
-        if (OI.manipulatorController.getAButtonPressed()) {
-            if (!Robot.togglePressedAButton) {
-                toggleOnAButton = !toggleOnAButton;
-                Robot.togglePressedAButton = true;
-            }
-        } else {
-            Robot.togglePressedAButton = false;
-        }
-
-    }
-
-    public static void updateToggleBButton() {
-        if (OI.manipulatorController.getBButtonPressed()) {
-            if (!Robot.togglePressedBButton) {
-                toggleOnBButton = !togglePressedBButton;
-                togglePressedAButton = true;
-            }
-        } else {
-            togglePressedBButton = false;
-        }
-    }
+//
+//    public static void updateToggleAButton() {
+//        if (OI.manipulatorController.getAButtonPressed()) {
+//            if (!Robot.togglePressedAButton) {
+//                toggleOnAButton = !toggleOnAButton;
+//                Robot.togglePressedAButton = true;
+//            }
+//        } else {
+//            Robot.togglePressedAButton = false;
+//        }
+//
+//    }
+//
+//    public static void updateToggleBButton() {
+//        if (OI.manipulatorController.getBButtonPressed()) {
+//            if (!Robot.togglePressedBButton) {
+//                toggleOnBButton = !togglePressedBButton;
+//                togglePressedAButton = true;
+//            }
+//        } else {
+//            togglePressedBButton = false;
+//        }
+//    }
 }
