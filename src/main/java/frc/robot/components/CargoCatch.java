@@ -1,10 +1,6 @@
 package frc.robot.components;
 
-import frc.robot.Robot;
-import frc.robot.common.OI;
 import frc.robot.common.robotMap;
-
-import static frc.robot.Robot.*;
 
 /**
  * Creates a PID loop for the pivoting cargo arm.
@@ -144,26 +140,5 @@ public class CargoCatch {
         }
     }
 
-    public static void updateToggleAButton() {
-        if (OI.manipulatorController.getAButtonPressed()) {
-            if (!Robot.togglePressedAButton) {
-                toggleOnAButton = !toggleOnAButton;
-                Robot.togglePressedAButton = true;
-            }
-        } else {
-            Robot.togglePressedAButton = false;
-        }
-
     }
 
-    public static void updateToggleBButton() {
-        if (OI.manipulatorController.getBButtonPressed()) {
-            if (!Robot.togglePressedBButton) {
-                toggleOnBButton = !togglePressedBButton;
-                togglePressedAButton = true;
-            }
-        } else {
-            togglePressedBButton = false;
-        }
-    }
-}
