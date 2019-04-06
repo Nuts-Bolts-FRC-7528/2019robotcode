@@ -6,6 +6,7 @@ import frc.robot.common.robotMap;
  * Creates a PID loop for the pivoting cargo arm.
  */
 public class CargoCatch {
+
     public static boolean setInMotorPickUp = false;
     public static boolean setInMotorInBall = false;
     private static double drive, setpoint = 0;
@@ -21,15 +22,16 @@ public class CargoCatch {
     private static final double P = 0.15; //Proportional Constant
     private static final double I = 0.1; //Integrator Constant
     private static final double integrator_limit = 1.0; //Used to prevent integrator windup
-    private static final double D = 0.25; //Derivative Constant
+    private static final double D = 0.25; //Derivative Constant\
 
+    public static double MinSetpoint = 20;
     /**
      * Is called by teleopPeriodic. Handles iterative logic for the arm.
      */
     public static void iterate() {
         PI(); //Calculate control loop values
-        if (setpoint < 20) {
-            setpoint = 20; //Make sure the manipulator doesn't go *all* the way back, preventing the ball from being pushed out
+        if (setpoint < MinSetpoint) {
+            setpoint = MinSetpoint; //Make sure the manipulator doesn't go *all* the way back, preventing the ball from being pushed out
         }
         robotMap.cargoPivotOne.set(upOrDown(drive)); //Drive pivot one based on the PI values
         robotMap.cargoPivotTwo.set(upOrDown(drive)); //Drive pivot two based on the PI values
@@ -103,10 +105,10 @@ public class CargoCatch {
             setInMotorInBall = false;
             if (setpoint > 520)
                 setpoint = 520;
-        } else if (!down && setpoint > 20) { //If we want to go up AND we are not all the way up
+        } else if (!down && setpoint > MinSetpoint) { //If we want to go up AND we are not all the way up
             setpoint -= set; //Go up by 60 encoder ticks
-            if (setpoint < 20)
-                setpoint = 20;
+            if (setpoint < MinSetpoint)
+                setpoint = MinSetpoint;
             setInMotorPickUp = false;
             setInMotorInBall = true;
         }
