@@ -47,7 +47,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() { //Happens roughly every 1/20th of a second while teleop is active
-
+        boolean pistonExtended = false;
         /*
                 [ROBOT DRIVING]
          */
@@ -55,34 +55,46 @@ public class Robot extends TimedRobot {
         //We suspect that there may be an issue with the Joystick, b/c it is inverted/reversed. We resolved this by flipping Y,X to X,Y and putting a negative on Y
         robotMap.elevator.setSpeed(OI.manipulatorController.getY(GenericHID.Hand.kRight) * .5); //Allows manual control of the elevator
 
+        /*
+                [ELEVATOR USE]
+        */
+
         if (OI.driveJoystick.getRawButtonPressed(7)) { //If joystick button 7 is pressed
             Elevator.setGoal(3); //Sets the Elevator to level 3
         }
+
         if (OI.driveJoystick.getRawButtonPressed(9)) { //If joystick button 9 is pressed
             Elevator.setGoal(2); //Sets the Elevator to level 2
         }
+
         if (OI.driveJoystick.getRawButtonPressed(11)) { //If joystick button 11 is pressed
             Elevator.setGoal(1); //Sets the Elevator to level 1
         }
 
-        if (OI.manipulatorController.getAButtonPressed()) { //If A button is pressed...
-            CargoCatch.setSetpoint(true); //...go down
-        }
-        if (OI.manipulatorController.getBButtonPressed()) { //If B button is pressed...
-            CargoCatch.setSetpoint(false); //...go up
-        }
-        if (OI.manipulatorController.getXButtonPressed()) { //If X button is pressed
-            CargoCatch.xPressed = true; //Make intake pop out ball
-            CargoCatch.setInMotorInBall = false; //Prevent motors from sucking
-            CargoCatch.setInMotorPickUp = false; //Prevent motors from sucking x2
-        }
-        CargoCatch.xIsPressed();
+        /*
+                [MANIPULATOR USE]
+        */
 
+
+        if(!pistonExtended) {
+            if (OI.manipulatorController.getAButtonPressed()) { //If A button is pressed...
+                CargoCatch.setSetpoint(true); //...go down
+            }
+
+            if (OI.manipulatorController.getBButtonPressed()) { //If B button is pressed...
+                CargoCatch.setSetpoint(false); //...go up
+            }
+
+            if (OI.manipulatorController.getXButtonPressed()) { //If X button is pressed
+                CargoCatch.xPressed = true; //Make intake pop out ball
+                CargoCatch.setInMotorInBall = false; //Prevent motors from sucking
+                CargoCatch.setInMotorPickUp = false; //Prevent motors from sucking x2
+            }
+        }
 //            robotMap.cargoIntake.set(OI.manipulatorController.getY(GenericHID.Hand.kLeft) / 2);//Run the intake wheels
-            System.out.println(OI.manipulatorController.getY(GenericHID.Hand.kLeft) / 2);
+        System.out.println(OI.manipulatorController.getY(GenericHID.Hand.kLeft) / 2);
 
-
-
+        CargoCatch.xIsPressed();
         Elevator.iterate(); //Update where the elevator should be
         CargoCatch.iterate(); //Update where the cargo manipulator should be
 
@@ -115,21 +127,25 @@ public class Robot extends TimedRobot {
                 [PNEUMATICS]
          */
 
-        if (CargoCatch.getSetpoint() == CargoCatch.MinSetpoint) { //If cargo manipulator is trying to go up
+        if (CargoCatch.getSetpoint() == CargoCatch.MinSetpoint && robotMap.encoderPivotTwo.get() < 30) { //If cargo manipulator is trying to go up
             if (OI.manipulatorController.getBumperPressed(GenericHID.Hand.kLeft)) { //If left bumper pressed
                 robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); //Push out hatch catching solenoid
+                pistonExtended = true;
             }
 
-            if (OI.manipulatorController.getBumperReleased(GenericHID.Hand.kRight)) {
+            if (OI.manipulatorController.getBumperPressed(GenericHID.Hand.kRight)) {
                 robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse);
+                pistonExtended = true;
             }
 
             if (OI.manipulatorController.getPOV() == 0) {
                 robotMap.hatchPushOne.set(DoubleSolenoid.Value.kForward);
+                pistonExtended = true;
             }
 
             if (OI.manipulatorController.getPOV() == 180) {
                 robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse);
+                pistonExtended = false;
             }
         }
     }
