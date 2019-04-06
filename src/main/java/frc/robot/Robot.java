@@ -3,10 +3,7 @@ package frc.robot;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.common.OI;
 import frc.robot.common.robotMap;
@@ -28,7 +25,7 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         NetworkTableInstance ntinst = NetworkTableInstance.getDefault(); //Gets global NetworkTable instance
         table = ntinst.getTable("vision"); //Gets vision table from vision coprocessor (Raspberry Pi)
-        //getInstance().startAutomaticCapture();
+        CameraServer.getInstance().startAutomaticCapture(); //This likes to be red. Activates camera
     }
 
     @Override
@@ -74,7 +71,17 @@ public class Robot extends TimedRobot {
         if (OI.manipulatorController.getBButtonPressed()) { //If B button is pressed...
             CargoCatch.setSetpoint(false); //...go up
         }
-        robotMap.cargoIntake.set(OI.manipulatorController.getY(GenericHID.Hand.kLeft) / 2); //Run the intake wheels
+        if (OI.manipulatorController.getXButtonPressed()) { //If X button is pressed
+            CargoCatch.xPressed = true; //Make intake pop out ball
+            CargoCatch.setInMotorInBall = false; //Prevent motors from sucking
+            CargoCatch.setInMotorPickUp = false; //Prevent motors from sucking x2
+        }
+        CargoCatch.xIsPressed();
+
+//            robotMap.cargoIntake.set(OI.manipulatorController.getY(GenericHID.Hand.kLeft) / 2);//Run the intake wheels
+            System.out.println(OI.manipulatorController.getY(GenericHID.Hand.kLeft) / 2);
+
+
 
         Elevator.iterate(); //Update where the elevator should be
         CargoCatch.iterate(); //Update where the cargo manipulator should be

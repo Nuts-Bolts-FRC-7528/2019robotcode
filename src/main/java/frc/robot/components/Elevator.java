@@ -8,10 +8,11 @@ import frc.robot.common.robotMap;
 public class Elevator {
     private static int level = 1;
     private static int goal = 1;
-    private static double setpoint, error, integral, drive = 0;
+    private static double setpoint, error, integral, drive, derivative, previousError = 0;
 
-    private static final double P = 0.8; //Proportional Constant
-    private static final double I = 1; //Integrator Constant
+    private static final double P = 0; //Proportional Constant
+    private static final double I = 0; //Integrator Constant
+    private static final double D = 0; //Derivative Constant
     private static final double integrator_limit = 1.0; //Used to prevent integrator windup
 
     public static void reset() {
@@ -76,15 +77,17 @@ public class Elevator {
 
         //PI = P * error + I * (previous error)
         //Where P and I are constants and error is the difference between the setpoint and the current position
-
+        previousError = error;
         error = setpoint - robotMap.elevatorEncoder.get(); //Set error to the difference of the setpoint and the current position
+        derivative = error - previousError;
+
         integral += error*.02; //Calculate the integral sum
         if(integral > integrator_limit) { //If the integral is too high...
             integral = integrator_limit; //Set it to the integrator limit
         } else if(integral < -integrator_limit) { //Else if the integral is too low...
             integral = -integrator_limit; //...Set it to -integrator limit
         }
-        drive = (P * error + I * integral) / 100.0; //Calculate the PI loop based on the above equation
+        drive = (P * error + I * integral + D * derivative) / 100.0; //Calculate the PI loop based on the above equation
         if(drive > 0.6) { //If we want to go up too fast...
             drive = .6; //...limit it to 60% power
         } else if (drive < -.3) { //If we want to go down too fast...

@@ -9,6 +9,9 @@ public class CargoCatch {
 
     public static boolean setInMotorPickUp = false;
     public static boolean setInMotorInBall = false;
+    public static boolean xPressed = false;
+    public static int xTimer = 0;
+
     private static double drive, setpoint = 0;
     private static boolean terminate = true;
     private static double integral, error, derivative = 0;
@@ -19,10 +22,10 @@ public class CargoCatch {
     //Be careful setting the proportional or integral constants > 1
     //This can cause the manipulator to violently flop and potentially
     //damage itself
-    private static final double P = 0.15; //Proportional Constant
+    private static final double P = 0.1; //Proportional Constant
     private static final double I = 0.1; //Integrator Constant
+    private static final double D = 0.35; //Derivative Constant\
     private static final double integrator_limit = 1.0; //Used to prevent integrator windup
-    private static final double D = 0.25; //Derivative Constant\
 
     public static double MinSetpoint = 20;
     /**
@@ -43,11 +46,14 @@ public class CargoCatch {
         System.out.println("Elevator is @" + robotMap.elevatorEncoder.get());
         System.out.println("setInMotorPickUp " + setInMotorPickUp);
         System.out.println("setInMotorInBall " + setInMotorInBall);
-        if (setInMotorPickUp && !setInMotorInBall)
-            robotMap.cargoIntake.set(0.5);
-        else if (setInMotorInBall && !setInMotorPickUp);
-        robotMap.cargoIntake.set(0.15); // minimum for keeping the ball in is 0.15
-
+        if (setInMotorPickUp && !setInMotorInBall){
+            robotMap.cargoIntake.set(0.6);
+            System.out.println("Intake should be at 50%");
+        }
+        else if (setInMotorInBall && !setInMotorPickUp) {
+            robotMap.cargoIntake.set(0.15); // minimum for keeping the ball in is 0.15
+            System.out.println("Intake should be running at 15%");
+        }
     }
 
     /**
@@ -85,7 +91,7 @@ public class CargoCatch {
      * Resets the current setpoint and the encoder for the arm
      */
     public static void reset() {
-        setpoint = 0;
+        setpoint = MinSetpoint;
         robotMap.encoderPivotTwo.reset();
         setInMotorInBall = false;
         setInMotorPickUp = false;
@@ -97,16 +103,16 @@ public class CargoCatch {
      * @param down Whether to set the setpoint to go down (if true, it will attempt to go down)
      */
     public static void setSetpoint(boolean down) {
-        int set = 450;
+        int set = 420;
 
         if (down && setpoint < 520) { //If we want to go down AND we are not all the way down
-            setpoint += set;//Go down by 60 encoder ticks
+            setpoint += set;//Go down by 420 encoder ticks
             setInMotorPickUp = true;
             setInMotorInBall = false;
             if (setpoint > 520)
                 setpoint = 520;
         } else if (!down && setpoint > MinSetpoint) { //If we want to go up AND we are not all the way up
-            setpoint -= set; //Go up by 60 encoder ticks
+            setpoint -= set; //Go up by 420 encoder ticks
             if (setpoint < MinSetpoint)
                 setpoint = MinSetpoint;
             setInMotorPickUp = false;
@@ -123,9 +129,6 @@ public class CargoCatch {
 
         //PI = P * error + I * (previous error)
         //Where P and I are constants and error is the difference between the setpoint and the current position
-//        previousValue = currentValue; //sets previousValue equal to the old currentValue
-//        currentValue = robotMap.encoderPivotTwo.get(); //Sets a new currentValue equal to encoder input
-//        derivative = currentValue - previousValue; //Sets derivative equal to change in last tick and current tick
 
         previousError = error;
         error = setpoint - robotMap.encoderPivotTwo.get(); //Set error to the difference of the setpoint and the current position
@@ -142,6 +145,16 @@ public class CargoCatch {
             drive = .2; //...limit it to 20% power
         } else if (drive < -.8) { //Else we want to go backwards too fast...
             drive = -.8; //...limit it to -80% power
+        }
+    }
+    public static void xIsPressed(){
+        if(xPressed && xTimer < 41){ //If the X Button gets pressed and timer is les than 41
+            xTimer++; //Increment timer by 1
+            robotMap.cargoIntake.set(-0.6); //Set the motor to -0.6
+        }
+        else{ //Once timer goes over 41 ticks
+            xTimer = 0; //reset timer
+            xPressed = false; //reset xPressed
         }
     }
 
