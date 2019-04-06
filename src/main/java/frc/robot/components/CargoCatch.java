@@ -10,8 +10,8 @@ public class CargoCatch {
     public static boolean setInMotorInBall = false;
     private static double drive, setpoint = 0;
     private static boolean terminate = true;
-    private static double integral, error, derivative = 0;
-    private static double previousError = 0; //Derivative is based on finding the slope of our function.
+    private static double integral, error, derivative, previousError = 0;
+    //Derivative is based on finding the slope of our function.
     //Equation is (x2 - x1)/(y2 - y1) to find slope. In this case, teleopPeriodic is iterative so we only worry about the
     //x part of the equation
 
@@ -28,8 +28,8 @@ public class CargoCatch {
      */
     public static void iterate() {
         PI(); //Calculate control loop values
-        if (setpoint < 60) {
-            setpoint = 60; //Make sure the manipulator doesn't go *all* the way back, preventing the ball from being pushed out
+        if (setpoint < 30) {
+            setpoint = 30; //Make sure the manipulator doesn't go *all* the way back, preventing the ball from being pushed out
         }
         robotMap.cargoPivotOne.set(upOrDown(drive)); //Drive pivot one based on the PI values
         robotMap.cargoPivotTwo.set(upOrDown(drive)); //Drive pivot two based on the PI values

@@ -44,9 +44,12 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+        robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse);
+        robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse);
         CargoCatch.reset(); //Temporary reset for easy testing of PID loop(so we don't have to reset robot code everytime we enable)
     }
     
+    public static boolean hatchOut = false; //Boolean for if hatch manipulator is out
 
     @Override
     public void teleopPeriodic() { //Happens roughly every 1/20th of a second while teleop is active
@@ -68,14 +71,18 @@ public class Robot extends TimedRobot {
             Elevator.setGoal(1); //Sets the Elevator to level 1
         }
 
-        if (OI.manipulatorController.getAButtonPressed()) { //If A button is pressed...
-            CargoCatch.setSetpoint(true); //...go down
-        }
-        if (OI.manipulatorController.getBButtonPressed()) { //If B button is pressed...
-            CargoCatch.setSetpoint(false); //...go up
-        }
-        robotMap.cargoIntake.set(OI.manipulatorController.getY(GenericHID.Hand.kLeft) / 2); //Run the intake wheels
-
+//        if(!hatchOut) { //Doesn't let manipulator go down or up if hatch mechanism is doing stuff
+            if (OI.manipulatorController.getAButtonPressed()) { //If A button is pressed...
+                CargoCatch.setSetpoint(true); //...go down
+            }
+            if (OI.manipulatorController.getBButtonPressed()) { //If B button is pressed...
+                CargoCatch.setSetpoint(false); //...go up
+            }
+            robotMap.cargoIntake.set(OI.manipulatorController.getY(GenericHID.Hand.kLeft) / 2); //Run the intake wheels
+//        }
+//        else{
+//            System.out.println("Hatch Mechanism is out!!!");
+//        }
         Elevator.iterate(); //Update where the elevator should be
         CargoCatch.iterate(); //Update where the cargo manipulator should be
 
@@ -108,23 +115,28 @@ public class Robot extends TimedRobot {
                 [PNEUMATICS]
          */
 
-        if (CargoCatch.getSetpoint() < 20) { //If cargo manipulator is trying to go up
+        if (robotMap.encoderPivotTwo.get() < 30) { //If current manipulator position is less than 30 ticks
             if (OI.manipulatorController.getBumperPressed(GenericHID.Hand.kLeft)) { //If left bumper pressed
                 robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); //Push out hatch catching solenoid
+//                hatchOut = true; //sets hatchOut boolean to true, preventing the manipulator from going down or up
             }
 
-            if (OI.manipulatorController.getBumperReleased(GenericHID.Hand.kRight)) {
-                robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse);
+            if (OI.manipulatorController.getBumperReleased(GenericHID.Hand.kRight)) { //If right bumper pressed
+                robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse); //Suck hatch mechanism back in
+//                hatchOut = false;
             }
 
             if (OI.manipulatorController.getPOV() == 0) {
                 robotMap.hatchPushOne.set(DoubleSolenoid.Value.kForward);
+//                hatchOut = true;
             }
 
             if (OI.manipulatorController.getPOV() == 180) {
                 robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse);
+//                hatchOut = true;
             }
         }
+
     }
 
 
