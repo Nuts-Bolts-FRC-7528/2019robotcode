@@ -10,7 +10,8 @@ import static frc.robot.Robot.*;
  * Creates a PID loop for the pivoting cargo arm.
  */
 public class CargoCatch {
-    public static boolean setInMotor = false;
+    public static boolean setInMotorPickUp = false;
+    public static boolean setInMotorInBall = false;
     private static double drive, setpoint = 0;
     private static boolean terminate = true;
     private static double integral, error, derivative = 0;
@@ -31,8 +32,8 @@ public class CargoCatch {
      */
     public static void iterate() {
         PI(); //Calculate control loop values
-        if (setpoint < 10) {
-            setpoint = 10; //Make sure the manipulator doesn't go *all* the way back, preventing the ball from being pushed out
+        if (setpoint < 20) {
+            setpoint = 20; //Make sure the manipulator doesn't go *all* the way back, preventing the ball from being pushed out
         }
         robotMap.cargoPivotOne.set(upOrDown(drive)); //Drive pivot one based on the PI values
         robotMap.cargoPivotTwo.set(upOrDown(drive)); //Drive pivot two based on the PI values
@@ -41,8 +42,10 @@ public class CargoCatch {
         System.out.println("Encoder1: " + robotMap.encoderPivotOne.get());
         System.out.println("Encoder2: " + robotMap.encoderPivotTwo.get());
         System.out.println("Setpoint is " + getSetpoint());
-        if (setInMotor)
+        if (setInMotorPickUp && !setInMotorInBall)
             robotMap.cargoIntake.set(0.5);
+        else if (setInMotorInBall && !setInMotorPickUp);
+            robotMap.cargoIntake.set(0.15); // minimum for keeping the ball in is 0.15
 
     }
 
@@ -63,7 +66,7 @@ public class CargoCatch {
             drive *= 1.0; //Sets drive higher if the manipulator is going up
 //        if (drive < 0.25 && drive > 0) // roughly the minimum amount for motor movement
 //            drive = 0.25;
-        
+
         return drive;
 
     }
@@ -83,7 +86,8 @@ public class CargoCatch {
     public static void reset() {
         setpoint = 0;
         robotMap.encoderPivotTwo.reset();
-        setInMotor = false;
+        setInMotorInBall = false;
+        setInMotorPickUp = false;
     }
 
     /**
@@ -96,14 +100,16 @@ public class CargoCatch {
 
         if (down && setpoint < 520) { //If we want to go down AND we are not all the way down
             setpoint += set;//Go down by 60 encoder ticks
-            setInMotor = true;
+            setInMotorPickUp = true;
+            setInMotorInBall = false;
             if (setpoint > 520)
                 setpoint = 520;
-        } else if (!down && setpoint > 0) { //If we want to go up AND we are not all the way up
+        } else if (!down && setpoint > 20) { //If we want to go up AND we are not all the way up
             setpoint -= set; //Go up by 60 encoder ticks
-            if (setpoint < 0)
-                setpoint = 0;
-            setInMotor = false;
+            if (setpoint < 20)
+                setpoint = 20;
+            setInMotorPickUp = false;
+            setInMotorInBall = true;
         }
 
     }
