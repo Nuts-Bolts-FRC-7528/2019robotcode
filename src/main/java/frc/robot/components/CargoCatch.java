@@ -1,10 +1,6 @@
 package frc.robot.components;
 
-import frc.robot.Robot;
-import frc.robot.common.OI;
 import frc.robot.common.robotMap;
-
-import static frc.robot.Robot.*;
 
 /**
  * Creates a PID loop for the pivoting cargo arm.
@@ -41,9 +37,15 @@ public class CargoCatch {
         System.out.println("Encoder1: " + robotMap.encoderPivotOne.get());
         System.out.println("Encoder2: " + robotMap.encoderPivotTwo.get());
         System.out.println("Setpoint is " + getSetpoint());
-        if (setInMotor)
+        if (setInMotor) {
             robotMap.cargoIntake.set(0.5);
-
+        }
+//        if (robotMap.encoderPivotTwo.get() > 80 && robotMap.encoderPivotTwo.get() < 600){ //possible code for having intake run while the manipulator is going up
+//            robotMap.cargoIntake.set(0.5);
+//        }
+//        else if (setpoint == 10){
+//            robotMap.cargoIntake.set(0.2);
+//        }
     }
 
     /**
@@ -95,12 +97,12 @@ public class CargoCatch {
         int set = 450;
 
         if (down && setpoint < 520) { //If we want to go down AND we are not all the way down
-            setpoint += set;//Go down by 60 encoder ticks
+            setpoint += set;//Go down by 4500 encoder ticks
             setInMotor = true;
             if (setpoint > 520)
                 setpoint = 520;
         } else if (!down && setpoint > 0) { //If we want to go up AND we are not all the way up
-            setpoint -= set; //Go up by 60 encoder ticks
+            setpoint -= set; //Go up by 450 encoder ticks
             if (setpoint < 0)
                 setpoint = 0;
             setInMotor = false;
@@ -138,26 +140,14 @@ public class CargoCatch {
         }
     }
 
-    public static void updateToggleAButton() {
-        if (OI.manipulatorController.getAButtonPressed()) {
-            if (!Robot.togglePressedAButton) {
-                toggleOnAButton = !toggleOnAButton;
-                Robot.togglePressedAButton = true;
-            }
-        } else {
-            Robot.togglePressedAButton = false;
-        }
-
-    }
-
-    public static void updateToggleBButton() {
-        if (OI.manipulatorController.getBButtonPressed()) {
-            if (!Robot.togglePressedBButton) {
-                toggleOnBButton = !togglePressedBButton;
-                togglePressedAButton = true;
-            }
-        } else {
-            togglePressedBButton = false;
-        }
-    }
+//   public static void cargoOut(){
+//        if(Robot.xIsPressed && Robot.timer < 41){
+//            Robot.timer++;
+//            robotMap.cargoIntake.set(-0.8);
+//        }
+//        else{
+//            Robot.xIsPressed = false;
+//            Robot.timer = 0;
+//        }
+//   }
 }
