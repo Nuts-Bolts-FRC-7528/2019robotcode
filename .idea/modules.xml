@@ -5,9 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/2019robotcode.iml" filepath="$PROJECT_DIR$/.idea/modules/2019robotcode.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/2019robotcode.main.iml" filepath="$PROJECT_DIR$/.idea/modules/2019robotcode.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/2019robotcode.test.iml" filepath="$PROJECT_DIR$/.idea/modules/2019robotcode.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/GitHub.2019robotcode.iml" filepath="$PROJECT_DIR$/.idea/modules/GitHub.2019robotcode.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/GitHub.2019robotcode.main.iml" filepath="$PROJECT_DIR$/.idea/modules/GitHub.2019robotcode.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/GitHub.2019robotcode.test.iml" filepath="$PROJECT_DIR$/.idea/modules/GitHub.2019robotcode.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/src/main/main.iml" filepath="$PROJECT_DIR$/src/main/main.iml" />
     </modules>
   </component>
