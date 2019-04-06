@@ -38,6 +38,9 @@ public class CargoCatch {
         System.out.println("Encoder1: " + robotMap.encoderPivotOne.get());
         System.out.println("Encoder2: " + robotMap.encoderPivotTwo.get());
         System.out.println("Setpoint is " + getSetpoint());
+        System.out.println("Elevator is @" + robotMap.elevatorEncoder.get());
+        System.out.println("setInMotorPickUp " + setInMotorPickUp);
+        System.out.println("setInMotorInBall " + setInMotorInBall);
         if (setInMotorPickUp && !setInMotorInBall)
             robotMap.cargoIntake.set(0.5);
         else if (setInMotorInBall && !setInMotorPickUp);

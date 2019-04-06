@@ -46,37 +46,11 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         CargoCatch.reset(); //Temporary reset for easy testing of PID loop(so we don't have to reset robot code everytime we enable)
     }
-
-    public static boolean toggleOnAButton = false;
-    public static boolean togglePressedAButton = false;
-    public static boolean toggleOnBButton = false;
-    public static boolean togglePressedBButton = false;
+    
 
     @Override
     public void teleopPeriodic() { //Happens roughly every 1/20th of a second while teleop is active
-        /*
-            Checks if AButton on manipulator controller was pressed previously
-            if it was pressed, engages CargoInTake motors
-            //only AButton for now, will work out B button later, skater
-         */
-//        frc.robot.components.CargoCatch.updateToggleAButton();
-//
-//        if (toggleOnAButton) {
-//            robotMap.cargoIntake.set(0.5);
-//        } else {
-//            robotMap.cargoIntake.set(0);
-//        }
-//        /*
-//        Checks if B Button is pressed
-//        if it was pressed, engages CargoIntake motos
-//         */
-//        frc.robot.components.CargoCatch.updateToggleBButton();
-//
-//        if (toggleOnBButton) {
-//            robotMap.cargoIntake.set(0.2);
-//        } else {
-//            robotMap.cargoIntake.set(0);
-//        }
+
         /*
                 [ROBOT DRIVING]
          */
