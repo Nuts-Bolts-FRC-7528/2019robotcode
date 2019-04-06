@@ -28,8 +28,8 @@ public class CargoCatch {
      */
     public static void iterate() {
         PI(); //Calculate control loop values
-        if (setpoint < 60) {
-            setpoint = 60; //Make sure the manipulator doesn't go *all* the way back, preventing the ball from being pushed out
+        if (setpoint < 20) {
+            setpoint = 20; //Make sure the manipulator doesn't go *all* the way back, preventing the ball from being pushed out
         }
         robotMap.cargoPivotOne.set(upOrDown(drive)); //Drive pivot one based on the PI values
         robotMap.cargoPivotTwo.set(upOrDown(drive)); //Drive pivot two based on the PI values
@@ -105,8 +105,8 @@ public class CargoCatch {
                 setpoint = 520;
         } else if (!down && setpoint > 20) { //If we want to go up AND we are not all the way up
             setpoint -= set; //Go up by 60 encoder ticks
-            if (setpoint < 60)
-                setpoint = 60;
+            if (setpoint < 20)
+                setpoint = 20;
             setInMotorPickUp = false;
             setInMotorInBall = true;
         }
