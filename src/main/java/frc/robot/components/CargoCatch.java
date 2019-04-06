@@ -10,6 +10,7 @@ import static frc.robot.Robot.*;
  * Creates a PID loop for the pivoting cargo arm.
  */
 public class CargoCatch {
+    public static boolean setInMotor = false;
     private static double drive, setpoint = 0;
     private static boolean terminate = true;
     private static double integral, error, derivative = 0;
@@ -40,6 +41,9 @@ public class CargoCatch {
         System.out.println("Encoder1: " + robotMap.encoderPivotOne.get());
         System.out.println("Encoder2: " + robotMap.encoderPivotTwo.get());
         System.out.println("Setpoint is " + getSetpoint());
+        if (setInMotor)
+            robotMap.cargoIntake.set(0.5);
+
     }
 
     /**
@@ -54,12 +58,14 @@ public class CargoCatch {
 
     public static double upOrDown(double drive) {
         if (drive > 0)
-            drive *= .6; //0.3; //Sets drive lower if the maniuplator is going down (compensates for gravity)
+            drive *= 1.0; //0.3; //Sets drive lower if the maniuplator is going down (compensates for gravity)
         else if (drive < 0)
             drive *= 1.0; //Sets drive higher if the manipulator is going up
-        if (drive < 0.25 && drive > 0) // roughly the minimum amount for motor movement
-            drive = 0.25;
+//        if (drive < 0.25 && drive > 0) // roughly the minimum amount for motor movement
+//            drive = 0.25;
+        
         return drive;
+
     }
 
     /**
@@ -77,6 +83,7 @@ public class CargoCatch {
     public static void reset() {
         setpoint = 0;
         robotMap.encoderPivotTwo.reset();
+        setInMotor = false;
     }
 
     /**
@@ -85,17 +92,20 @@ public class CargoCatch {
      * @param down Whether to set the setpoint to go down (if true, it will attempt to go down)
      */
     public static void setSetpoint(boolean down) {
-        int set = 480;
+        int set = 450;
+
         if (down && setpoint < 520) { //If we want to go down AND we are not all the way down
-            setpoint += set; //Go down by 60 encoder ticks
+            setpoint += set;//Go down by 60 encoder ticks
+            setInMotor = true;
             if (setpoint > 520)
                 setpoint = 520;
         } else if (!down && setpoint > 0) { //If we want to go up AND we are not all the way up
             setpoint -= set; //Go up by 60 encoder ticks
             if (setpoint < 0)
                 setpoint = 0;
+            setInMotor = false;
         }
-//        robotMap.cargoIntake.set(0.5);
+
     }
 
     /**

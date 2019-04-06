@@ -59,24 +59,24 @@ public class Robot extends TimedRobot {
             if it was pressed, engages CargoInTake motors
             //only AButton for now, will work out B button later, skater
          */
-        frc.robot.components.CargoCatch.updateToggleAButton();
-
-        if (toggleOnAButton) {
-            robotMap.cargoIntake.set(0.5);
-        } else {
-            robotMap.cargoIntake.set(0);
-        }
-        /*
-        Checks if B Button is pressed
-        if it was pressed, engages CargoIntake motos
-         */
-        frc.robot.components.CargoCatch.updateToggleBButton();
-
-        if (toggleOnBButton) {
-            robotMap.cargoIntake.set(0.2);
-        } else {
-            robotMap.cargoIntake.set(0);
-        }
+//        frc.robot.components.CargoCatch.updateToggleAButton();
+//
+//        if (toggleOnAButton) {
+//            robotMap.cargoIntake.set(0.5);
+//        } else {
+//            robotMap.cargoIntake.set(0);
+//        }
+//        /*
+//        Checks if B Button is pressed
+//        if it was pressed, engages CargoIntake motos
+//         */
+//        frc.robot.components.CargoCatch.updateToggleBButton();
+//
+//        if (toggleOnBButton) {
+//            robotMap.cargoIntake.set(0.2);
+//        } else {
+//            robotMap.cargoIntake.set(0);
+//        }
         /*
                 [ROBOT DRIVING]
          */
@@ -134,7 +134,7 @@ public class Robot extends TimedRobot {
                 [PNEUMATICS]
          */
 
-        if(CargoCatch.getSetpoint() < 20) { //If cargo manipulator is trying to go up
+        if (CargoCatch.getSetpoint() < 20) { //If cargo manipulator is trying to go up
             if (OI.manipulatorController.getBumperPressed(GenericHID.Hand.kLeft)) { //If left bumper pressed
                 robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); //Push out hatch catching solenoid
             }
