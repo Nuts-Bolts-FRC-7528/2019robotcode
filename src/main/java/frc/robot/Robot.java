@@ -48,8 +48,8 @@ public class Robot extends TimedRobot {
     }
 
 
-//    public static int timer = 0;
-//    public static boolean xIsPressed = false;
+    public static int timer = 0;
+    public static boolean xIsPressed = false;
 
     @Override
     public void teleopPeriodic() { //Happens roughly every 1/20th of a second while teleop is active
@@ -77,10 +77,10 @@ public class Robot extends TimedRobot {
         if (OI.manipulatorController.getBButtonPressed()) { //If B button is pressed...
             CargoCatch.setSetpoint(false); //...go up
         }
-//        if(OI.manipulatorController.getXButtonPressed()){
-//            xIsPressed = true;
-//        }
-//        CargoCatch.cargoOut();
+        if(OI.manipulatorController.getXButtonPressed()){
+            xIsPressed = true;
+        }
+        CargoCatch.cargoOut();
         robotMap.cargoIntake.set(OI.manipulatorController.getY(GenericHID.Hand.kLeft) / 2); //Run the intake wheels
 
         Elevator.iterate(); //Update where the elevator should be

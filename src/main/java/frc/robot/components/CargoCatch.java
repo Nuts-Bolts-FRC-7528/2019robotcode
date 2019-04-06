@@ -1,5 +1,6 @@
 package frc.robot.components;
 
+import frc.robot.Robot;
 import frc.robot.common.robotMap;
 
 /**
@@ -40,12 +41,11 @@ public class CargoCatch {
         if (setInMotor) {
             robotMap.cargoIntake.set(0.5);
         }
-//        if (robotMap.encoderPivotTwo.get() > 80 && robotMap.encoderPivotTwo.get() < 600){ //possible code for having intake run while the manipulator is going up
-//            robotMap.cargoIntake.set(0.5);
-//        }
-//        else if (setpoint == 10){
-//            robotMap.cargoIntake.set(0.2);
-//        }
+        if(!Robot.xIsPressed) {
+            if (robotMap.encoderPivotTwo.get() > 80 && robotMap.encoderPivotTwo.get() < 600) { //possible code for having intake run while the manipulator is going up
+                robotMap.cargoIntake.set(0.5);
+            } else if (setpoint == 10);
+        }
     }
 
     /**
@@ -140,14 +140,14 @@ public class CargoCatch {
         }
     }
 
-//   public static void cargoOut(){
-//        if(Robot.xIsPressed && Robot.timer < 41){
-//            Robot.timer++;
-//            robotMap.cargoIntake.set(-0.8);
-//        }
-//        else{
-//            Robot.xIsPressed = false;
-//            Robot.timer = 0;
-//        }
-//   }
+   public static void cargoOut(){
+        if(Robot.xIsPressed && Robot.timer < 41){
+            Robot.timer++;
+            robotMap.cargoIntake.set(-0.8);
+        }
+        else{
+            Robot.xIsPressed = false;
+            Robot.timer = 0;
+        }
+   }
 }
