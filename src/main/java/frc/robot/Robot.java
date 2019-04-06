@@ -25,7 +25,7 @@ public class Robot extends TimedRobot{
     public void robotInit() {
         NetworkTableInstance ntinst = NetworkTableInstance.getDefault(); //Gets global NetworkTable instance
         table = ntinst.getTable("vision"); //Gets vision table from vision coprocessor (Raspberry Pi)
-        CameraServer.getInstance().startAutomaticCapture();
+       // CameraServer.getInstance().startAutomaticCapture();
     }
 
     @Override
@@ -40,7 +40,13 @@ public class Robot extends TimedRobot{
     }
 
     @Override
-    public void teleopPeriodic(){ //Happens roughly every 1/20th of a second while teleop is active
+    public void teleopInit() {
+        CargoCatch.reset(); //Temporary reset for easy testing of PID loop(so we don't have to reset robot code everytime we enable)
+    }
+    @Override
+
+    public void teleopPeriodic() { //Happens roughly every 1/20th of a second while teleop is active
+
 
 
         /*
@@ -100,7 +106,11 @@ public class Robot extends TimedRobot{
                 [PNEUMATICS]
          */
 
-        /*if(CargoCatch.getSetpoint() < 20) { //If cargo manipulator is trying to go up
+
+
+
+        if (CargoCatch.getSetpoint() == CargoCatch.MinSetpoint) { //If cargo manipulator is trying to go up
+
             if (OI.manipulatorController.getBumperPressed(GenericHID.Hand.kLeft)) { //If left bumper pressed
                 robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); //Push out hatch catching solenoid
             }
@@ -118,7 +128,7 @@ public class Robot extends TimedRobot{
                 robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse);
                 robotMap.hatchPushTwo.set(DoubleSolenoid.Value.kReverse);
             }
-        }*/
+        }
     }
 
     @Override
