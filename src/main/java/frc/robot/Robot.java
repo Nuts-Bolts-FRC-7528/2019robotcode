@@ -43,25 +43,42 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
         CargoCatch.reset(); //Temporary reset for easy testing of PID loop(so we don't have to reset robot code everytime we enable)
-//        robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse);
-//        robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse);
     }
 
+    public static int pnuematicsProtectionTimer;
+    /*
+    The hatch mechanism sometimes slides out when the robot is enabled. I believe that this has to do something with pneumatics and how unreliable
+    it is. It's random when this happens. Using this so that when this timer reaches a certain time, the system will automatically retract
+     */
 
     @Override
     public void teleopPeriodic() { //Happens roughly every 1/20th of a second while teleop is active
 
-        /*
-                [ROBOT DRIVING]
-        */
+
+        /*  [PNUEMATICS STARTUP PROTECTION] */
+
+        //This is mostly for testing to ensure that the hatch mechanism
+        // automatically retracts so we don't break it
+
+
+//        pnuematicsProtectionTimer++; //Increments pneumaticsProtectionTimer
+//        if(pnuematicsProtectionTimer == 70){ //Once the timer reaches 70 ticks
+//            robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse); //Pull the claw back in
+//        }
+//        if(pnuematicsProtectionTimer == 100){
+//            robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse); //Pull the hatch mechanism back in
+//        }
+
+
+        /*  [ROBOT DRIVING] */
+
 
         m_drive.arcadeDrive((-OI.driveJoystick.getY()), (OI.driveJoystick.getX())); //Actually drives the robot. Uses the joystick.
         //We suspect that there may be an issue with the Joystick, b/c it is inverted/reversed. We resolved this by flipping Y,X to X,Y and putting a negative on Y
         robotMap.elevator.setSpeed(OI.manipulatorController.getY(GenericHID.Hand.kRight) * .5); //Allows manual control of the elevator
 
-        /*
-                [ELEVATOR USE]
-        */
+        /*  [ELEVATOR USE]  */
+
 
         if (OI.driveJoystick.getRawButtonPressed(7)) { //If joystick button 7 is pressed
             Elevator.setGoal(3); //Sets the Elevator to level 3
@@ -75,14 +92,14 @@ public class Robot extends TimedRobot {
             Elevator.setGoal(1); //Sets the Elevator to level 1
         }
 
-        /*
-                [MANIPULATOR USE]
-        */
+
+        /*  [MANIPULATOR USE]   */
+
 
         if(!pistonExtended) {
             if (OI.manipulatorController.getAButtonPressed()) { //If A button is pressed...
-                robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse);
-//                CargoCatch.setSetpoint(true); //...go down
+//                robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse);
+                CargoCatch.setSetpoint(true); //...go down
 
             }
 
@@ -99,17 +116,17 @@ public class Robot extends TimedRobot {
 
         robotMap.cargoIntake.set(OI.manipulatorController.getY(GenericHID.Hand.kLeft) / 2);//Run the intake wheels
 
-        /*
-                [ITERATING METHODS]
-        */
+
+        /*  [ITERATING METHODS] */
+
 
         CargoCatch.xIsPressed();//Runs the intake to pop out ball
         Elevator.iterate(); //Update where the elevator should be
         CargoCatch.iterate(); //Update where the cargo manipulator should be
 
-        /*
-                [OBJECT RECOGNITION]
-        */
+
+        /*  [OBJECT RECOGNITION]    */
+
 
         NetworkTableEntry centerCargo = table.getEntry("cargoCenterPix"); //Fetch the NetworkTableEntry of the centerPix of the cargo from the coprocesor
         NetworkTableEntry centerHatch = table.getEntry("hatchCenterPix"); //Fetch NetworkTableEntry for center pixel of hatch
@@ -118,26 +135,33 @@ public class Robot extends TimedRobot {
         int hatchCenterPix = (int) centerHatch.getDouble(-1); //Gets the actual number from the hatch NetworkTableEntry
         int vtCenterPix = (int) centerTargets.getDouble(-1); //Gets the actual number from the vision targets NetworkTableEntry
 
-//                [CARGO ALIGNMENT]
+
+        /*  [CARGO ALIGNMENT]   */
+
 
         if (OI.driveJoystick.getRawButton(2)) { //If thumb button is pressed
             Drivetrain.align(ballCenterPix); //Align to cargo
         }
-//                [HATCH ALIGNMENT]
+
+
+        /*  [HATCH ALIGNMENT]   */
+
 
         if (OI.driveJoystick.getRawButton(3)) { //If button 3 is pressed
             Drivetrain.align(hatchCenterPix); //Align to hatch
         }
 
-//                [VISION TARGET ALIGNMENT]
+
+        /*  [VISION TARGET ALIGNMENT]   */
+
 
         if (OI.driveJoystick.getRawButton(1)) { //If trigger is pressed
             Drivetrain.align(vtCenterPix); //Align to vision targets
         }
 
-        /*
-                [PNEUMATICS]
-        */
+
+        /*  [PNEUMATICS]    */
+
 
         if (CargoCatch.getSetpoint() == CargoCatch.MinSetpoint && robotMap.encoderPivotTwo.get() < CargoCatch.MinSetpoint + 40) { //If cargo manipulator is trying to go up
             if (OI.manipulatorController.getBumperPressed(GenericHID.Hand.kLeft)) { //If left bumper pressed
@@ -150,18 +174,18 @@ public class Robot extends TimedRobot {
                 robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse);//Pull in hatch catching solenoid
             }
 
-            if (OI.manipulatorController.getPOV() == 0) { //If d-pad is pressed down
+            if (OI.manipulatorController.getPOV() == 180) { //If d-pad is pressed up
                 pistonExtended = true;
                 robotMap.hatchPushOne.set(DoubleSolenoid.Value.kForward); //Push hatch mechanism out
             }
 
-            if (OI.manipulatorController.getPOV() == 180) { //If d-pad is pressed up
+            if (OI.manipulatorController.getPOV() == 0) { //If d-pad is pressed down
                 pistonExtended = false;
                 robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse); //Pull hatch mechanism in
             }
         }
-        else if (!pistonExtended)
-            robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse);
+//        else if (!pistonExtended)
+//            robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse);
     }
 
 

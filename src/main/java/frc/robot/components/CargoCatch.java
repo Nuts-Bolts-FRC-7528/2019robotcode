@@ -2,6 +2,7 @@ package frc.robot.components;
 
 import frc.robot.common.robotMap;
 
+
 /**
  * Creates a PID loop for the pivoting cargo arm.
  */
@@ -22,9 +23,9 @@ public class CargoCatch {
     //Be careful setting the proportional or integral constants > 1
     //This can cause the manipulator to violently flop and potentially
     //damage itself
-    private static final double P = 0.1; //Proportional Constant
+    private static final double P = 0.15; //Proportional Constant
     private static final double I = 0.1; //Integrator Constant
-    private static final double D = 0.35; //Derivative Constant\
+    private static final double D = 0.4; //Derivative Constant\
     private static final double integrator_limit = 1.0; //Used to prevent integrator windup
 
     public static double MinSetpoint = 10;
@@ -40,20 +41,21 @@ public class CargoCatch {
         robotMap.cargoPivotTwo.set(upOrDown(drive)); //Drive pivot two based on the PI values
         System.out.println("************************");
         System.out.println("THE WINNING NUMBER IS:\n" + drive);
-        System.out.println("Encoder1: " + robotMap.encoderPivotOne.get());
-        System.out.println("Encoder2: " + robotMap.encoderPivotTwo.get());
-        System.out.println("Setpoint is " + getSetpoint());
-        System.out.println("Elevator is at" + robotMap.elevatorEncoder.get());
-        System.out.println("setInMotorPickUp " + setInMotorPickUp);
-        System.out.println("setInMotorInBall " + setInMotorInBall);
-        System.out.println("pivotExtended" + frc.robot.Robot.pistonExtended);
+        System.out.println("\nEncoder1:  " + robotMap.encoderPivotOne.get());
+        System.out.println("\nEncoder2:  " + robotMap.encoderPivotTwo.get());
+        System.out.println("\nSetpoint is:  " + getSetpoint());
+        System.out.println("\nElevator is at:  " + robotMap.elevatorEncoder.get());
+        System.out.println("\nElevator Drive:  " + Elevator.getElevatorDrive());
+        System.out.println("\nsetInMotorPickUp:  " + setInMotorPickUp);
+        System.out.println("\nsetInMotorInBall:  " + setInMotorInBall);
+        System.out.println("\npivotExtended:  " + frc.robot.Robot.pistonExtended);
         if (setInMotorPickUp && !setInMotorInBall){
-            robotMap.cargoIntake.set(0.6);
-            System.out.println("Intake should be at 50%");
+            robotMap.cargoIntake.set(0.7);
+            System.out.println("Intake should be at 70%");
         }
         else if (setInMotorInBall && !setInMotorPickUp) {
-            robotMap.cargoIntake.set(0.15); // minimum for keeping the ball in is 0.15
-            System.out.println("Intake should be running at 15%");
+            robotMap.cargoIntake.set(0.5); // minimum for keeping the ball in is 0.15
+            System.out.println("Intake should be running at 50%");
         }
     }
 
@@ -150,7 +152,7 @@ public class CargoCatch {
         }
     }
     public static void xIsPressed(){
-        if(xPressed && xTimer < 41){ //If the X Button gets pressed and timer is les than 41
+        if(xPressed && xTimer < 21){ //If the X Button gets pressed and timer is les than 21
             xTimer++; //Increment timer by 1
             robotMap.cargoIntake.set(-0.6); //Set the motor to -0.6
         }

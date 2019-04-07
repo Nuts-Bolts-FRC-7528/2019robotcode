@@ -22,6 +22,10 @@ public class Elevator {
         robotMap.elevatorEncoder.reset();
     }
 
+    public static double getElevatorDrive() {
+        return drive;
+    }
+
     /**
      * Runs iteratively in teleopPeriodic() and in update() of actions
      * Note that the Elevator runs forward when going down and backwards
@@ -29,7 +33,7 @@ public class Elevator {
      * backwards.
      */
     public static void iterate() {
-        if(goal > 3) { //Checks if goal is higher than it should be
+        if (goal > 3) { //Checks if goal is higher than it should be
             goal = 3; //If it is, reset to highest possible level
         } else if (goal < 1) { //Checks if goal is lower than it should be
             goal = 1; //If it is, reset to lowest possible level
@@ -37,15 +41,15 @@ public class Elevator {
         setSetpoint();
         PI();
 
-//        robotMap.elevator.set(drive);
-        System.out.println("elevator drive" + drive);
+        robotMap.elevator.set(drive);
+        System.out.println("\nElevator drive:  " + drive);
     }
 
     /**
      * Based on the current goal level, gets a particular setpoint to be at.
      */
     private static void setSetpoint() {
-        if(goal == 1) {
+        if (goal == 1) {
             setpoint = 1010;
         } else if (goal == 2) {
             setpoint = 4745;
@@ -56,10 +60,11 @@ public class Elevator {
 
     /**
      * Mutator for the goal level.
+     *
      * @param height The desired goal level. Valid ranges are 1-3
      */
-    public static void setGoal(int height){
-        if(height < 4 && height > 0){ //Checks if goal is between 1 and 3 inclusive
+    public static void setGoal(int height) {
+        if (height < 4 && height > 0) { //Checks if goal is between 1 and 3 inclusive
             goal = height; //Sets goal equal to the input level
         }
     }
@@ -69,7 +74,9 @@ public class Elevator {
      *
      * @return The current level of the Elevator
      */
-    public static int getLevel() { return level; }
+    public static int getLevel() {
+        return level;
+    }
 
     /**
      * Runs the calculations for the PI loop based on the
@@ -83,14 +90,14 @@ public class Elevator {
         error = setpoint - robotMap.elevatorEncoder.get(); //Set error to the difference of the setpoint and the current position
         derivative = error - previousError;
 
-        integral += error*.02; //Calculate the integral sum
-        if(integral > integrator_limit) { //If the integral is too high...
+        integral += error * .02; //Calculate the integral sum
+        if (integral > integrator_limit) { //If the integral is too high...
             integral = integrator_limit; //Set it to the integrator limit
-        } else if(integral < -integrator_limit) { //Else if the integral is too low...
+        } else if (integral < -integrator_limit) { //Else if the integral is too low...
             integral = -integrator_limit; //...Set it to -integrator limit
         }
         drive = (P * error + I * integral + D * derivative) / 100.0; //Calculate the PI loop based on the above equation
-        if(drive > 0.6) { //If we want to go up too fast...
+        if (drive > 0.6) { //If we want to go up too fast...
             drive = .6; //...limit it to 60% power
         } else if (drive < -.3) { //If we want to go down too fast...
             drive = -.3; //...limit it to -30% power
