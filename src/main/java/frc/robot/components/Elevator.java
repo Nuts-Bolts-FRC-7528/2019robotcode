@@ -8,6 +8,7 @@ import frc.robot.common.robotMap;
 public class Elevator {
     private static int level = 1;
     private static int goal = 1;
+
     private static double setpoint, error, integral, drive, derivative, previousError = 0;
 
     private static final double P = 0.1; //Proportional Constant
