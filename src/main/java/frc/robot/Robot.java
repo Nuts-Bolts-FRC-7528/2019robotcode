@@ -42,7 +42,9 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        CargoCatch.reset(); //Temporary reset for easy testing of PID loop(so we don't have to reset robot code everytime we enable)
+        CargoCatch.reset(); //Temporary reset for easy testing of cargo
+        Elevator.reset(); //Temporary reset for easy testing of elevator
+        pnuematicsProtectionTimer = 0;
     }
 
     public static int pnuematicsProtectionTimer;
@@ -61,13 +63,16 @@ public class Robot extends TimedRobot {
         // automatically retracts so we don't break it
 
 
-//        pnuematicsProtectionTimer++; //Increments pneumaticsProtectionTimer
-//        if(pnuematicsProtectionTimer == 70){ //Once the timer reaches 70 ticks
-//            robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse); //Pull the claw back in
-//        }
-//        if(pnuematicsProtectionTimer == 100){
-//            robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse); //Pull the hatch mechanism back in
-//        }
+        pnuematicsProtectionTimer++; //Increments pneumaticsProtectionTimer
+
+
+
+        if(pnuematicsProtectionTimer == 70){ //Once the timer reaches 70 ticks
+            robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse); //Pull the claw back in
+        }
+        if(pnuematicsProtectionTimer == 150){
+            robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse); //Pull the hatch mechanism back in
+        }
 
 
         /*  [ROBOT DRIVING] */
@@ -91,6 +96,12 @@ public class Robot extends TimedRobot {
         if (OI.driveJoystick.getRawButtonPressed(11)) { //If joystick button 11 is pressed
             Elevator.setGoal(1); //Sets the Elevator to level 1
         }
+
+        if (OI.driveJoystick.getRawButtonPressed(8)) { //If joystick button 11 is pressed
+            Elevator.setGoal(0); //Sets the Elevator to level 0
+        }
+
+
 
 
         /*  [MANIPULATOR USE]   */

@@ -40,15 +40,13 @@ public class CargoCatch {
         robotMap.cargoPivotOne.set(upOrDown(drive)); //Drive pivot one based on the PI values
         robotMap.cargoPivotTwo.set(upOrDown(drive)); //Drive pivot two based on the PI values
         System.out.println("************************");
-        System.out.println("THE WINNING NUMBER IS:\n" + drive);
-        System.out.println("\nEncoder1:  " + robotMap.encoderPivotOne.get());
-        System.out.println("\nEncoder2:  " + robotMap.encoderPivotTwo.get());
-        System.out.println("\nSetpoint is:  " + getSetpoint());
-        System.out.println("\nElevator is at:  " + robotMap.elevatorEncoder.get());
-        System.out.println("\nElevator Drive:  " + Elevator.getElevatorDrive());
-        System.out.println("\nsetInMotorPickUp:  " + setInMotorPickUp);
-        System.out.println("\nsetInMotorInBall:  " + setInMotorInBall);
-        System.out.println("\npivotExtended:  " + frc.robot.Robot.pistonExtended);
+//        System.out.println("THE WINNING NUMBER IS:\n" + drive);
+//        System.out.println("\nEncoder1:  " + robotMap.encoderPivotOne.get());
+//        System.out.println("\nEncoder2:  " + robotMap.encoderPivotTwo.get());
+//        System.out.println("\nSetpoint is:  " + getSetpoint());
+//        System.out.println("\nsetInMotorPickUp:  " + setInMotorPickUp);
+//        System.out.println("\nsetInMotorInBall:  " + setInMotorInBall);
+//        System.out.println("\npivotExtended:  " + frc.robot.Robot.pistonExtended);
         if (setInMotorPickUp && !setInMotorInBall){
             robotMap.cargoIntake.set(0.7);
             System.out.println("Intake should be at 70%");

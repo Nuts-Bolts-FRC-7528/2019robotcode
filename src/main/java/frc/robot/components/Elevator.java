@@ -17,8 +17,8 @@ public class Elevator {
     private static final double integrator_limit = 1.0; //Used to prevent integrator windup
 
     public static void reset() {
-        level = 1;
-        goal = 1;
+        level = 0;
+        goal = 0;
         robotMap.elevatorEncoder.reset();
     }
 
@@ -35,24 +35,30 @@ public class Elevator {
     public static void iterate() {
         if (goal > 3) { //Checks if goal is higher than it should be
             goal = 3; //If it is, reset to highest possible level
-        } else if (goal < 1) { //Checks if goal is lower than it should be
-            goal = 1; //If it is, reset to lowest possible level
+        } else if (goal < 0) { //Checks if goal is lower than it should be
+            goal = 0; //If it is, reset to lowest possible level
         }
         setSetpoint();
         PI();
 
-        robotMap.elevator.set(drive);
+        robotMap.elevator.set(-drive);
+        System.out.println("\n\n*******************************");
         System.out.println("\nElevator drive:  " + drive);
+        System.out.println("\nElevator is at:  " + robotMap.elevatorEncoder.get());
+        System.out.println("\nElevator Setpoint:  " + setpoint);
+        System.out.println("\nElevator Goal:  " + goal);
     }
 
     /**
      * Based on the current goal level, gets a particular setpoint to be at.
      */
     private static void setSetpoint() {
-        if (goal == 1) {
+        if (goal == 0) {
+            setpoint = 0;
+        } else if (goal == 1) {
             setpoint = 1010;
         } else if (goal == 2) {
-            setpoint = 4745;
+            setpoint = 4600;
         } else if (goal == 3) {
             setpoint = 7810;
         }
@@ -61,10 +67,10 @@ public class Elevator {
     /**
      * Mutator for the goal level.
      *
-     * @param height The desired goal level. Valid ranges are 1-3
+     * @param height The desired goal level. Valid ranges are 1-4
      */
     public static void setGoal(int height) {
-        if (height < 4 && height > 0) { //Checks if goal is between 1 and 3 inclusive
+        if (height < 4 && height > -1) { //Checks if goal is between 0 and 3 inclusive
             goal = height; //Sets goal equal to the input level
         }
     }
@@ -97,8 +103,8 @@ public class Elevator {
             integral = -integrator_limit; //...Set it to -integrator limit
         }
         drive = (P * error + I * integral + D * derivative) / 100.0; //Calculate the PI loop based on the above equation
-        if (drive > 0.6) { //If we want to go up too fast...
-            drive = .6; //...limit it to 60% power
+        if (drive > 0.4) { //If we want to go up too fast...
+            drive = .4; //...limit it to 60% power
         } else if (drive < -.3) { //If we want to go down too fast...
             drive = -.3; //...limit it to -30% power
         }
