@@ -18,7 +18,7 @@ public class Robot extends TimedRobot {
     //Defines a SpeedControllerGroup for the right drive
     private final DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
     //Creates a DifferentialDrive using both SpeedControllerGroups
-
+    public static boolean pistonExtended = false;
     private NetworkTable table; //This table is for object recognition
 
     @Override
@@ -42,12 +42,14 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
         CargoCatch.reset(); //Temporary reset for easy testing of PID loop(so we don't have to reset robot code everytime we enable)
+//        robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse);
+//        robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse);
     }
 
 
     @Override
     public void teleopPeriodic() { //Happens roughly every 1/20th of a second while teleop is active
-        boolean pistonExtended = false;
+
         /*
                 [ROBOT DRIVING]
          */
@@ -78,7 +80,9 @@ public class Robot extends TimedRobot {
 
         if(!pistonExtended) {
             if (OI.manipulatorController.getAButtonPressed()) { //If A button is pressed...
-                CargoCatch.setSetpoint(true); //...go down
+                robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse);
+//                CargoCatch.setSetpoint(true); //...go down
+
             }
 
             if (OI.manipulatorController.getBButtonPressed()) { //If B button is pressed...
@@ -127,27 +131,29 @@ public class Robot extends TimedRobot {
                 [PNEUMATICS]
          */
 
-        if (CargoCatch.getSetpoint() == CargoCatch.MinSetpoint && robotMap.encoderPivotTwo.get() < 30) { //If cargo manipulator is trying to go up
+        if (CargoCatch.getSetpoint() == CargoCatch.MinSetpoint && robotMap.encoderPivotTwo.get() < CargoCatch.MinSetpoint + 40) { //If cargo manipulator is trying to go up
             if (OI.manipulatorController.getBumperPressed(GenericHID.Hand.kLeft)) { //If left bumper pressed
-                robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); //Push out hatch catching solenoid
                 pistonExtended = true;
+                robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); //Push out hatch catching solenoid
             }
 
             if (OI.manipulatorController.getBumperPressed(GenericHID.Hand.kRight)) {
-                robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse);
                 pistonExtended = true;
+                robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse);
             }
 
             if (OI.manipulatorController.getPOV() == 0) {
-                robotMap.hatchPushOne.set(DoubleSolenoid.Value.kForward);
                 pistonExtended = true;
+                robotMap.hatchPushOne.set(DoubleSolenoid.Value.kForward);
             }
 
             if (OI.manipulatorController.getPOV() == 180) {
-                robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse);
                 pistonExtended = false;
+                robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse);
             }
         }
+        else if (!pistonExtended)
+            robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse);
     }
 
 

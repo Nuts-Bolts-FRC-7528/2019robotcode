@@ -10,7 +10,7 @@ public class Elevator {
     private static int goal = 1;
     private static double setpoint, error, integral, drive, derivative, previousError = 0;
 
-    private static final double P = 0; //Proportional Constant
+    private static final double P = 0.1; //Proportional Constant
     private static final double I = 0; //Integrator Constant
     private static final double D = 0; //Derivative Constant
     private static final double integrator_limit = 1.0; //Used to prevent integrator windup
@@ -37,6 +37,7 @@ public class Elevator {
         PI();
 
 //        robotMap.elevator.set(drive);
+        System.out.println("elevator drive" + drive);
     }
 
     /**
@@ -44,11 +45,11 @@ public class Elevator {
      */
     private static void setSetpoint() {
         if(goal == 1) {
-            setpoint = 10;
+            setpoint = 1010;
         } else if (goal == 2) {
-            setpoint = 100;
+            setpoint = 4745;
         } else if (goal == 3) {
-            setpoint = 150;
+            setpoint = 7810;
         }
     }
 

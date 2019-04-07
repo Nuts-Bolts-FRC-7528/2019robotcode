@@ -27,7 +27,7 @@ public class CargoCatch {
     private static final double D = 0.35; //Derivative Constant\
     private static final double integrator_limit = 1.0; //Used to prevent integrator windup
 
-    public static double MinSetpoint = 20;
+    public static double MinSetpoint = 10;
     /**
      * Is called by teleopPeriodic. Handles iterative logic for the arm.
      */
@@ -43,9 +43,10 @@ public class CargoCatch {
         System.out.println("Encoder1: " + robotMap.encoderPivotOne.get());
         System.out.println("Encoder2: " + robotMap.encoderPivotTwo.get());
         System.out.println("Setpoint is " + getSetpoint());
-        System.out.println("Elevator is @" + robotMap.elevatorEncoder.get());
+        System.out.println("Elevator is at" + robotMap.elevatorEncoder.get());
         System.out.println("setInMotorPickUp " + setInMotorPickUp);
         System.out.println("setInMotorInBall " + setInMotorInBall);
+        System.out.println("pivotExtended" + frc.robot.Robot.pistonExtended);
         if (setInMotorPickUp && !setInMotorInBall){
             robotMap.cargoIntake.set(0.6);
             System.out.println("Intake should be at 50%");
@@ -71,8 +72,9 @@ public class CargoCatch {
             drive *= 1.0; //0.3; //Sets drive lower if the maniuplator is going down (compensates for gravity)
         else if (drive < 0)
             drive *= 1.0; //Sets drive higher if the manipulator is going up
-//        if (drive < 0.25 && drive > 0) // roughly the minimum amount for motor movement
+//        if (drive < 0.25 && drive > 0.1) // roughly the minimum amount for motor movement
 //            drive = 0.25;
+
 
         return drive;
 
