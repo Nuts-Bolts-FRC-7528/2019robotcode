@@ -9,12 +9,11 @@ import frc.robot.common.robotMap;
 public class CargoCatch {
 
     public static boolean setInMotorPickUp = false;
-    public static boolean setInMotorInBall = false;
-    public static boolean xPressed = false;
-    public static int xTimer = 0;
+    public static boolean setInMotorHolding = false;
+    public static boolean xPressed = false; //Initialize booleans for Pickup, Holding, and Out
+    public static int xTimer = 0; //Initialize timer
 
     private static double drive, setpoint = 0;
-    private static boolean terminate = true;
     private static double integral, error, derivative = 0;
     private static double previousError = 0; //Derivative is based on finding the slope of our function.
     //Equation is (x2 - x1)/(y2 - y1) to find slope. In this case, teleopPeriodic is iterative so we only worry about the
@@ -39,6 +38,10 @@ public class CargoCatch {
         }
         robotMap.cargoPivotOne.set(upOrDown(drive)); //Drive pivot one based on the PI values
         robotMap.cargoPivotTwo.set(upOrDown(drive)); //Drive pivot two based on the PI values
+        /*
+                [PRINT STATEMENTS]
+            Use for testing and problem solving
+         */
         System.out.println("************************");
 //        System.out.println("THE WINNING NUMBER IS:\n" + drive);
 //        System.out.println("\nEncoder1:  " + robotMap.encoderPivotOne.get());
@@ -47,11 +50,11 @@ public class CargoCatch {
 //        System.out.println("\nsetInMotorPickUp:  " + setInMotorPickUp);
 //        System.out.println("\nsetInMotorInBall:  " + setInMotorInBall);
 //        System.out.println("\npivotExtended:  " + frc.robot.Robot.pistonExtended);
-        if (setInMotorPickUp && !setInMotorInBall){
-            robotMap.cargoIntake.set(0.7);
+        if (setInMotorPickUp && !setInMotorHolding){ //If Intake and pivot is set to pick up mode, AND NOT Retain mode
+            robotMap.cargoIntake.set(0.7); // Set Intake to 70% power
             System.out.println("Intake should be at 70%");
         }
-        else if (setInMotorInBall && !setInMotorPickUp) {
+        else if (setInMotorHolding && !setInMotorPickUp) { //If intake and pivot motors are set to retain(hold onto the ball) mode, AND NOT pick up mode
             robotMap.cargoIntake.set(0.2); // minimum for keeping the ball in is 0.2
             System.out.println("Intake should be running at 20%");
         }
@@ -91,11 +94,17 @@ public class CargoCatch {
 
     /**
      * Resets the current setpoint and the encoder for the arm
+     * Used in teleopInit and autonomousInit
      */
     public static void reset() {
+        //resets the setpoint so that it automatically moves forward @ start in order to avoid hitting the rollers
         setpoint = MinSetpoint;
+
+        //resets the encoder at the beginning (Manipulator should be set at resting position
         robotMap.encoderPivotTwo.reset();
-        setInMotorInBall = false;
+
+        //Resetting the booleans disables Intake motor
+        setInMotorHolding = false;
         setInMotorPickUp = false;
     }
 
@@ -110,7 +119,7 @@ public class CargoCatch {
         if (down && setpoint < 520) { //If we want to go down AND we are not all the way down
             setpoint += set;//Go down by 420 encoder ticks
             setInMotorPickUp = true;
-            setInMotorInBall = false;
+            setInMotorHolding = false;
             if (setpoint > 520)
                 setpoint = 520;
         } else if (!down && setpoint > MinSetpoint) { //If we want to go up AND we are not all the way up
@@ -118,7 +127,7 @@ public class CargoCatch {
             if (setpoint < MinSetpoint)
                 setpoint = MinSetpoint;
             setInMotorPickUp = false;
-            setInMotorInBall = true;
+            setInMotorHolding = true;
         }
 
     }

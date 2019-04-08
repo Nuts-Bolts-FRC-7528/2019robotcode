@@ -117,7 +117,7 @@ public class Robot extends TimedRobot {
 
             if (OI.manipulatorController.getXButtonPressed()) { //If X button is pressed
                 CargoCatch.xPressed = true; //Set xPressed to true(used in xIsPressed method)
-                CargoCatch.setInMotorInBall = false; //Prevent motors from sucking
+                CargoCatch.setInMotorHolding = false; //Prevent motors from sucking
                 CargoCatch.setInMotorPickUp = false; //Prevent motors from sucking x2
             }
         }
