@@ -104,7 +104,7 @@ public class Robot extends TimedRobot {
         /*  [MANIPULATOR USE]   */
 
 
-        if(!pistonExtended) {
+        if(!pistonExtended) { //If the piston has NOT been extended, SAFETY CODE
             if (OI.manipulatorController.getAButtonPressed()) { //If A button is pressed...
 //                robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse);
                 CargoCatch.setSetpoint(true); //...go down
@@ -170,32 +170,31 @@ public class Robot extends TimedRobot {
 
         /*  [PNEUMATICS]    */
 
-        Elevator.yIsPressed();
+        Elevator.yIsPressed(); //Iterates yisPressed, checks if yisPressed is true, otherwise does nothing
         if (CargoCatch.getSetpoint() == CargoCatch.MinSetpoint && robotMap.encoderPivotTwo.get() < CargoCatch.MinSetpoint + 40) { //If cargo manipulator is trying to go up
             if (OI.manipulatorController.getBumperPressed(GenericHID.Hand.kLeft)) { //If left bumper pressed
-                pistonExtended = true;
+                pistonExtended = true; //Restricts cargo manipulator
                 robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); //Push out hatch catching solenoid
             }
 
             if (OI.manipulatorController.getBumperPressed(GenericHID.Hand.kRight)) { //If right bumper pressed
-                pistonExtended = true;
-                Elevator.subSetpoint();
+                pistonExtended = true; //Restricts cargo manipulator
                 robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse);//Pull in hatch catching solenoid
             }
 
             if (OI.manipulatorController.getPOV() == 180) { //If d-pad is pressed down
-                pistonExtended = false;
+                pistonExtended = false; //Allows cargo manipulator to function
                 robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse); //Pull hatch mechanism in
             }
 
             if (OI.manipulatorController.getPOV() == 0) { //If d-pad is pressed up
-                pistonExtended = true;
+                pistonExtended = true; //Restricts cargo manipulator
                 robotMap.hatchPushOne.set(DoubleSolenoid.Value.kForward); //Push hatch mechanism out
             }
 
-            if (OI.manipulatorController.getYButtonPressed()){
-                Elevator.yPressed = true;
-                pistonExtended = false;
+            if (OI.manipulatorController.getYButtonPressed()){ //Checks if y is pressed
+                Elevator.yPressed = true; //Sets yPressed to true engages yIsPressed method
+                pistonExtended = false; //Allows Cargo to be used **Why is this here?** Added commented code in Elevator
 
             }
         }
