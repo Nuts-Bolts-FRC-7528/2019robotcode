@@ -8,9 +8,9 @@ import frc.robot.common.robotMap;
  */
 public class CargoCatch {
 
-    public static boolean setInMotorPickUp = false;
-    public static boolean setInMotorHolding = false;
-    public static boolean xPressed = false; //Initialize booleans for Pickup, Holding, and Out
+    public static boolean setInMotorPickUp = false; // Initialize boolean for Intake PickUp mode
+    public static boolean setInMotorHolding = false; //Initialize boolean for Intake Holding mode
+    public static boolean xPressed = false; //Initialize booleans for Intake Out mode
     public static int xTimer = 0; //Initialize timer
 
     private static double drive, setpoint = 0;

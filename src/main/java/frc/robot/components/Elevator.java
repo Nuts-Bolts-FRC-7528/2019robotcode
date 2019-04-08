@@ -9,8 +9,7 @@ import static frc.robot.Robot.pistonExtended;
  * Provides an automatic control loop for the Elevator.
  */
 public class Elevator {
-    private static int level = 1;
-    private static int goal = 1;
+    private static int goal = 0; //Determines the desired height of the elevator
 
     private static double setpoint, error, integral, drive, derivative, previousError = 0;
 
@@ -28,7 +27,6 @@ public class Elevator {
      **/
 
     public static void reset() {
-        level = 0;
         goal = 0;
         robotMap.elevatorEncoder.reset();
     }
@@ -65,17 +63,17 @@ public class Elevator {
     }
 
     /**
-     * Based on the current goal level, gets a particular setpoint to be at.
+     * Based on the current goal level, with the available options being levels 0, 1, 2, and 3, gets a particular setpoint to be at.
      */
     private static void setSetpoint() {
-        if (goal == 0) {
-            setpoint = 0;
-        } else if (goal == 1) {
-            setpoint = 1010;
-        } else if (goal == 2) {
-            setpoint = 4600;
-        } else if (goal == 3) {
-            setpoint = 7810;
+        if (goal == 0) { //Sets desired level to 0
+            setpoint = 0; //Ticks at level 0
+        } else if (goal == 1) { //Sets desired level to 0
+            setpoint = 1010; //Ticks at level 1
+        } else if (goal == 2) { //Sets desired level to 1
+            setpoint = 4600; //Ticks at level 2
+        } else if (goal == 3) { //Sets desired level to 2
+            setpoint = 7810; //Ticks at level 3
         }
     }
 
@@ -98,14 +96,6 @@ public class Elevator {
         }
     }
 
-    /**
-     * Public accessor method for the current level of the Elevator
-     *
-     * @return The current level of the Elevator
-     */
-    public static int getLevel() {
-        return level;
-    }
 
     /**
      * Runs the calculations for the PI loop based on the
