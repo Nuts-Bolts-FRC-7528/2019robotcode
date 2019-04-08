@@ -194,7 +194,6 @@ public class Robot extends TimedRobot {
 
             if (OI.manipulatorController.getYButtonPressed()){ //Checks if y is pressed
                 Elevator.yPressed = true; //Sets yPressed to true engages yIsPressed method
-                pistonExtended = false; //Allows Cargo to be used **Why is this here?** Added commented code in Elevator
 
             }
         }
