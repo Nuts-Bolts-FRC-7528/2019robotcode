@@ -57,6 +57,8 @@ public class Drivetrain {
                 setLeftMotorSpeed(.3);
             }
         } else {
+            //error = center - setpoint
+            
             if(targetCenterPix > cameraCenterPix) {
                 setRightMotorSpeed(.3);
                 setLeftMotorSpeed(-.3);
