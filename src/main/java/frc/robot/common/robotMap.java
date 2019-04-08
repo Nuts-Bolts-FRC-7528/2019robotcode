@@ -1,5 +1,6 @@
 package frc.robot.common;
 
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
@@ -30,4 +31,6 @@ public class robotMap {
     public static final Encoder encoderPivotOne = new Encoder(1,0); //Pivot motor 1 encoder
     public static final Encoder encoderPivotTwo = new Encoder(3,2); //Pivot motor two encoder
     public static final Encoder elevatorEncoder = new Encoder(5,4); //Encoder for the elevator
+
+    public static final DigitalOutput alignmentLeds = new DigitalOutput(8);
 }

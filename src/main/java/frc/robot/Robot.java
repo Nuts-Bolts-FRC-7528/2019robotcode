@@ -98,7 +98,7 @@ public class Robot extends TimedRobot {
             Elevator.setGoal(0); //Sets the Elevator to level 0
         }
 
-
+        robotMap.alignmentLeds.set(OI.driveJoystick.getRawButton(5)); //Turn on alignment LED while button 5 is pressed
 
 
         /*  [MANIPULATOR USE]   */
@@ -148,7 +148,7 @@ public class Robot extends TimedRobot {
 
 
         if (OI.driveJoystick.getRawButton(2)) { //If thumb button is pressed
-            Drivetrain.align(ballCenterPix); //Align to cargo
+            Drivetrain.align(ballCenterPix, false); //Align to cargo
         }
 
 
@@ -156,7 +156,7 @@ public class Robot extends TimedRobot {
 
 
         if (OI.driveJoystick.getRawButton(3)) { //If button 3 is pressed
-            Drivetrain.align(hatchCenterPix); //Align to hatch
+            Drivetrain.align(hatchCenterPix, false); //Align to hatch
         }
 
 
@@ -164,7 +164,7 @@ public class Robot extends TimedRobot {
 
 
         if (OI.driveJoystick.getRawButton(1)) { //If trigger is pressed
-            Drivetrain.align(vtCenterPix); //Align to vision targets
+            Drivetrain.align(vtCenterPix, true); //Align to vision targets
         }
 
 

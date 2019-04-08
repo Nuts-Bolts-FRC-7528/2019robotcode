@@ -44,15 +44,26 @@ public class Drivetrain {
     /**
      * Aligns the drivetrain to a given center pixel of a target. Meant to be run iteratively
      * @param targetCenterPix The center pixel of the target
+     * @param turnInPlace If true the robot will turn in place. Will move forward towards target if false
      */
-    public static void align(int targetCenterPix) {
+    public static void align(int targetCenterPix, boolean turnInPlace) {
         int cameraCenterPix = robotMap.cameraResolution/2;
-        if(targetCenterPix > cameraCenterPix) {
-            setRightMotorSpeed(.3);
-            setLeftMotorSpeed(.4);
-        } else if(targetCenterPix < cameraCenterPix) {
-            setRightMotorSpeed(.4);
-            setLeftMotorSpeed(.3);
+        if(!turnInPlace) {
+            if (targetCenterPix > cameraCenterPix) {
+                setRightMotorSpeed(.3);
+                setLeftMotorSpeed(.4);
+            } else if (targetCenterPix < cameraCenterPix) {
+                setRightMotorSpeed(.4);
+                setLeftMotorSpeed(.3);
+            }
+        } else {
+            if(targetCenterPix > cameraCenterPix) {
+                setRightMotorSpeed(.3);
+                setLeftMotorSpeed(-.3);
+            } else if (targetCenterPix < cameraCenterPix ) {
+                setRightMotorSpeed(-.3);
+                setLeftMotorSpeed(.3);
+            }
         }
     }
 }

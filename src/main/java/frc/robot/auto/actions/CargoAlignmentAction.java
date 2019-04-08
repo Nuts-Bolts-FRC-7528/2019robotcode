@@ -26,7 +26,7 @@ public class CargoAlignmentAction implements Action {
         NetworkTableEntry centerCargo = table.getEntry("cargoCenterPix");
         int ballCenterPix = (int) centerCargo.getDouble(0);
 
-        Drivetrain.align(ballCenterPix);
+        Drivetrain.align(ballCenterPix,false);
     }
 
     @Override
