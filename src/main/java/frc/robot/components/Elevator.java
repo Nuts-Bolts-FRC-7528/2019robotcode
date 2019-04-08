@@ -20,6 +20,11 @@ public class Elevator {
     public static boolean yPressed = false;
     private static int retractionTimer = 0;
 
+    /**
+     *     Resets the level and goal in teleopInit
+     *    so that everything works correctly when the robot is started
+     **/
+
     public static void reset() {
         level = 0;
         goal = 0;
@@ -43,11 +48,13 @@ public class Elevator {
             goal = 0; //If it is, reset to lowest possible level
         }
         if (!yPressed && retractionTimer == 0) {
-            setSetpoint();
+            setSetpoint(); //Ensures that the setpoint is where we want it when Y has not been pressed and its method is completed
         }
-        PI();
+        PI(); // Runs control loop
 
-        robotMap.elevator.set(-drive);
+        robotMap.elevator.set(-drive); // Engages the elevator motor (Because of its positioning, negative makes the elevator go up)
+
+        //Print methods
         System.out.println("\n\n*******************************");
         System.out.println("\nElevator drive:  " + drive);
         System.out.println("\nElevator is at:  " + robotMap.elevatorEncoder.get());
@@ -75,7 +82,7 @@ public class Elevator {
      * the mechanism, we need to lower the elevator by a little bit in order to be able to retract the hatch mechanism
      */
     public static void subSetpoint() {
-        setpoint -= 300;
+        setpoint -= 300; //Makes the elevator go down before retraction
     }
 
     /**
@@ -124,26 +131,32 @@ public class Elevator {
         }
     }
 
+    /*
+            [RETRACTION]
+     */
+
     public static void yIsPressed() {
+        //Print Statements for testing
         System.out.println("yPressed:  " + yPressed);
         System.out.println("\nrectractionTimer:  " + retractionTimer);
+        //When Y is Pressed, a Timer is created with a maximum of 140 ticks and the following checks will be activated
         if (yPressed && retractionTimer < 140) {
-            retractionTimer++;
-            if (retractionTimer == 5) {
-                Elevator.subSetpoint();
+            retractionTimer++; // Increases Timer (In teleopPeriodic)
+            if (retractionTimer == 5) { //@ 5 ticks
+                Elevator.subSetpoint(); // Subtracts the setpoint (currently @ -300)
             }
-            if (retractionTimer == 40) {
-                robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse);
+            if (retractionTimer == 40) { //@ 40 ticks
+                robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse); // Withdraws Wings
             }
-            if (retractionTimer == 80) {
-                robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse);
+            if (retractionTimer == 80) { //@ 80 ticks
+                robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse); // Pulls in Main Base
             }
-            if (retractionTimer == 120) {
-                setGoal(0);
+            if (retractionTimer == 120) { //@ 120 ticks
+                setGoal(0); // Sets Goal to 0, telling the elevator to go to the bottom
             }
         } else {
-            yPressed = false;
-            retractionTimer = 0;
+            yPressed = false; //Sets yPressed to false ( turns off the method)
+            retractionTimer = 0; // resets Timer for next iteration
 
         }
     }

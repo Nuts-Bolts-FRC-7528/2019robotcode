@@ -42,19 +42,17 @@ public class Drivetrain {
     }
 
     /**
-     * Aligns the drivetrain to a given center pixel of a target. Assumes the camera is broadcasting 180p resolution.
-     * (320x180, meaning the center pixel of the camera is 80)
-     * @param centerPix The center pixel of the target
+     * Aligns the drivetrain to a given center pixel of a target. Meant to be run iteratively
+     * @param targetCenterPix The center pixel of the target
      */
-    public static void align(int centerPix) {
-        if(centerPix > 80) {
+    public static void align(int targetCenterPix) {
+        int cameraCenterPix = robotMap.cameraResolution/2;
+        if(targetCenterPix > cameraCenterPix) {
             setRightMotorSpeed(.3);
             setLeftMotorSpeed(.4);
-            System.out.println("Turning right");
-        } else if(centerPix<80) {
+        } else if(targetCenterPix < cameraCenterPix) {
             setRightMotorSpeed(.4);
             setLeftMotorSpeed(.3);
-            System.out.println("Turning left");
         }
     }
 }

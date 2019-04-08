@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.PWMVictorSPX;
  * Defines public variables for our motor controllers and sensors
  */
 public class robotMap {
+    public static final int cameraResolution = 480; //Represents the resolution of the camera (480 represents 480p resolution)
     /* [DRIVETRAIN] */
     public static final PWMVictorSPX leftRearDrive = new PWMVictorSPX(3); //Defines a new PWMVictorSPX (motor controller) on PWM port 3
     public static final PWMVictorSPX rightRearDrive = new PWMVictorSPX(4); //Defines a new PWMVictorSPX(motor controller) on PWM port 4
