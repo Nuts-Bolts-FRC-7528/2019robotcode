@@ -3,6 +3,8 @@ package frc.robot.components;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import frc.robot.common.robotMap;
 
+import static frc.robot.Robot.pistonExtended;
+
 /**
  * Provides an automatic control loop for the Elevator.
  */
@@ -154,6 +156,9 @@ public class Elevator {
             if (retractionTimer == 120) { //@ 120 ticks
                 setGoal(0); // Sets Goal to 0, telling the elevator to go to the bottom
             }
+//            if (retractionTimer == 140) { //@140 ticks
+//                pistonExtended = false; //Unlocks cargo manipulator after task is complete
+//            }
         } else {
             yPressed = false; //Sets yPressed to false ( turns off the method)
             retractionTimer = 0; // resets Timer for next iteration
