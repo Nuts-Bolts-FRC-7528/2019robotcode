@@ -1,5 +1,6 @@
 package frc.robot.components;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import frc.robot.common.robotMap;
 
 /**
@@ -13,8 +14,11 @@ public class Elevator {
 
     private static final double P = 0.1; //Proportional Constant
     private static final double I = 0; //Integrator Constant
-    private static final double D = 0; //Derivative Constant
+    private static final double D = 0.1; //Derivative Constant
     private static final double integrator_limit = 1.0; //Used to prevent integrator windup
+
+    public static boolean yPressed = false;
+    private static int retractionTimer = 0;
 
     public static void reset() {
         level = 0;
@@ -38,7 +42,9 @@ public class Elevator {
         } else if (goal < 0) { //Checks if goal is lower than it should be
             goal = 0; //If it is, reset to lowest possible level
         }
-        setSetpoint();
+        if (!yPressed && retractionTimer == 0) {
+            setSetpoint();
+        }
         PI();
 
         robotMap.elevator.set(-drive);
@@ -62,6 +68,14 @@ public class Elevator {
         } else if (goal == 3) {
             setpoint = 7810;
         }
+    }
+
+    /**
+     * Sets the setPoint lower by 129 ticks for hatch placement. Since the hatch mechanism gets caught on screws on
+     * the mechanism, we need to lower the elevator by a little bit in order to be able to retract the hatch mechanism
+     */
+    public static void subSetpoint() {
+        setpoint -= 300;
     }
 
     /**
@@ -107,6 +121,30 @@ public class Elevator {
             drive = .4; //...limit it to 60% power
         } else if (drive < -.3) { //If we want to go down too fast...
             drive = -.3; //...limit it to -30% power
+        }
+    }
+
+    public static void yIsPressed() {
+        System.out.println("yPressed:  " + yPressed);
+        System.out.println("\nrectractionTimer:  " + retractionTimer);
+        if (yPressed && retractionTimer < 140) {
+            retractionTimer++;
+            if (retractionTimer == 5) {
+                Elevator.subSetpoint();
+            }
+            if (retractionTimer == 40) {
+                robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse);
+            }
+            if (retractionTimer == 80) {
+                robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse);
+            }
+            if (retractionTimer == 120) {
+                setGoal(0);
+            }
+        } else {
+            yPressed = false;
+            retractionTimer = 0;
+
         }
     }
 }

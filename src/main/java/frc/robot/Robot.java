@@ -47,11 +47,11 @@ public class Robot extends TimedRobot {
         pnuematicsProtectionTimer = 0;
     }
 
-    public static int pnuematicsProtectionTimer;
     /*
-    The hatch mechanism sometimes slides out when the robot is enabled. I believe that this has to do something with pneumatics and how unreliable
-    it is. It's random when this happens. Using this so that when this timer reaches a certain time, the system will automatically retract
-     */
+        The hatch mechanism sometimes slides out when the robot is enabled. I believe that this has to do something with pneumatics and how unreliable
+        it is. It's random when this happens. Using this so that when this timer reaches a certain time, the system will automatically retract
+         */
+    public static int pnuematicsProtectionTimer;
 
     @Override
     public void teleopPeriodic() { //Happens roughly every 1/20th of a second while teleop is active
@@ -64,13 +64,10 @@ public class Robot extends TimedRobot {
 
 
         pnuematicsProtectionTimer++; //Increments pneumaticsProtectionTimer
-
-
-
-        if(pnuematicsProtectionTimer == 70){ //Once the timer reaches 70 ticks
+        if(pnuematicsProtectionTimer == 60){ //Once the timer reaches 70 ticks
             robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse); //Pull the claw back in
         }
-        if(pnuematicsProtectionTimer == 150){
+        if(pnuematicsProtectionTimer == 80){
             robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse); //Pull the hatch mechanism back in
         }
 
@@ -173,7 +170,7 @@ public class Robot extends TimedRobot {
 
         /*  [PNEUMATICS]    */
 
-
+        Elevator.yIsPressed();
         if (CargoCatch.getSetpoint() == CargoCatch.MinSetpoint && robotMap.encoderPivotTwo.get() < CargoCatch.MinSetpoint + 40) { //If cargo manipulator is trying to go up
             if (OI.manipulatorController.getBumperPressed(GenericHID.Hand.kLeft)) { //If left bumper pressed
                 pistonExtended = true;
@@ -182,21 +179,27 @@ public class Robot extends TimedRobot {
 
             if (OI.manipulatorController.getBumperPressed(GenericHID.Hand.kRight)) { //If right bumper pressed
                 pistonExtended = true;
+                Elevator.subSetpoint();
                 robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse);//Pull in hatch catching solenoid
             }
 
-            if (OI.manipulatorController.getPOV() == 180) { //If d-pad is pressed up
+            if (OI.manipulatorController.getPOV() == 180) { //If d-pad is pressed down
+                pistonExtended = false;
+                robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse); //Pull hatch mechanism in
+            }
+
+            if (OI.manipulatorController.getPOV() == 0) { //If d-pad is pressed up
                 pistonExtended = true;
                 robotMap.hatchPushOne.set(DoubleSolenoid.Value.kForward); //Push hatch mechanism out
             }
 
-            if (OI.manipulatorController.getPOV() == 0) { //If d-pad is pressed down
+            if (OI.manipulatorController.getYButtonPressed()){
+                Elevator.yPressed = true;
                 pistonExtended = false;
-                robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse); //Pull hatch mechanism in
+
             }
         }
-//        else if (!pistonExtended)
-//            robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse);
+
     }
 
 

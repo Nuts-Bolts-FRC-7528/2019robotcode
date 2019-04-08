@@ -52,8 +52,8 @@ public class CargoCatch {
             System.out.println("Intake should be at 70%");
         }
         else if (setInMotorInBall && !setInMotorPickUp) {
-            robotMap.cargoIntake.set(0.5); // minimum for keeping the ball in is 0.15
-            System.out.println("Intake should be running at 50%");
+            robotMap.cargoIntake.set(0.2); // minimum for keeping the ball in is 0.2
+            System.out.println("Intake should be running at 20%");
         }
     }
 

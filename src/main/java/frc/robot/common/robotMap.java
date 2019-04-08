@@ -23,7 +23,7 @@ public class robotMap {
 
     /* [HATCH MANIPULATOR] */
     public static final DoubleSolenoid hatchCatch = new DoubleSolenoid(4, 5); //Solenoid that catches the hatch
-    public static final DoubleSolenoid hatchPushOne = new DoubleSolenoid(0,1); //Solenoid that pushes the hatch manipulator forward
+    public static final DoubleSolenoid hatchPushOne = new DoubleSolenoid(1,0); //Solenoid that pushes the hatch manipulator forward
 
     /* [ENCODERS] */
     public static final Encoder encoderPivotOne = new Encoder(1,0); //Pivot motor 1 encoder
