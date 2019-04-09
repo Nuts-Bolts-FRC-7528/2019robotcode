@@ -2,7 +2,6 @@ package frc.robot.components;
 
 import frc.robot.common.robotMap;
 
-
 /**
  * Creates a PID loop for the pivoting cargo arm.
  */
@@ -42,7 +41,7 @@ public class CargoCatch {
                 [PRINT STATEMENTS]
             Use for testing and problem solving
          */
-        System.out.println("************************");
+//        System.out.println("************************");
 //        System.out.println("THE WINNING NUMBER IS:\n" + drive);
 //        System.out.println("\nEncoder1:  " + robotMap.encoderPivotOne.get());
 //        System.out.println("\nEncoder2:  " + robotMap.encoderPivotTwo.get());

@@ -1,5 +1,6 @@
 package frc.robot.common;
 
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
@@ -10,14 +11,14 @@ import edu.wpi.first.wpilibj.PWMVictorSPX;
  * Defines public variables for our motor controllers and sensors
  */
 public class robotMap {
-    public static final int cameraResolution = 480; //Represents the resolution of the camera (480 represents 480p resolution)
+    public static final int cameraResolution = 360; //Represents the resolution of the camera (480 represents 480p resolution)
+
     /* [DRIVETRAIN] */
     public static final PWMVictorSPX leftRearDrive = new PWMVictorSPX(3); //Defines a new PWMVictorSPX (motor controller) on PWM port 3
     public static final PWMVictorSPX rightRearDrive = new PWMVictorSPX(4); //Defines a new PWMVictorSPX(motor controller) on PWM port 4
     public static final PWMVictorSPX leftFrontDrive = new PWMVictorSPX(5); //Defines a new PWMVictorSPX (motor controller) on PWM port 5
     public static final PWMVictorSPX rightFrontDrive = new PWMVictorSPX(6); //Defines a new PWMVictorSPX (motor controller) on PWM port 6
-    public static final PWMVictorSPX elevator = new PWMVictorSPX(2); //Elevator Victor SPX
-
+    public static final VictorSPX elevator = new VictorSPX(2);
     /* [CARGO MANIPULATOR] */
     public static final PWMVictorSPX cargoIntake = new PWMVictorSPX(0); //Intake Victor SPX
     public static final PWMVictorSPX cargoPivotOne = new PWMVictorSPX(7); //Pivot motor 1 Victor SPX

@@ -1,11 +1,14 @@
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.common.OI;
 import frc.robot.common.robotMap;
 import frc.robot.components.CargoCatch;
@@ -21,6 +24,12 @@ public class Robot extends TimedRobot {
     //Creates a DifferentialDrive using both SpeedControllerGroups
     public static boolean pistonExtended = false;
     private NetworkTable table; //This table is for object recognition
+    /*
+    * The hatch mechanism sometimes slides out when the robot is enabled. I believe that this has to do something with pneumatics
+    * and how unreliable it is. It's random when this happens. Using this so that when this timer reaches a certain time,
+    * the system will automatically retract
+    */
+    private static int pnuematicsProtectionTimer;
 
     @Override
     public void robotInit() {
@@ -47,11 +56,7 @@ public class Robot extends TimedRobot {
         pnuematicsProtectionTimer = 0;
     }
 
-    /*
-        The hatch mechanism sometimes slides out when the robot is enabled. I believe that this has to do something with pneumatics and how unreliable
-        it is. It's random when this happens. Using this so that when this timer reaches a certain time, the system will automatically retract
-         */
-    public static int pnuematicsProtectionTimer;
+
 
     @Override
     public void teleopPeriodic() { //Happens roughly every 1/20th of a second while teleop is active
@@ -77,7 +82,7 @@ public class Robot extends TimedRobot {
 
         m_drive.arcadeDrive((-OI.driveJoystick.getY()), (OI.driveJoystick.getX())); //Actually drives the robot. Uses the joystick.
         //We suspect that there may be an issue with the Joystick, b/c it is inverted/reversed. We resolved this by flipping Y,X to X,Y and putting a negative on Y
-        robotMap.elevator.setSpeed(OI.manipulatorController.getY(GenericHID.Hand.kRight) * .5); //Allows manual control of the elevator
+        robotMap.elevator.set(ControlMode.PercentOutput, OI.manipulatorController.getY(GenericHID.Hand.kRight) * .5); //Allows manual control of the elevator
 
         /*  [ELEVATOR USE]  */
 
@@ -163,8 +168,8 @@ public class Robot extends TimedRobot {
         /*  [VISION TARGET ALIGNMENT]   */
 
 
-        if (OI.driveJoystick.getRawButton(1)) { //If trigger is pressed
-            Drivetrain.align(vtCenterPix, true); //Align to vision targets
+        if (OI.driveJoystick.getRawButton(1) && SmartDashboard.getBoolean("Vision Tape Tracking:",false)) { //If trigger is pressed
+            Drivetrain.align(vtCenterPix, false); //Align to vision targets
         }
 
 
@@ -209,7 +214,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void testPeriodic() {
-        robotMap.elevator.setSpeed(OI.manipulatorController.getY() * .6); //Elevator Motor (throttle limited to 60%)
+        robotMap.elevator.set(ControlMode.PercentOutput, OI.manipulatorController.getY() * .6); //Elevator Motor (throttle limited to 60%)
         m_drive.arcadeDrive((-OI.driveJoystick.getY()), (OI.driveJoystick.getX())); //Drives the robot arcade style using the joystick
     }
 }

@@ -58,14 +58,15 @@ public class Drivetrain {
             }
         } else {
             //error = center - setpoint
-            
-            if(targetCenterPix > cameraCenterPix) {
-                setRightMotorSpeed(.3);
-                setLeftMotorSpeed(-.3);
-            } else if (targetCenterPix < cameraCenterPix ) {
-                setRightMotorSpeed(-.3);
-                setLeftMotorSpeed(.3);
-            }
+            //P*error
+            //trying to make error 0
+
+            double error = targetCenterPix - cameraCenterPix;
+            double drive = (0.2 * error )/ 100.0;
+            System.out.println(drive);
+
+            setRightMotorSpeed(-drive);
+            setLeftMotorSpeed(drive);
         }
     }
 }

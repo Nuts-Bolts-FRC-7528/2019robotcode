@@ -5,6 +5,8 @@ import frc.robot.common.robotMap;
 
 import static frc.robot.Robot.pistonExtended;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 /**
  * Provides an automatic control loop for the Elevator.
  */
@@ -52,14 +54,13 @@ public class Elevator {
         }
         PI(); // Runs control loop
 
-        robotMap.elevator.set(-drive); // Engages the elevator motor (Because of its positioning, negative makes the elevator go up)
-
+        robotMap.elevator.set(ControlMode.PercentOutput,-drive); // Engages the elevator motor (Because of its positioning, negative makes the elevator go up)
         //Print methods
-        System.out.println("\n\n*******************************");
+        /*System.out.println("\n\n*******************************");
         System.out.println("\nElevator drive:  " + drive);
         System.out.println("\nElevator is at:  " + robotMap.elevatorEncoder.get());
         System.out.println("\nElevator Setpoint:  " + setpoint);
-        System.out.println("\nElevator Goal:  " + goal);
+        System.out.println("\nElevator Goal:  " + goal);*/
     }
 
     /**
@@ -129,8 +130,8 @@ public class Elevator {
 
     public static void yIsPressed() {
         //Print Statements for testing
-        System.out.println("yPressed:  " + yPressed);
-        System.out.println("\nrectractionTimer:  " + retractionTimer);
+        //System.out.println("yPressed:  " + yPressed);
+        //System.out.println("\nrectractionTimer:  " + retractionTimer);
         //When Y is Pressed, a Timer is created with a maximum of 140 ticks and the following checks will be activated
         if (yPressed && retractionTimer < 140) {
             retractionTimer++; // Increases Timer (In teleopPeriodic)
