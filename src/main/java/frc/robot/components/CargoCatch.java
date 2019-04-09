@@ -160,7 +160,7 @@ public class CargoCatch {
     public static void xIsPressed(){
         if(xPressed && xTimer < 21){ //If the X Button gets pressed and timer is les than 21
             xTimer++; //Increment timer by 1
-            robotMap.cargoIntake.set(-0.6); //Set the motor to -0.6
+            robotMap.cargoIntake.set(-0.8); //Set the motor to -0.8
         }
         else{ //Once timer goes over 41 ticks
             xTimer = 0; //reset timer

@@ -1,6 +1,7 @@
 package frc.robot.components;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import frc.robot.Robot;
 import frc.robot.common.robotMap;
 
 import static frc.robot.Robot.pistonExtended;
@@ -20,8 +21,10 @@ public class Elevator {
     private static final double D = 0.1; //Derivative Constant
     private static final double integrator_limit = 1.0; //Used to prevent integrator windup
 
-    public static boolean yPressed = false;
+    public static boolean dRightPressed = false;
+    public static boolean dLeftPressed = false;
     private static int retractionTimer = 0;
+    private static int extensionTimer = 0;
 
     /**
      *     Resets the level and goal in teleopInit
@@ -49,18 +52,19 @@ public class Elevator {
         } else if (goal < 0) { //Checks if goal is lower than it should be
             goal = 0; //If it is, reset to lowest possible level
         }
-        if (!yPressed && retractionTimer == 0) {
+        if ((!dLeftPressed && retractionTimer == 0) ||(!dRightPressed && extensionTimer == 0)) {
             setSetpoint(); //Ensures that the setpoint is where we want it when Y has not been pressed and its method is completed
         }
         PI(); // Runs control loop
 
-        robotMap.elevator.set(ControlMode.PercentOutput,-drive); // Engages the elevator motor (Because of its positioning, negative makes the elevator go up)
+        robotMap.elevator.set(ControlMode.PercentOutput, -drive); // Engages the elevator motor (Because of its positioning, negative makes the elevator go up)
+
         //Print methods
-        /*System.out.println("\n\n*******************************");
+        System.out.println("\n\n*******************************");
         System.out.println("\nElevator drive:  " + drive);
         System.out.println("\nElevator is at:  " + robotMap.elevatorEncoder.get());
         System.out.println("\nElevator Setpoint:  " + setpoint);
-        System.out.println("\nElevator Goal:  " + goal);*/
+        System.out.println("\nElevator Goal:  " + goal);
     }
 
     /**
@@ -84,6 +88,10 @@ public class Elevator {
      */
     public static void subSetpoint() {
         setpoint -= 300; //Makes the elevator go down before retraction
+    }
+
+    public static void superSetpoint(){
+        setpoint += 450;
     }
 
     /**
@@ -125,35 +133,57 @@ public class Elevator {
     }
 
     /*
-            [RETRACTION]
+            [RETRACTION & EXTENSION]
      */
 
-    public static void yIsPressed() {
+    public static void dLeftIsPressed() {
         //Print Statements for testing
-        //System.out.println("yPressed:  " + yPressed);
-        //System.out.println("\nrectractionTimer:  " + retractionTimer);
+        System.out.println("dLeftPressed:  " + dLeftPressed);
+        System.out.println("\nrectractionTimer:  " + retractionTimer);
         //When Y is Pressed, a Timer is created with a maximum of 140 ticks and the following checks will be activated
-        if (yPressed && retractionTimer < 140) {
+        if (dLeftPressed && retractionTimer < 90) {
             retractionTimer++; // Increases Timer (In teleopPeriodic)
             if (retractionTimer == 5) { //@ 5 ticks
                 Elevator.subSetpoint(); // Subtracts the setpoint (currently @ -300)
             }
-            if (retractionTimer == 40) { //@ 40 ticks
+            if (retractionTimer == 20) { //@ 20 ticks
                 robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse); // Withdraws Wings
             }
-            if (retractionTimer == 80) { //@ 80 ticks
+            if (retractionTimer == 40) { //@ 40 ticks
                 robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse); // Pulls in Main Base
             }
-            if (retractionTimer == 120) { //@ 120 ticks
+            if (retractionTimer == 60) { //@ 60 ticks
                 setGoal(0); // Sets Goal to 0, telling the elevator to go to the bottom
             }
-            if (retractionTimer == 140) { //@140 ticks
-                pistonExtended = false; //Unlocks cargo manipulator after task is complete
+            if (retractionTimer == 80) { //@80 ticks
+                Robot.pistonExtended = false; //Unlocks cargo manipulator after task is complete
             }
         } else {
-            yPressed = false; //Sets yPressed to false ( turns off the method)
+            dLeftPressed = false; //Sets yPressed to false ( turns off the method)
             retractionTimer = 0; // resets Timer for next iteration
 
+        }
+    }
+    public static void dRightIsPressed(){
+        if(dRightPressed && extensionTimer < 200){
+            extensionTimer++;
+            if (extensionTimer == 5) { //@ 5 ticks
+                Elevator.setGoal(1); //Boosts the elevator to level 1
+            }
+            if (extensionTimer == 60) { //@ 60 ticks
+                robotMap.hatchPushOne.set(DoubleSolenoid.Value.kForward); // Extends Hatch Base
+            }
+            if (extensionTimer == 80) { //@ 80 ticks
+                robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); // Extends wings
+            }
+            if (extensionTimer == 110) { //@ 110 ticks
+                Elevator.superSetpoint(); // Adds the setpoint (currently @ +450)
+            }
+            
+        } else {
+            dRightPressed = false; //Sets yPressed to false ( turns off the method)
+            extensionTimer = 0; // resets Timer for next iteration
+            
         }
     }
 }

@@ -175,7 +175,8 @@ public class Robot extends TimedRobot {
 
         /*  [PNEUMATICS]    */
 
-        Elevator.yIsPressed(); //Iterates yisPressed, checks if yisPressed is true, otherwise does nothing
+        Elevator.dRightIsPressed(); 
+        Elevator.dLeftIsPressed(); //Iterates yisPressed, checks if yisPressed is true, otherwise does nothing
         if (CargoCatch.getSetpoint() == CargoCatch.MinSetpoint && robotMap.encoderPivotTwo.get() < CargoCatch.MinSetpoint + 40) { //If cargo manipulator is trying to go up
             if (OI.manipulatorController.getBumperPressed(GenericHID.Hand.kLeft)) { //If left bumper pressed
                 pistonExtended = true; //Restricts cargo manipulator
@@ -197,9 +198,14 @@ public class Robot extends TimedRobot {
                 robotMap.hatchPushOne.set(DoubleSolenoid.Value.kForward); //Push hatch mechanism out
             }
 
-            if (OI.manipulatorController.getYButtonPressed()){ //Checks if y is pressed
-                Elevator.yPressed = true; //Sets yPressed to true engages yIsPressed method
+            if (OI.manipulatorController.getPOV() == 270){ //Checks if left on d-pad is pressed
+                Elevator.dLeftPressed = true; //Sets dLeftPressed to true engages dLeftIsPressed method
+                pistonExtended = true;
+            }
 
+            if (OI.manipulatorController.getPOV() == 90){ //Checks if right on d-pad is pressed
+                Elevator.dRightPressed = true; //Sets dRightPressed to true engages dRightIsPressed method
+                pistonExtended = true;
             }
         }
 
