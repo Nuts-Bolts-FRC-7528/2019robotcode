@@ -61,17 +61,13 @@ public class Robot extends TimedRobot {
 
     }
 
-
-
     @Override
     public void teleopPeriodic() { //Happens roughly every 1/20th of a second while teleop is active
-
 
         /*  [PNUEMATICS STARTUP PROTECTION(ONLY FOR TESTING)] */
 
         //This is mostly for testing to ensure that the hatch mechanism
         // automatically retracts so we don't break it
-
 
         pnuematicsProtectionTimer++; //Increments pneumaticsProtectionTimer
         if(pnuematicsProtectionTimer == 50){ //Once the timer reaches 70 ticks
@@ -108,14 +104,7 @@ public class Robot extends TimedRobot {
             Elevator.setGoal(0); //Sets the Elevator to level 0
         }
 
-        if(OI.manipulatorController.getYButtonPressed()){ //Switches between ball and hatch elevator height
-            if(!Elevator.hatchOrCargo){ //if hatchOrCargo is false(hatch mode)
-                Elevator.hatchOrCargo = true; //switch to true(ball mode)
-            }
-            else{ //if hatchOrCargo is true(ball mode)
-                Elevator.hatchOrCargo = false; //switch to false(hatch mode)
-            }
-        }
+
 
         robotMap.alignmentLeds.set(OI.driveJoystick.getRawButton(5)); //Turn on alignment LED while button 5 is pressed
 
@@ -127,17 +116,22 @@ public class Robot extends TimedRobot {
             if (OI.manipulatorController.getAButtonPressed()) { //If A button is pressed...
 //                robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse);
                 CargoCatch.setSetpoint(true); //...go down
+                Elevator.hatchOrCargo = true;//Sets elevator setpoints to ball heigh for rocket
+
 
             }
 
             if (OI.manipulatorController.getBButtonPressed()) { //If B button is pressed...
                 CargoCatch.setSetpoint(false); //...go up
+                Elevator.hatchOrCargo = true; //Sets Elevator setpoints to ball height for rocket
+
             }
 
             if (OI.manipulatorController.getXButtonPressed()) { //If X button is pressed
                 CargoCatch.xPressed = true; //Set xPressed to true(used in xIsPressed method)
                 CargoCatch.setInMotorHolding = false; //Prevent motors from sucking
                 CargoCatch.setInMotorPickUp = false; //Prevent motors from sucking x2
+                Elevator.hatchOrCargo = true; //Sets elevator setpoints to ball height for rocket
             }
         }
 
@@ -195,31 +189,37 @@ public class Robot extends TimedRobot {
             if (OI.manipulatorController.getBumperPressed(GenericHID.Hand.kLeft)) { //If left bumper pressed
                 pistonExtended = true; //Restricts cargo manipulator
                 robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); //Push out hatch catching solenoid
+                Elevator.hatchOrCargo = false; //Sets elevator setpoints to hatch height for rocket
             }
 
             if (OI.manipulatorController.getBumperPressed(GenericHID.Hand.kRight)) { //If right bumper pressed
                 pistonExtended = true; //Restricts cargo manipulator
                 robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse);//Pull in hatch catching solenoid
+                Elevator.hatchOrCargo = false;//Sets elevator setpoints to hatch height for rocket
             }
 
             if (OI.manipulatorController.getPOV() == 180) { //If d-pad is pressed down
                 pistonExtended = false; //Allows cargo manipulator to function
                 robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse); //Pull hatch mechanism in
+                Elevator.hatchOrCargo = false;//Sets elevator setpoints to hatch height for rocket
             }
 
             if (OI.manipulatorController.getPOV() == 0) { //If d-pad is pressed up
                 pistonExtended = true; //Restricts cargo manipulator
                 robotMap.hatchPushOne.set(DoubleSolenoid.Value.kForward); //Push hatch mechanism out
+                Elevator.hatchOrCargo = false;//Sets elevator setpoints to hatch height for rocket
             }
 
             if (OI.manipulatorController.getPOV() == 270){ //Checks if left on d-pad is pressed
                 Elevator.dLeftPressed = true; //Sets dLeftPressed to true engages dLeftIsPressed method
                 pistonExtended = true;
+                Elevator.hatchOrCargo = false;
             }
 
             if (OI.manipulatorController.getPOV() == 90){ //Checks if right on d-pad is pressed
                 Elevator.dRightPressed = true; //Sets dRightPressed to true engages dRightIsPressed method
                 pistonExtended = true;
+                Elevator.hatchOrCargo = false;
             }
         }
 
