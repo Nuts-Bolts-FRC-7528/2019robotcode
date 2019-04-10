@@ -21,7 +21,7 @@ public class CargoCatch {
     //Be careful setting the proportional or integral constants > 1
     //This can cause the manipulator to violently flop and potentially
     //damage itself
-    private static final double P = 0.24; //Proportional Constant
+    private static final double P = 0.22; //Proportional Constant
     private static final double I = 0.11; //Integrator Constant
     private static final double D = 2.6; //Derivative Constant\
     private static final double integrator_limit = 1.0; //Used to prevent integrator windup
