@@ -31,6 +31,7 @@ public class Robot extends TimedRobot {
     */
     private static int pnuematicsProtectionTimer;
 
+
     @Override
     public void robotInit() {
         NetworkTableInstance ntinst = NetworkTableInstance.getDefault(); //Gets global NetworkTable instance
@@ -103,6 +104,15 @@ public class Robot extends TimedRobot {
 
         if (OI.driveJoystick.getRawButtonPressed(8)) { //If joystick button 11 is pressed
             Elevator.setGoal(0); //Sets the Elevator to level 0
+        }
+
+        if(OI.manipulatorController.getYButtonPressed()){ //Switches between ball and hatch elevator height
+            if(!Elevator.hatchOrCargo){ //if hatchOrCargo is false(hatch mode)
+                Elevator.hatchOrCargo = true; //switch to true(ball mode)
+            }
+            else{ //if hatchOrCargo is true(ball mode)
+                Elevator.hatchOrCargo = false; //switch to false(hatch mode)
+            }
         }
 
         robotMap.alignmentLeds.set(OI.driveJoystick.getRawButton(5)); //Turn on alignment LED while button 5 is pressed

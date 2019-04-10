@@ -16,7 +16,7 @@ public class Elevator {
 
     private static double setpoint, error, integral, drive, derivative, previousError = 0;
 
-    private static final double P = 0.1; //Proportional Constant
+    private static final double P = 0.2; //Proportional Constant
     private static final double I = 0.1; //Integrator Constant
     private static final double D = 1; //Derivative Constant
     private static final double integrator_limit = 1.0; //Used to prevent integrator windup
@@ -25,6 +25,7 @@ public class Elevator {
     public static boolean dLeftPressed = false;
     private static int retractionTimer = 0;
     private static int extensionTimer = 0;
+    public static boolean hatchOrCargo = false;
 
     /**
      *     Resets the level and goal in teleopInit
@@ -52,7 +53,7 @@ public class Elevator {
         } else if (goal < 0) { //Checks if goal is lower than it should be
             goal = 0; //If it is, reset to lowest possible level
         }
-        if ((!dLeftPressed && retractionTimer == 0) ||(!dRightPressed && extensionTimer == 0)) {
+        if ((!dLeftPressed && retractionTimer == 0) || (!dRightPressed && extensionTimer == 0)) {
             setSetpoint(); //Ensures that the setpoint is where we want it when Y has not been pressed and its method is completed
         }
         PI(); // Runs control loop
@@ -71,14 +72,27 @@ public class Elevator {
      * Based on the current goal level, with the available options being levels 0, 1, 2, and 3, gets a particular setpoint to be at.
      */
     private static void setSetpoint() {
-        if (goal == 0) { //Sets desired level to 0
-            setpoint = 0; //Ticks at level 0
-        } else if (goal == 1) { //Sets desired level to 0
-            setpoint = 1010; //Ticks at level 1
-        } else if (goal == 2) { //Sets desired level to 1
-            setpoint = 4600; //Ticks at level 2
-        } else if (goal == 3) { //Sets desired level to 2
-            setpoint = 7810; //Ticks at level 3
+        if (!hatchOrCargo) { //Set points for hatch height
+            if (goal == 0) { //Sets desired level to 0
+                setpoint = 0; //Ticks at level 0
+            } else if (goal == 1) { //Sets desired level to 0
+                setpoint = 1010; //Ticks at level 1
+            } else if (goal == 2) { //Sets desired level to 1
+                setpoint = 4600; //Ticks at level 2
+            } else if (goal == 3) { //Sets desired level to 2
+                setpoint = 7810; //Ticks at level 3
+            }
+        }
+        else{ //Setpoints for ball height
+            if (goal == 0) { //Sets desired level to 0
+                setpoint = 0; //Ticks at level 0
+            } else if (goal == 1) { //Sets desired level to 0
+                setpoint = 850; //Ticks at level 1
+            } else if (goal == 2) { //Sets desired level to 1
+                setpoint = 4450; //Ticks at level 2
+            } else if (goal == 3) { //Sets desired level to 2
+                setpoint = 7650; //Ticks at level 3
+            }
         }
     }
 
@@ -91,7 +105,7 @@ public class Elevator {
     }
 
     public static void superSetpoint(){
-        setpoint += 450;
+        setpoint += 1000;
     }
 
     /**

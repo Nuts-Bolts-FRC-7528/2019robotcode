@@ -22,7 +22,7 @@ public class CargoCatch {
     //This can cause the manipulator to violently flop and potentially
     //damage itself
     private static final double P = 0.24; //Proportional Constant
-    private static final double I = 0.1; //Integrator Constant
+    private static final double I = 0.11; //Integrator Constant
     private static final double D = 2.6; //Derivative Constant\
     private static final double integrator_limit = 1.0; //Used to prevent integrator windup
 
@@ -113,7 +113,7 @@ public class CargoCatch {
      * @param down Whether to set the setpoint to go down (if true, it will attempt to go down)
      */
     public static void setSetpoint(boolean down) {
-        int set = 420;
+        int set = 480;
 
         if (down && setpoint < 520) { //If we want to go down AND we are not all the way down
             setpoint += set;//Go down by 420 encoder ticks
