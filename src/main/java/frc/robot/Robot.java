@@ -74,10 +74,10 @@ public class Robot extends TimedRobot {
 
 
         pnuematicsProtectionTimer++; //Increments pneumaticsProtectionTimer
-        if(pnuematicsProtectionTimer == 60){ //Once the timer reaches 70 ticks
+        if(pnuematicsProtectionTimer == 50){ //Once the timer reaches 70 ticks
             robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse); //Pull the claw back in
         }
-        if(pnuematicsProtectionTimer == 80){
+        if(pnuematicsProtectionTimer == 40){
             robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse); //Pull the hatch mechanism back in
         }
 

@@ -22,7 +22,7 @@ public class Elevator {
     public static boolean dLeftPressed = false;
     private static int retractionTimer = 0;
     private static int extensionTimer = 0;
-    public static boolean hatchOrCargo = false;
+    public static boolean hatchOrCargo = false; //Boolean for changing the elevator setPoint based on scoring hatch or ball
 
     /**
      *     Resets the level and goal in teleopInit
@@ -101,11 +101,11 @@ public class Elevator {
      * the mechanism, we need to lower the elevator by a little bit in order to be able to retract the hatch mechanism
      */
     public static void subSetpoint() {
-        setpoint -= 300; //Makes the elevator go down before retraction
+        setpoint -= 300; //Makes the elevator go down before retraction by 300 encoder ticks
     }
 
     public static void superSetpoint(){
-        setpoint += 300; //Makes the elevator go up after extension
+        setpoint += 300; //Makes the elevator go up after extension by 300 encoder ticks
     }
 
     /**
@@ -126,8 +126,8 @@ public class Elevator {
      */
     private static void PI() {
 
-        //PI = P * error + I * (previous error)
-        //Where P and I are constants and error is the difference between the setpoint and the current position
+        //PI = P * error + I * D * derivative
+        //Where P, I, and D are constants and error is the difference between the setpoint and the current position
         previousError = error;
         error = setpoint - robotMap.elevatorEncoder.get(); //Set error to the difference of the setpoint and the current position
         derivative = error - previousError;
@@ -140,7 +140,7 @@ public class Elevator {
         }
         drive = (P * error + I * integral + D * derivative) / 100.0; //Calculate the PI loop based on the above equation
         if (drive > 0.4) { //If we want to go up too fast...
-            drive = .4; //...limit it to 60% power
+            drive = .4; //...limit it to 40% power
         } else if (drive < -.3) { //If we want to go down too fast...
             drive = -.3; //...limit it to -30% power
         }
@@ -154,7 +154,7 @@ public class Elevator {
         //Print Statements for testing
 //        System.out.println("dLeftPressed:  " + dLeftPressed);
 //        System.out.println("\nrectractionTimer:  " + retractionTimer);
-        //When Y is Pressed, a Timer is created with a maximum of 140 ticks and the following checks will be activated
+        //When dLeft is Pressed, a Timer is created with a maximum of 90 ticks and the following checks will be activated
         if (dLeftPressed && retractionTimer < 90) {
             retractionTimer++; // Increases Timer (In teleopPeriodic)
             if (retractionTimer == 5) { //@ 5 ticks
@@ -173,13 +173,13 @@ public class Elevator {
                 Robot.pistonExtended = false; //Unlocks cargo manipulator after task is complete
             }
         } else {
-            dLeftPressed = false; //Sets yPressed to false ( turns off the method)
-            retractionTimer = 0; // resets Timer for next iteration
+            dLeftPressed = false; //Sets dLeftPressed to false ( turns off the method)
+            retractionTimer = 0; // resets retractionTimer for next iteration
 
         }
     }
     public static void dRightIsPressed(){
-        if(dRightPressed && extensionTimer < 200){
+        if(dRightPressed && extensionTimer < 150){ //Checks if dRightPressed is true and time is leses than 7.5 seconds
             extensionTimer++;
             if (extensionTimer == 5) { //@ 5 ticks
                 Elevator.setGoal(1); //Boosts the elevator to level 1
@@ -191,12 +191,12 @@ public class Elevator {
                 robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); // Extends wings
             }
             if (extensionTimer == 120) { //@ 120 ticks
-                Elevator.superSetpoint(); // Adds the setpoint (currently @ +450)
+                Elevator.superSetpoint(); // Adds the setpoint (currently @ +300)
             }
             
         } else {
-            dRightPressed = false; //Sets yPressed to false ( turns off the method)
-            extensionTimer = 0; // resets Timer for next iteration
+            dRightPressed = false; //Sets dRightPressed to false ( turns off the method)
+            extensionTimer = 0; // resets extensionTimer for next iteration
             
         }
     }
