@@ -13,9 +13,9 @@ public class Elevator {
 
     private static double setpoint, error, integral, drive, derivative, previousError = 0;
 
-    private static final double P = 0.2; //Proportional Constant
-    private static final double I = 0.1; //Integrator Constant
-    private static final double D = 1; //Derivative Constant
+    private static final double P = 0.2; //Proportional Constant, optimal 4/10 : 0.2
+    private static final double I = 0.1; //Integrator Constant, optimal 4/10 : 0.1
+    private static final double D = 1; //Derivative Constant, optimal 4/10 : 1
     private static final double integrator_limit = 1.0; //Used to prevent integrator windup
 
     public static boolean dRightPressed = false;
@@ -60,12 +60,12 @@ public class Elevator {
 
         robotMap.elevator.set(ControlMode.PercentOutput, -drive); // Engages the elevator motor (Because of its positioning, negative makes the elevator go up)
 
-        //Print methods
-//        System.out.println("\n\n*******************************");
-//        System.out.println("\nElevator drive:  " + drive);
-//        System.out.println("\nElevator is at:  " + robotMap.elevatorEncoder.get());
-//        System.out.println("\nElevator Setpoint:  " + setpoint);
-//        System.out.println("\nElevator Goal:  " + goal);
+//        Print methods
+        System.out.println("\n\n*******************************");
+        System.out.println("\nElevator drive:  " + drive);
+        System.out.println("\nElevator is at:  " + robotMap.elevatorEncoder.get());
+        System.out.println("\nElevator Setpoint:  " + setpoint);
+        System.out.println("\nElevator Goal:  " + goal);
         if(hatchOrCargo){
             System.out.println("BALL        BALL");
         }
@@ -145,9 +145,13 @@ public class Elevator {
             integral = -integrator_limit; //...Set it to -integrator limit
         }
         drive = (P * error + I * integral + D * derivative) / 100.0; //Calculate the PI loop based on the above equation
-        if (drive > 0.45) { //If we want to go up too fast...
-            drive = 0.45; //...limit it to 45% power
+
+        //CHANGE THESE FOR MAX MOTOR SPEED
+        if (drive > 0.6) { //If we want to go up too fast...
+            //ON THE UP
+            drive = 0.6; //...limit it to 60% power
         } else if (drive < -.3) { //If we want to go down too fast...
+            //ON THE DOWN
             drive = -.3; //...limit it to -30% power
         }
     }

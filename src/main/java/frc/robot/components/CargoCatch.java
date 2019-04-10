@@ -21,12 +21,13 @@ public class CargoCatch {
     //Be careful setting the proportional or integral constants > 1
     //This can cause the manipulator to violently flop and potentially
     //damage itself
-    private static final double P = 0.22; //Proportional Constant
-    private static final double I = 0.11; //Integrator Constant
-    private static final double D = 2.6; //Derivative Constant\
+    //OPTIMAL = DO NOT CHANGE EXCEPT FOR EMERGENCIES
+    private static final double P = 0.22; //Proportional Constant, OPTIMAL 4/10 : 0.22
+    private static final double I = 0.11; //Integrator Constant, OPTIMAL 4/10 : 0.11
+    private static final double D = 2.6; //Derivative Constant, OPTIMAL 4/10 : 2.6
     private static final double integrator_limit = 1.0; //Used to prevent integrator windup
 
-    public static double MinSetpoint = 25;
+    public static double MinSetpoint = 30; //Minimum Setpoint, OPTIMAL 4/10 : 30
     /**
      * Is called by teleopPeriodic. Handles iterative logic for the arm.
      */
@@ -41,14 +42,14 @@ public class CargoCatch {
                 [PRINT STATEMENTS]
             Use for testing and problem solving
          */
-//        System.out.println("************************");
-//        System.out.println("THE WINNING NUMBER IS:\n" + drive);
-//        System.out.println("\nEncoder1:  " + robotMap.encoderPivotOne.get());
-//        System.out.println("\nEncoder2:  " + robotMap.encoderPivotTwo.get());
-//        System.out.println("\nSetpoint is:  " + getSetpoint());
-//        System.out.println("\nsetInMotorPickUp:  " + setInMotorPickUp);
-//        System.out.println("\nsetInMotorInBall:  " + setInMotorHolding);
-//        System.out.println("\npivotExtended:  " + frc.robot.Robot.pistonExtended);
+        System.out.println("************************");
+        System.out.println("THE WINNING NUMBER IS:\n" + drive);
+        System.out.println("\nEncoder1:  " + robotMap.encoderPivotOne.get());
+        System.out.println("\nEncoder2:  " + robotMap.encoderPivotTwo.get());
+        System.out.println("\nSetpoint is:  " + getSetpoint());
+        System.out.println("\nsetInMotorPickUp:  " + setInMotorPickUp);
+        System.out.println("\nsetInMotorInBall:  " + setInMotorHolding);
+        System.out.println("\npivotExtended:  " + frc.robot.Robot.pistonExtended);
 
         if (setInMotorPickUp && !setInMotorHolding){ //If Intake and pivot is set to pick up mode, AND NOT Retain mode
             robotMap.cargoIntake.set(0.7); // Set Intake to 70% power
@@ -75,8 +76,10 @@ public class CargoCatch {
             drive *= 1.0; //1.0; //Sets drive lower if the maniuplator is going down (compensates for gravity)
         else if (drive < 0)
             drive *= 1.0; //Sets drive higher if the manipulator is going up
-//        if (drive < 0.25 && drive > 0.1) // roughly the minimum amount for motor movement
-//            drive = 0.25;
+//        if (drive < 0.24 && drive > 0.1) // roughly the minimum amount for motor movement
+//            drive = 0.24;
+//        if (drive > -0.36 && drive < -0.1)
+//            drive = -0.35;
 
 
         return drive;
