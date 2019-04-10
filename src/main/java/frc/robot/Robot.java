@@ -187,8 +187,8 @@ public class Robot extends TimedRobot {
 
         /*  [PNEUMATICS]    */
 
-        Elevator.dRightIsPressed(); 
-        Elevator.dLeftIsPressed(); //Iterates yisPressed, checks if yisPressed is true, otherwise does nothing
+        Elevator.dRightIsPressed(); //Iterates dRightisPressed, checks if dRightisPressed is true, otherwise does nothing
+        Elevator.dLeftIsPressed(); //Iterates dLeftisPressed, checks if dLeftisPressed is true, otherwise does nothing
         if (CargoCatch.getSetpoint() == CargoCatch.MinSetpoint && robotMap.encoderPivotTwo.get() < CargoCatch.MinSetpoint + 40) { //If cargo manipulator is trying to go up
             if (OI.manipulatorController.getBumperPressed(GenericHID.Hand.kLeft)) { //If left bumper pressed
                 pistonExtended = true; //Restricts cargo manipulator

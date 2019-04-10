@@ -53,8 +53,8 @@ public class Elevator {
         } else if (goal < 0) { //Checks if goal is lower than it should be
             goal = 0; //If it is, reset to lowest possible level
         }
-        if ((!dLeftPressed && retractionTimer == 0) || (!dRightPressed && extensionTimer == 0)) {
-            setSetpoint(); //Ensures that the setpoint is where we want it when Y has not been pressed and its method is completed
+        if ((!dLeftPressed && retractionTimer == 0) && (!dRightPressed && extensionTimer == 0)) {
+            setSetpoint(); //Ensures that the setpoint is where we want it when dLeft AND dRight has not been pressed and its' methods is completed
         }
         PI(); // Runs control loop
 
@@ -105,7 +105,7 @@ public class Elevator {
     }
 
     public static void superSetpoint(){
-        setpoint += 1000;
+        setpoint += 450; //Makes the elevator go up after extension
     }
 
     /**
