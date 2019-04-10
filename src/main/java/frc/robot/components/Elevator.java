@@ -87,11 +87,11 @@ public class Elevator {
             if (goal == 0) { //Sets desired level to 0
                 setpoint = 0; //Ticks at level 0
             } else if (goal == 1) { //Sets desired level to 0
-                setpoint = 850; //Ticks at level 1
+                setpoint = 600; //Ticks at level 1
             } else if (goal == 2) { //Sets desired level to 1
-                setpoint = 4450; //Ticks at level 2
+                setpoint = 4200; //Ticks at level 2
             } else if (goal == 3) { //Sets desired level to 2
-                setpoint = 7650; //Ticks at level 3
+                setpoint = 7400; //Ticks at level 3
             }
         }
     }
@@ -184,13 +184,13 @@ public class Elevator {
             if (extensionTimer == 5) { //@ 5 ticks
                 Elevator.setGoal(1); //Boosts the elevator to level 1
             }
-            if (extensionTimer == 60) { //@ 60 ticks
+            if (extensionTimer == 15) { //@ 15 ticks
                 robotMap.hatchPushOne.set(DoubleSolenoid.Value.kForward); // Extends Hatch Base
             }
-            if (extensionTimer == 80) { //@ 80 ticks
+            if (extensionTimer == 100) { //@ 100 ticks
                 robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); // Extends wings
             }
-            if (extensionTimer == 110) { //@ 110 ticks
+            if (extensionTimer == 120) { //@ 120 ticks
                 Elevator.superSetpoint(); // Adds the setpoint (currently @ +450)
             }
             
