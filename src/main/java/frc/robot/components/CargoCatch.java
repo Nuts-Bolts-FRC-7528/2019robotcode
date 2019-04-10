@@ -26,7 +26,7 @@ public class CargoCatch {
     private static final double D = 2.6; //Derivative Constant\
     private static final double integrator_limit = 1.0; //Used to prevent integrator windup
 
-    public static double MinSetpoint = 20;
+    public static double MinSetpoint = 25;
     /**
      * Is called by teleopPeriodic. Handles iterative logic for the arm.
      */
@@ -49,6 +49,7 @@ public class CargoCatch {
 //        System.out.println("\nsetInMotorPickUp:  " + setInMotorPickUp);
 //        System.out.println("\nsetInMotorInBall:  " + setInMotorHolding);
 //        System.out.println("\npivotExtended:  " + frc.robot.Robot.pistonExtended);
+
         if (setInMotorPickUp && !setInMotorHolding){ //If Intake and pivot is set to pick up mode, AND NOT Retain mode
             robotMap.cargoIntake.set(0.7); // Set Intake to 70% power
 //            System.out.println("Intake should be at 70%");
@@ -101,6 +102,7 @@ public class CargoCatch {
 
         //resets the encoder at the beginning (Manipulator should be set at resting position
         robotMap.encoderPivotTwo.reset();
+        robotMap.encoderPivotOne.reset();
 
         //Resetting the booleans disables Intake motor
         setInMotorHolding = false;
@@ -160,7 +162,7 @@ public class CargoCatch {
     public static void xIsPressed(){
         if(xPressed && xTimer < 21){ //If the X Button gets pressed and timer is les than 21
             xTimer++; //Increment timer by 1
-            robotMap.cargoIntake.set(-0.8); //Set the motor to -0.8
+            robotMap.cargoIntake.set(-1.0); //Set the motor to -1.0
         }
         else{ //Once timer goes over 41 ticks
             xTimer = 0; //reset timer

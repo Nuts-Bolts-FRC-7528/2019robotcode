@@ -66,6 +66,12 @@ public class Elevator {
 //        System.out.println("\nElevator is at:  " + robotMap.elevatorEncoder.get());
 //        System.out.println("\nElevator Setpoint:  " + setpoint);
 //        System.out.println("\nElevator Goal:  " + goal);
+        if(hatchOrCargo){
+            System.out.println("BALL        BALL");
+        }
+        else{
+            System.out.println("HATCH       HATCH");
+        }
     }
 
     /**
@@ -139,8 +145,8 @@ public class Elevator {
             integral = -integrator_limit; //...Set it to -integrator limit
         }
         drive = (P * error + I * integral + D * derivative) / 100.0; //Calculate the PI loop based on the above equation
-        if (drive > 0.4) { //If we want to go up too fast...
-            drive = .4; //...limit it to 40% power
+        if (drive > 0.45) { //If we want to go up too fast...
+            drive = 0.45; //...limit it to 45% power
         } else if (drive < -.3) { //If we want to go down too fast...
             drive = -.3; //...limit it to -30% power
         }

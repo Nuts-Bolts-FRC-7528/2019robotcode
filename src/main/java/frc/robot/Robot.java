@@ -116,7 +116,7 @@ public class Robot extends TimedRobot {
             if (OI.manipulatorController.getAButtonPressed()) { //If A button is pressed...
 //                robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse);
                 CargoCatch.setSetpoint(true); //...go down
-                Elevator.hatchOrCargo = true;//Sets elevator setpoints to ball heigh for rocket
+                Elevator.hatchOrCargo = true;//Sets elevator setpoints to ball height for rocket
 
 
             }
