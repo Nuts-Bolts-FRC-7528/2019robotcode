@@ -17,8 +17,8 @@ public class Elevator {
     private static double setpoint, error, integral, drive, derivative, previousError = 0;
 
     private static final double P = 0.1; //Proportional Constant
-    private static final double I = 0; //Integrator Constant
-    private static final double D = 0.1; //Derivative Constant
+    private static final double I = 0.1; //Integrator Constant
+    private static final double D = 1; //Derivative Constant
     private static final double integrator_limit = 1.0; //Used to prevent integrator windup
 
     public static boolean dRightPressed = false;
@@ -60,11 +60,11 @@ public class Elevator {
         robotMap.elevator.set(ControlMode.PercentOutput, -drive); // Engages the elevator motor (Because of its positioning, negative makes the elevator go up)
 
         //Print methods
-        System.out.println("\n\n*******************************");
-        System.out.println("\nElevator drive:  " + drive);
-        System.out.println("\nElevator is at:  " + robotMap.elevatorEncoder.get());
-        System.out.println("\nElevator Setpoint:  " + setpoint);
-        System.out.println("\nElevator Goal:  " + goal);
+//        System.out.println("\n\n*******************************");
+//        System.out.println("\nElevator drive:  " + drive);
+//        System.out.println("\nElevator is at:  " + robotMap.elevatorEncoder.get());
+//        System.out.println("\nElevator Setpoint:  " + setpoint);
+//        System.out.println("\nElevator Goal:  " + goal);
     }
 
     /**
@@ -138,8 +138,8 @@ public class Elevator {
 
     public static void dLeftIsPressed() {
         //Print Statements for testing
-        System.out.println("dLeftPressed:  " + dLeftPressed);
-        System.out.println("\nrectractionTimer:  " + retractionTimer);
+//        System.out.println("dLeftPressed:  " + dLeftPressed);
+//        System.out.println("\nrectractionTimer:  " + retractionTimer);
         //When Y is Pressed, a Timer is created with a maximum of 140 ticks and the following checks will be activated
         if (dLeftPressed && retractionTimer < 90) {
             retractionTimer++; // Increases Timer (In teleopPeriodic)

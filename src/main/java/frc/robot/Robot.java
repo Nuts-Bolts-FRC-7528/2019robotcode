@@ -54,6 +54,8 @@ public class Robot extends TimedRobot {
         CargoCatch.reset(); //Temporary reset for easy testing of cargo
         Elevator.reset(); //Temporary reset for easy testing of elevator
         pnuematicsProtectionTimer = 0;
+        robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse);
+        robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse);
     }
 
 
@@ -68,13 +70,13 @@ public class Robot extends TimedRobot {
         // automatically retracts so we don't break it
 
 
-        pnuematicsProtectionTimer++; //Increments pneumaticsProtectionTimer
-        if(pnuematicsProtectionTimer == 60){ //Once the timer reaches 70 ticks
-            robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse); //Pull the claw back in
-        }
-        if(pnuematicsProtectionTimer == 80){
-            robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse); //Pull the hatch mechanism back in
-        }
+//        pnuematicsProtectionTimer++; //Increments pneumaticsProtectionTimer
+//        if(pnuematicsProtectionTimer == 60){ //Once the timer reaches 70 ticks
+//            robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse); //Pull the claw back in
+//        }
+//        if(pnuematicsProtectionTimer == 80){
+//            robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse); //Pull the hatch mechanism back in
+//        }
 
 
         /*  [ROBOT DRIVING] */

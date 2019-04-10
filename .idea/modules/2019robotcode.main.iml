@@ -15,5 +15,7 @@
     <orderEntry type="library" name="Gradle: edu.wpi.first.cscore:cscore-java:2019.3.1" level="project" />
     <orderEntry type="library" name="Gradle: edu.wpi.first.cameraserver:cameraserver-java:2019.3.1" level="project" />
     <orderEntry type="library" name="Gradle: edu.wpi.first.hal:hal-java:2019.3.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.ctre.phoenix:api-java:5.12.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.ctre.phoenix:wpiapi-java:5.12.1" level="project" />
   </component>
 </module>
