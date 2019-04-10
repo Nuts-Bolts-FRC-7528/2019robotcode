@@ -37,6 +37,7 @@ public class Robot extends TimedRobot {
         NetworkTableInstance ntinst = NetworkTableInstance.getDefault(); //Gets global NetworkTable instance
         table = ntinst.getTable("vision"); //Gets vision table from vision coprocessor (Raspberry Pi)
         CameraServer.getInstance().startAutomaticCapture(); //This likes to be red. Activates camera
+//        robotMap.alignmentLeds.set(true);
     }
 
     @Override
@@ -50,13 +51,14 @@ public class Robot extends TimedRobot {
         teleopPeriodic(); //Run all normal teleop functions
     }
 
+
+    //THIS IS ONLY FOR TESTING PURPOSES, COMMENT OUT OR DELETE WHEN STARTING TO PRACTICE
     @Override
     public void teleopInit() {
         CargoCatch.reset(); //Temporary reset for easy testing of cargo
         Elevator.reset(); //Temporary reset for easy testing of elevator
         pnuematicsProtectionTimer = 0;
-        robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse);
-        robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse);
+
     }
 
 
@@ -65,19 +67,19 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() { //Happens roughly every 1/20th of a second while teleop is active
 
 
-        /*  [PNUEMATICS STARTUP PROTECTION] */
+        /*  [PNUEMATICS STARTUP PROTECTION(ONLY FOR TESTING)] */
 
         //This is mostly for testing to ensure that the hatch mechanism
         // automatically retracts so we don't break it
 
 
-//        pnuematicsProtectionTimer++; //Increments pneumaticsProtectionTimer
-//        if(pnuematicsProtectionTimer == 60){ //Once the timer reaches 70 ticks
-//            robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse); //Pull the claw back in
-//        }
-//        if(pnuematicsProtectionTimer == 80){
-//            robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse); //Pull the hatch mechanism back in
-//        }
+        pnuematicsProtectionTimer++; //Increments pneumaticsProtectionTimer
+        if(pnuematicsProtectionTimer == 60){ //Once the timer reaches 70 ticks
+            robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse); //Pull the claw back in
+        }
+        if(pnuematicsProtectionTimer == 80){
+            robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse); //Pull the hatch mechanism back in
+        }
 
 
         /*  [ROBOT DRIVING] */

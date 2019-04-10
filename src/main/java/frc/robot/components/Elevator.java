@@ -3,9 +3,6 @@ package frc.robot.components;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import frc.robot.Robot;
 import frc.robot.common.robotMap;
-
-import static frc.robot.Robot.pistonExtended;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 /**
@@ -56,6 +53,9 @@ public class Elevator {
         if ((!dLeftPressed && retractionTimer == 0) && (!dRightPressed && extensionTimer == 0)) {
             setSetpoint(); //Ensures that the setpoint is where we want it when dLeft AND dRight has not been pressed and its' methods is completed
         }
+        else if(dRightPressed && extensionTimer < 40){ //If right on the d-pad is pressed, within the first 2 seconds...
+            setSetpoint(); //Allows setSetopoint to work, which brings the elevator up to level one
+        }
         PI(); // Runs control loop
 
         robotMap.elevator.set(ControlMode.PercentOutput, -drive); // Engages the elevator motor (Because of its positioning, negative makes the elevator go up)
@@ -105,7 +105,7 @@ public class Elevator {
     }
 
     public static void superSetpoint(){
-        setpoint += 450; //Makes the elevator go up after extension
+        setpoint += 300; //Makes the elevator go up after extension
     }
 
     /**
