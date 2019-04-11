@@ -182,9 +182,9 @@ public class Robot extends TimedRobot {
 
 
         /*  [PNEUMATICS]    */
-
-        Elevator.dRightIsPressed(); //Iterates dRightisPressed, checks if dRightisPressed is true, otherwise does nothing
-        Elevator.dLeftIsPressed(); //Iterates dLeftisPressed, checks if dLeftisPressed is true, otherwise does nothing
+        Elevator.startIsPressed(); //Iterates startIsPresse, checks if startPressed is true, otherwise does nothing
+        Elevator.dRightIsPressed(); //Iterates dRightisPressed, checks if dRightPressed is true, otherwise does nothing
+        Elevator.dLeftIsPressed(); //Iterates dLeftisPressed, checks if dLeftPressed is true, otherwise does nothing
         if (CargoCatch.getSetpoint() == CargoCatch.MinSetpoint && robotMap.encoderPivotTwo.get() < CargoCatch.MinSetpoint + 40) { //If cargo manipulator is trying to go up
             if (OI.manipulatorController.getBumperPressed(GenericHID.Hand.kLeft)) { //If left bumper pressed
                 pistonExtended = true; //Restricts cargo manipulator
@@ -212,14 +212,20 @@ public class Robot extends TimedRobot {
 
             if (OI.manipulatorController.getPOV() == 270){ //Checks if left on d-pad is pressed
                 Elevator.dLeftPressed = true; //Sets dLeftPressed to true engages dLeftIsPressed method
-                pistonExtended = true;
-                Elevator.hatchOrCargo = false;
+                pistonExtended = true; //Prevents ball manipulator from being used
+                Elevator.hatchOrCargo = false; //Sets elevator setpoints to hatch height for rocket
             }
 
             if (OI.manipulatorController.getPOV() == 90){ //Checks if right on d-pad is pressed
                 Elevator.dRightPressed = true; //Sets dRightPressed to true engages dRightIsPressed method
-                pistonExtended = true;
-                Elevator.hatchOrCargo = false;
+                pistonExtended = true; //Prevents ball manipulator from being used
+                Elevator.hatchOrCargo = false; //Sets elevator setpoints to hatch height for rocket
+            }
+
+            if(OI.manipulatorController.getStartButtonPressed()){ //If the start button is pressed
+                Elevator.startPressed = true; //Sets startPressed to true, which engages startIsPressed method
+                pistonExtended = true; //Prevents ball manipulator from being used
+                Elevator.hatchOrCargo = false; //Sets elevator setpoints ot hatch height for rocket
             }
         }
 
