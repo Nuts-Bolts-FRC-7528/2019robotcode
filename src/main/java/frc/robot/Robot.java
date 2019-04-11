@@ -24,6 +24,7 @@ public class Robot extends TimedRobot {
     //Creates a DifferentialDrive using both SpeedControllerGroups
     public static boolean pistonExtended = false;
     private NetworkTable table; //This table is for object recognition
+    NetworkTableEntry Elevatoryesworks;
     /*
     * The hatch mechanism sometimes slides out when the robot is enabled. I believe that this has to do something with pneumatics
     * and how unreliable it is. It's random when this happens. Using this so that when this timer reaches a certain time,
@@ -38,12 +39,17 @@ public class Robot extends TimedRobot {
         table = ntinst.getTable("vision"); //Gets vision table from vision coprocessor (Raspberry Pi)
         CameraServer.getInstance().startAutomaticCapture(); //This likes to be red. Activates camera
 //        robotMap.alignmentLeds.set(true);
+        Elevatoryesworks = SmartDashboard.getEntry("Elevator");
     }
 
     @Override
     public void autonomousInit() {
         Elevator.reset(); //Reset elevator position and encoder
         CargoCatch.reset(); //Reset manipulator position and encoder
+        pnuematicsProtectionTimer = 0;
+        robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); //So wings start out as OPEN
+        pistonExtended = true;
+
     }
 
     @Override
@@ -58,24 +64,29 @@ public class Robot extends TimedRobot {
         CargoCatch.reset(); //Temporary reset for easy testing of cargo
         Elevator.reset(); //Temporary reset for easy testing of elevator
         pnuematicsProtectionTimer = 0;
+        robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); //So wings start out as OPEN
+        pistonExtended = true;
 
     }
 
     @Override
     public void teleopPeriodic() { //Happens roughly every 1/20th of a second while teleop is active
+        Elevatoryesworks.setBoolean(Elevator.hatchOrCargo);
+        SmartDashboard.putBoolean("Ele",Elevator.hatchOrCargo);
+
 
         /*  [PNUEMATICS STARTUP PROTECTION(ONLY FOR TESTING)] */
 
         //This is mostly for testing to ensure that the hatch mechanism
         // automatically retracts so we don't break it
 
-        pnuematicsProtectionTimer++; //Increments pneumaticsProtectionTimer
-        if(pnuematicsProtectionTimer == 50){ //Once the timer reaches 70 ticks
-            robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse); //Pull the claw back in
-        }
-        if(pnuematicsProtectionTimer == 40){
-            robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse); //Pull the hatch mechanism back in
-        }
+//        pnuematicsProtectionTimer++; //Increments pneumaticsProtectionTimer
+//        if(pnuematicsProtectionTimer == 50){ //Once the timer reaches 70 ticks
+//            robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse); //Pull the claw back in
+//        }
+//        if(pnuematicsProtectionTimer == 40){
+//            robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse); //Pull the hatch mechanism back in
+//        }
 
 
         /*  [ROBOT DRIVING] */

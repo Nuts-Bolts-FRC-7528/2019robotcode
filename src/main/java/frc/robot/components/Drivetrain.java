@@ -61,7 +61,7 @@ public class Drivetrain {
             } else if (targetCenterPix - 5 < cameraCenterPix) {
                 setRightMotorSpeed(.45);
                 setLeftMotorSpeed(.25);
-                SmartDashboard.putBoolean("asdf",true)
+
             }
         } else {
             //error = center - setpoint

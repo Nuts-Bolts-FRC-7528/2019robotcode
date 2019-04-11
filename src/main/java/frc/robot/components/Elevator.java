@@ -199,11 +199,15 @@ public class Elevator {
             if (extensionTimer == 15) { //@ 15 ticks
                 robotMap.hatchPushOne.set(DoubleSolenoid.Value.kForward); // Extends Hatch Base
             }
+            if (extensionTimer == 25){
+                subSetpoint();
+            }
             if (extensionTimer == 100) { //@ 100 ticks
                 robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); // Extends wings
             }
             if (extensionTimer == 120) { //@ 120 ticks
                 Elevator.superSetpoint(); // Adds the setpoint (currently @ +300)
+                Elevator.superSetpoint();
             }
 
         } else {
