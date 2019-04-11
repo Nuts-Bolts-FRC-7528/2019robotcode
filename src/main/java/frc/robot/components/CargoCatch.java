@@ -42,14 +42,14 @@ public class CargoCatch {
                 [PRINT STATEMENTS]
             Use for testing and problem solving
          */
-        System.out.println("************************");
-        System.out.println("THE WINNING NUMBER IS:\n" + drive);
-        System.out.println("\nEncoder1:  " + robotMap.encoderPivotOne.get());
-        System.out.println("\nEncoder2:  " + robotMap.encoderPivotTwo.get());
-        System.out.println("\nSetpoint is:  " + getSetpoint());
-        System.out.println("\nsetInMotorPickUp:  " + setInMotorPickUp);
-        System.out.println("\nsetInMotorInBall:  " + setInMotorHolding);
-        System.out.println("\npivotExtended:  " + frc.robot.Robot.pistonExtended);
+//        System.out.println("************************");
+//        System.out.println("THE WINNING NUMBER IS:\n" + drive);
+//        System.out.println("\nEncoder1:  " + robotMap.encoderPivotOne.get());
+//        System.out.println("\nEncoder2:  " + robotMap.encoderPivotTwo.get());
+//        System.out.println("\nSetpoint is:  " + getSetpoint());
+//        System.out.println("\nsetInMotorPickUp:  " + setInMotorPickUp);
+//        System.out.println("\nsetInMotorInBall:  " + setInMotorHolding);
+//        System.out.println("\npivotExtended:  " + frc.robot.Robot.pistonExtended);
 
         if (setInMotorPickUp && !setInMotorHolding){ //If Intake and pivot is set to pick up mode, AND NOT Retain mode
             robotMap.cargoIntake.set(0.7); // Set Intake to 70% power

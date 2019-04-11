@@ -77,25 +77,27 @@ public class Elevator {
     /**
      * Based on the current goal level, with the available options being levels 0, 1, 2, and 3, gets a particular setpoint to be at.
      */
+    //CURRENT ELEVATOR DESIRED RAW ENCODER VALUE VS ENCODER VALUE WITH PID
+    // IS MINUS 100 FROM DESIRED VALUE
+    //To fix this, added 100 to ALL setpoints
     private static void setSetpoint() {
         if (!hatchOrCargo) { //Set points for hatch height
             if (goal == 0) { //Sets desired level to 0
                 setpoint = 0; //Ticks at level 0
             } else if (goal == 1) { //Sets desired level to 0
-                setpoint = 1010; //Ticks at level 1
+                setpoint = 1110; //Ticks at level 1
             } else if (goal == 2) { //Sets desired level to 1
-                setpoint = 4600; //Ticks at level 2
+                setpoint = 4700; //Ticks at level 2
             } else if (goal == 3) { //Sets desired level to 2
-                setpoint = 7810; //Ticks at level 3
             }
         }
         else{ //Setpoints for ball height
             if (goal == 0) { //Sets desired level to 0
                 setpoint = 0; //Ticks at level 0
             } else if (goal == 1) { //Sets desired level to 0
-                setpoint = 600; //Ticks at level 1
+                setpoint = 700; //Ticks at level 1
             } else if (goal == 2) { //Sets desired level to 1
-                setpoint = 4200; //Ticks at level 2
+                setpoint = 4300; //Ticks at level 2
             } else if (goal == 3) { //Sets desired level to 2
                 setpoint = 7400; //Ticks at level 3
             }
