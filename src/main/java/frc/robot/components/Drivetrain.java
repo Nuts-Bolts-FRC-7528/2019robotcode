@@ -1,5 +1,6 @@
 package frc.robot.components;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.common.robotMap;
 
 /**
@@ -54,23 +55,24 @@ public class Drivetrain {
     public static void align(int targetCenterPix, boolean turnInPlace) {
         int cameraCenterPix = robotMap.cameraResolution / 2;
         if (!turnInPlace) {
-            if (targetCenterPix > cameraCenterPix) {
-                setRightMotorSpeed(.3);
-                setLeftMotorSpeed(.4);
-            } else if (targetCenterPix < cameraCenterPix) {
-                setRightMotorSpeed(.4);
-                setLeftMotorSpeed(.3);
+            if (targetCenterPix + 5 > cameraCenterPix) {
+                setRightMotorSpeed(.25);
+                setLeftMotorSpeed(.45);
+            } else if (targetCenterPix - 5 < cameraCenterPix) {
+                setRightMotorSpeed(.45);
+                setLeftMotorSpeed(.25);
+                SmartDashboard.putBoolean("asdf",true)
             }
         } else {
             //error = center - setpoint
             //P*error
             //trying to make error 0
             if (targetCenterPix > cameraCenterPix) {
-                setRightMotorSpeed(-.2);
-                setLeftMotorSpeed(.2);
+                setRightMotorSpeed(-.35);
+                setLeftMotorSpeed(.35);
             } else if (targetCenterPix < cameraCenterPix) {
-                setRightMotorSpeed(.2);
-                setLeftMotorSpeed(-.2);
+                setRightMotorSpeed(.35);
+                setLeftMotorSpeed(-.35);
             }
         }
     }

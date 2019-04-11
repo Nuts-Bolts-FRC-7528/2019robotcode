@@ -177,7 +177,7 @@ public class Robot extends TimedRobot {
 
 
         if (OI.driveJoystick.getRawButton(1) && SmartDashboard.getBoolean("Vision Tape Tracking:",false)) { //If trigger is pressed
-            Drivetrain.align(vtCenterPix, false); //Align to vision targets
+            Drivetrain.align(vtCenterPix, true); //Align to vision targets
         }
 
 
