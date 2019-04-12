@@ -47,8 +47,8 @@ public class Elevator {
      * backwards.
      */
     public static void iterate() {
-        if (goal > 3) { //Checks if goal is higher than it should be
-            goal = 3; //If it is, reset to highest possible level
+        if (goal > 3 && goal != 4) { //Checks if goal is higher than it should be
+            goal = 3; //If it is, reset to highest possible level unless we want a height exception
         } else if (goal < 0) { //Checks if goal is lower than it should be
             goal = 0; //If it is, reset to lowest possible level
         }
@@ -62,7 +62,6 @@ public class Elevator {
         }
         else{
             robotMap.elevator.set(ControlMode.PercentOutput, -drive); // Engages the elevator motor (Because of its positioning, negative makes the elevator go up)
-
         }
 //        Print methods
 //        System.out.println("\n\n*******************************");
@@ -87,20 +86,21 @@ public class Elevator {
         if (!hatchOrCargo) { //Set points for hatch height
             if (goal == 0) { //Sets desired level to 0
                 setpoint = 0; //Ticks at level 0
-            } else if (goal == 1) { //Sets desired level to 0
+            } else if (goal == 1) { //Sets desired level to 1
                 setpoint = 1110; //Ticks at level 1
-            } else if (goal == 2) { //Sets desired level to 1
+            } else if (goal == 2) { //Sets desired level to 2
                 setpoint = 4700; //Ticks at level 2
             } else if (goal == 3) { //Sets desired level to 2
+                setpoint = 8300;
             }
         } else { //Setpoints for ball height
             if (goal == 0) { //Sets desired level to 0
                 setpoint = 0; //Ticks at level 0
-            } else if (goal == 1) { //Sets desired level to 0
+            } else if (goal == 1) { //Sets desired level to 1
                 setpoint = 700; //Ticks at level 1
-            } else if (goal == 2) { //Sets desired level to 1
+            } else if (goal == 2) { //Sets desired level to 2
                 setpoint = 4300; //Ticks at level 2
-            } else if (goal == 3) { //Sets desired level to 2
+            } else if (goal == 3) { //Sets desired level to 3
                 setpoint = 7400; //Ticks at level 3
             }
         }
@@ -124,7 +124,7 @@ public class Elevator {
      * @param height The desired goal level. Valid ranges are 1-4
      */
     public static void setGoal(int height) {
-        if (height < 4 && height > -1) { //Checks if goal is between 0 and 3 inclusive
+        if (height < 5 && height > -1) { //Checks if goal is between 0 and 3 inclusive
             goal = height; //Sets goal equal to the input level
         }
     }
@@ -196,23 +196,18 @@ public class Elevator {
     public static void dRightIsPressed() { //Method for grabbing hatches from the feeder station
         if (dRightPressed && extensionTimer < 180) { //Checks if dRightPressed is true and time is leses than 7.5 seconds
             extensionTimer++;
-            if (extensionTimer == 10) { //@ 5 ticks
-               superSetpoint();
-               superSetpoint();
-               superSetpoint();
+            if (extensionTimer == 10) { //@ 10 ticks
+               setpoint = 800;
             }
-            if (extensionTimer == 80) { //@80 ticks
+            if (extensionTimer == 40) { //@40 ticks
                 robotMap.hatchPushOne.set(DoubleSolenoid.Value.kForward); // Extends Hatch Base
             }
 
-            if (extensionTimer == 100) { //@ 100 ticks
+            if (extensionTimer == 60) { //@ 60 ticks
                 robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); // Extends wings
             }
             if (extensionTimer == 120) { //@ 120 ticks
-                Elevator.superSetpoint(); // Adds the setpoint (currently @ +300)
-                Elevator.superSetpoint();
-                Elevator.superSetpoint();
-                Elevator.superSetpoint();
+               setpoint = 1500;
             }
         } else {
             dRightPressed = false; //Sets dRightPressed to false ( turns off the method)
@@ -221,7 +216,7 @@ public class Elevator {
     }
 
     public static void startIsPressed() { //Method for start of the match hatch pickup
-        if (startPressed && startTimer < 70) { //Checks if startPressed is true and startTimer is under 100 ticks
+        if (startPressed && startTimer < 60) { //Checks if startPressed is true and startTimer is under 100 ticks
             startTimer++; //Increments startTimer each iteration of code
             if (startTimer == 10) { //@ 10 ticks
                 Elevator.setGoal(1); //Set the elevator to level one
@@ -229,7 +224,7 @@ public class Elevator {
             if (startTimer == 30) { //@ 30 ticks
                 robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); //Pushes wings out
             }
-            if (startTimer == 60){ //@ 60 ticks
+            if (startTimer == 50){ //@ 60 ticks
                 robotMap.hatchPushOne.set(DoubleSolenoid.Value.kForward); //Pushes hatch mechanism in
             }
         } else {

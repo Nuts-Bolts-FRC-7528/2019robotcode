@@ -231,7 +231,7 @@ public class Robot extends TimedRobot {
                 Elevator.dRightPressed = true; //Sets dRightPressed to true engages dRightIsPressed method
                 pistonExtended = true; //Prevents ball manipulator from being used
                 Elevator.hatchOrCargo = false; //Sets elevator setpoints to hatch height for rocket
-                Elevator.goal = 1;
+                Elevator.goal = 4;
             }
 
             if(OI.manipulatorController.getStartButtonPressed()){ //If the start button is pressed
