@@ -61,9 +61,9 @@ public class Robot extends TimedRobot {
     //THIS IS ONLY FOR TESTING PURPOSES, COMMENT OUT OR DELETE WHEN STARTING TO PRACTICE
     @Override
     public void teleopInit() {
-        CargoCatch.reset(); //Temporary reset for easy testing of cargo
-        Elevator.reset(); //Temporary reset for easy testing of elevator
-        pnuematicsProtectionTimer = 0;
+//        CargoCatch.reset(); //Temporary reset for easy testing of cargo
+//        Elevator.reset(); //Temporary reset for easy testing of elevator
+//        pnuematicsProtectionTimer = 0;
         robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); //So wings start out as OPEN
         pistonExtended = true;
 
@@ -231,6 +231,7 @@ public class Robot extends TimedRobot {
                 Elevator.dRightPressed = true; //Sets dRightPressed to true engages dRightIsPressed method
                 pistonExtended = true; //Prevents ball manipulator from being used
                 Elevator.hatchOrCargo = false; //Sets elevator setpoints to hatch height for rocket
+                Elevator.goal = 1;
             }
 
             if(OI.manipulatorController.getStartButtonPressed()){ //If the start button is pressed

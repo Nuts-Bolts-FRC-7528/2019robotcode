@@ -9,7 +9,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
  * Provides an automatic control loop for the Elevator.
  */
 public class Elevator {
-    private static int goal = 0; //Determines the desired height of the elevator
+    public static int goal = 0; //Determines the desired height of the elevator
 
     private static double setpoint, error, integral, drive, derivative, previousError = 0;
 
@@ -54,24 +54,27 @@ public class Elevator {
         }
         if ((!dLeftPressed && retractionTimer == 0) && (!dRightPressed && extensionTimer == 0)) {
             setSetpoint(); //Ensures that the setpoint is where we want it when dLeft AND dRight has not been pressed and its' methods is completed
-        } else if (dRightPressed && extensionTimer < 40) { //If right on the d-pad is pressed, within the first 2 seconds...
-            setSetpoint(); //Allows setSetopoint to work, which brings the elevator up to level one
         }
+
         PI(); // Runs control loop
+        if(goal == 0 && robotMap.elevatorEncoder.get() < 200) {
+            robotMap.elevator.set(ControlMode.PercentOutput, 0);
+        }
+        else{
+            robotMap.elevator.set(ControlMode.PercentOutput, -drive); // Engages the elevator motor (Because of its positioning, negative makes the elevator go up)
 
-        robotMap.elevator.set(ControlMode.PercentOutput, -drive); // Engages the elevator motor (Because of its positioning, negative makes the elevator go up)
-
+        }
 //        Print methods
-        System.out.println("\n\n*******************************");
+//        System.out.println("\n\n*******************************");
         System.out.println("\nElevator drive:  " + drive);
         System.out.println("\nElevator is at:  " + robotMap.elevatorEncoder.get());
-        System.out.println("\nElevator Setpoint:  " + setpoint);
-        System.out.println("\nElevator Goal:  " + goal);
-        if (hatchOrCargo) {
-            System.out.println("BALL        BALL");
-        } else {
-            System.out.println("HATCH       HATCH");
-        }
+//        System.out.println("\nElevator Setpoint:  " + setpoint);
+//        System.out.println("\nElevator Goal:  " + goal);
+//        if (hatchOrCargo) {
+//            System.out.println("BALL        BALL");
+//        } else {
+//            System.out.println("HATCH       HATCH");
+//        }
     }
 
     /**
@@ -191,29 +194,29 @@ public class Elevator {
     }
 
     public static void dRightIsPressed() { //Method for grabbing hatches from the feeder station
-        if (dRightPressed && extensionTimer < 150) { //Checks if dRightPressed is true and time is leses than 7.5 seconds
+        if (dRightPressed && extensionTimer < 180) { //Checks if dRightPressed is true and time is leses than 7.5 seconds
             extensionTimer++;
-            if (extensionTimer == 5) { //@ 5 ticks
-                Elevator.setGoal(1); //Boosts the elevator to level 1
+            if (extensionTimer == 10) { //@ 5 ticks
+               superSetpoint();
+               superSetpoint();
+               superSetpoint();
             }
-            if (extensionTimer == 15) { //@ 15 ticks
+            if (extensionTimer == 80) { //@80 ticks
                 robotMap.hatchPushOne.set(DoubleSolenoid.Value.kForward); // Extends Hatch Base
             }
-            if (extensionTimer == 25){
-                subSetpoint();
-            }
+
             if (extensionTimer == 100) { //@ 100 ticks
                 robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); // Extends wings
             }
             if (extensionTimer == 120) { //@ 120 ticks
                 Elevator.superSetpoint(); // Adds the setpoint (currently @ +300)
                 Elevator.superSetpoint();
+                Elevator.superSetpoint();
+                Elevator.superSetpoint();
             }
-
         } else {
             dRightPressed = false; //Sets dRightPressed to false ( turns off the method)
             extensionTimer = 0; // resets extensionTimer for next iteration
-
         }
     }
 
