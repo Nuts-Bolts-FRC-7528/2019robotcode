@@ -2,6 +2,7 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -40,6 +41,9 @@ public class Robot extends TimedRobot {
         CameraServer.getInstance().startAutomaticCapture(); //This likes to be red. Activates camera
 //        robotMap.alignmentLeds.set(true);
         Elevatoryesworks = SmartDashboard.getEntry("Elevator");
+        robotMap.cargoPivotOne.setNeutralMode(NeutralMode.Brake);
+        robotMap.cargoPivotTwo.setNeutralMode(NeutralMode.Brake);
+        robotMap.elevator.setNeutralMode(NeutralMode.Brake);
     }
 
     @Override
@@ -61,9 +65,6 @@ public class Robot extends TimedRobot {
     //THIS IS ONLY FOR TESTING PURPOSES, COMMENT OUT OR DELETE WHEN STARTING TO PRACTICE
     @Override
     public void teleopInit() {
-//        CargoCatch.reset(); //Temporary reset for easy testing of cargo
-//        Elevator.reset(); //Temporary reset for easy testing of elevator
-//        pnuematicsProtectionTimer = 0;
         robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); //So wings start out as OPEN
         pistonExtended = true;
 
@@ -91,8 +92,12 @@ public class Robot extends TimedRobot {
 
         /*  [ROBOT DRIVING] */
 
-
-        m_drive.arcadeDrive((-OI.driveJoystick.getY()), (OI.driveJoystick.getX())); //Actually drives the robot. Uses the joystick.
+        if(Elevator.setpoint > 5000){
+            m_drive.arcadeDrive((-OI.driveJoystick.getY() * 0.5), (OI.driveJoystick.getX() * 0.5)); //Actually drives the robot. Uses the joystick.
+        }
+        else {
+            m_drive.arcadeDrive((-OI.driveJoystick.getY()), (OI.driveJoystick.getX())); //Actually drives the robot. Uses the joystick.
+        }
         //We suspect that there may be an issue with the Joystick, b/c it is inverted/reversed. We resolved this by flipping Y,X to X,Y and putting a negative on Y
         robotMap.elevator.set(ControlMode.PercentOutput, OI.manipulatorController.getY(GenericHID.Hand.kRight) * .5); //Allows manual control of the elevator
 
@@ -113,6 +118,9 @@ public class Robot extends TimedRobot {
 
         if (OI.driveJoystick.getRawButtonPressed(8)) { //If joystick button 11 is pressed
             Elevator.setGoal(0); //Sets the Elevator to level 0
+        }
+        if( OI.manipulatorController.getBackButtonPressed()){
+            CargoCatch.setpoint = 250;
         }
 
 

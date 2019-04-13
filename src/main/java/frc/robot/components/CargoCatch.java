@@ -1,5 +1,7 @@
 package frc.robot.components;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import frc.robot.common.robotMap;
 
 /**
@@ -12,7 +14,8 @@ public class CargoCatch {
     public static boolean xPressed = false; //Initialize booleans for Intake Out mode
     public static int xTimer = 0; //Initialize timer
 
-    private static double drive, setpoint = 0;
+    private static double drive = 0;
+    public static double setpoint = 0;
     private static double integral, error, derivative = 0;
     private static double previousError = 0; //Derivative is based on finding the slope of our function.
     //Equation is (x2 - x1)/(y2 - y1) to find slope. In this case, teleopPeriodic is iterative so we only worry about the
@@ -36,8 +39,9 @@ public class CargoCatch {
         if (setpoint < MinSetpoint) {
             setpoint = MinSetpoint; //Make sure the manipulator doesn't go *all* the way back, preventing the ball from being pushed out
         }
-        robotMap.cargoPivotOne.set(upOrDown(drive)); //Drive pivot one based on the PI values
-        robotMap.cargoPivotTwo.set(upOrDown(drive)); //Drive pivot two based on the PI values
+        robotMap.cargoPivotTwo.set(ControlMode.PercentOutput, drive);
+        robotMap.cargoPivotOne.set(ControlMode.PercentOutput, drive);
+
         /*
                 [PRINT STATEMENTS]
             Use for testing and problem solving
@@ -47,8 +51,8 @@ public class CargoCatch {
 //        System.out.println("\nEncoder1:  " + robotMap.encoderPivotOne.get());
 //        System.out.println("\nEncoder2:  " + robotMap.encoderPivotTwo.get());
 //        System.out.println("\nSetpoint is:  " + getSetpoint());
-//        System.out.println("\nsetInMotorPickUp:  " + setInMotorPickUp);
-//        System.out.println("\nsetInMotorInBall:  " + setInMotorHolding);
+        System.out.println("\nsetInMotorPickUp:  " + setInMotorPickUp);
+        System.out.println("\nsetInMotorInBall:  " + setInMotorHolding);
 //        System.out.println("\npivotExtended:  " + frc.robot.Robot.pistonExtended);
 
         if (setInMotorPickUp && !setInMotorHolding){ //If Intake and pivot is set to pick up mode, AND NOT Retain mode

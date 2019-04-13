@@ -1,5 +1,6 @@
 package frc.robot.components;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import frc.robot.Robot;
 import frc.robot.common.robotMap;
@@ -11,7 +12,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 public class Elevator {
     public static int goal = 0; //Determines the desired height of the elevator
 
-    private static double setpoint, error, integral, drive, derivative, previousError = 0;
+    private static double error, integral, drive, derivative, previousError = 0;
+    public static double setpoint = 0;
 
     private static final double P = 0.2; //Proportional Constant, optimal 4/10 : 0.2
     private static final double I = 0.1; //Integrator Constant, optimal 4/10 : 0.1
@@ -57,16 +59,16 @@ public class Elevator {
         }
 
         PI(); // Runs control loop
-        if(goal == 0 && robotMap.elevatorEncoder.get() < 200) {
+        if (goal == 0 && robotMap.elevatorEncoder.get() < 200) {
             robotMap.elevator.set(ControlMode.PercentOutput, 0);
-        }
-        else{
+        } else {
             robotMap.elevator.set(ControlMode.PercentOutput, -drive); // Engages the elevator motor (Because of its positioning, negative makes the elevator go up)
         }
+
 //        Print methods
 //        System.out.println("\n\n*******************************");
-        System.out.println("\nElevator drive:  " + drive);
-        System.out.println("\nElevator is at:  " + robotMap.elevatorEncoder.get());
+//        System.out.println("\nElevator drive:  " + drive);
+//        System.out.println("\nElevator is at:  " + robotMap.elevatorEncoder.get());
 //        System.out.println("\nElevator Setpoint:  " + setpoint);
 //        System.out.println("\nElevator Goal:  " + goal);
 //        if (hatchOrCargo) {
@@ -101,7 +103,7 @@ public class Elevator {
             } else if (goal == 2) { //Sets desired level to 2
                 setpoint = 4300; //Ticks at level 2
             } else if (goal == 3) { //Sets desired level to 3
-                setpoint = 7400; //Ticks at level 3
+                setpoint = 7700; //Ticks at level 3
             }
         }
     }
@@ -197,7 +199,7 @@ public class Elevator {
         if (dRightPressed && extensionTimer < 180) { //Checks if dRightPressed is true and time is leses than 7.5 seconds
             extensionTimer++;
             if (extensionTimer == 10) { //@ 10 ticks
-               setpoint = 800;
+                setpoint = 800;
             }
             if (extensionTimer == 40) { //@40 ticks
                 robotMap.hatchPushOne.set(DoubleSolenoid.Value.kForward); // Extends Hatch Base
@@ -207,7 +209,7 @@ public class Elevator {
                 robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); // Extends wings
             }
             if (extensionTimer == 120) { //@ 120 ticks
-               setpoint = 1500;
+                setpoint = 1500;
             }
         } else {
             dRightPressed = false; //Sets dRightPressed to false ( turns off the method)
@@ -224,7 +226,7 @@ public class Elevator {
             if (startTimer == 30) { //@ 30 ticks
                 robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); //Pushes wings out
             }
-            if (startTimer == 50){ //@ 60 ticks
+            if (startTimer == 50) { //@ 60 ticks
                 robotMap.hatchPushOne.set(DoubleSolenoid.Value.kForward); //Pushes hatch mechanism in
             }
         } else {

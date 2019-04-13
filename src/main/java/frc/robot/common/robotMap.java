@@ -21,8 +21,8 @@ public class robotMap {
     public static final VictorSPX elevator = new VictorSPX(2);
     /* [CARGO MANIPULATOR] */
     public static final PWMVictorSPX cargoIntake = new PWMVictorSPX(0); //Intake Victor SPX
-    public static final PWMVictorSPX cargoPivotOne = new PWMVictorSPX(7); //Pivot motor 1 Victor SPX
-    public static final PWMVictorSPX cargoPivotTwo = new PWMVictorSPX(1); //Pivot motor 2 Victor SPX
+    public static final VictorSPX cargoPivotOne = new VictorSPX(0); //Pivot motor 1 Victor SPX
+    public static final VictorSPX cargoPivotTwo = new VictorSPX(1); //Pivot motor 2 Victor SPX
 
     /* [HATCH MANIPULATOR] */
     public static final DoubleSolenoid hatchCatch = new DoubleSolenoid(4, 5); //Solenoid that catches the hatch
