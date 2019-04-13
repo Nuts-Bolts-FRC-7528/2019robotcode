@@ -218,7 +218,7 @@ public class Elevator {
     }
 
     public static void startIsPressed() { //Method for start of the match hatch pickup
-        if (startPressed && startTimer < 60) { //Checks if startPressed is true and startTimer is under 100 ticks
+        if (startPressed && startTimer < 75) { //Checks if startPressed is true and startTimer is under 100 ticks
             startTimer++; //Increments startTimer each iteration of code
             if (startTimer == 10) { //@ 10 ticks
                 Elevator.setGoal(1); //Set the elevator to level one
@@ -227,7 +227,10 @@ public class Elevator {
                 robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); //Pushes wings out
             }
             if (startTimer == 50) { //@ 60 ticks
-                robotMap.hatchPushOne.set(DoubleSolenoid.Value.kForward); //Pushes hatch mechanism in
+                robotMap.hatchPushOne.set(DoubleSolenoid.Value.kForward); //Pushes hatch mechanism out
+            }
+            if (startTimer == 65){
+                Elevator.setGoal(0);
             }
         } else {
             startPressed = false; //Sets startPressed to false (turns off method)
