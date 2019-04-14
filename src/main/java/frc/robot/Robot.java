@@ -100,6 +100,22 @@ public class Robot extends TimedRobot {
         }
         //We suspect that there may be an issue with the Joystick, b/c it is inverted/reversed. We resolved this by flipping Y,X to X,Y and putting a negative on Y
         robotMap.elevator.set(ControlMode.PercentOutput, OI.manipulatorController.getY(GenericHID.Hand.kRight) * .5); //Allows manual control of the elevator
+        if(OI.driveJoystick.getPOV() == 0){
+            Drivetrain.setLeftMotorSpeed(0.25);
+            Drivetrain.setRightMotorSpeed(0.25);
+        }
+        if(OI.driveJoystick.getPOV() == 90){
+            Drivetrain.setLeftMotorSpeed(0.35);
+            Drivetrain.setRightMotorSpeed(-0.35);
+        }
+        if(OI.driveJoystick.getPOV() == 180){
+            Drivetrain.setLeftMotorSpeed(-0.25);
+            Drivetrain.setRightMotorSpeed(-0.25);
+        }
+        if(OI.driveJoystick.getPOV() == 270){
+            Drivetrain.setLeftMotorSpeed(-0.35);
+            Drivetrain.setRightMotorSpeed(0.35);
+        }
 
         /*  [ELEVATOR USE]  */
 
@@ -119,9 +135,11 @@ public class Robot extends TimedRobot {
         if (OI.driveJoystick.getRawButtonPressed(8)) { //If joystick button 11 is pressed
             Elevator.setGoal(0); //Sets the Elevator to level 0
         }
-        if( OI.manipulatorController.getBackButtonPressed()){
+        //This functions but we can't do anything after using it
+        /**if( OI.manipulatorController.getBackButtonPressed()){
             CargoCatch.setpoint = 250;
         }
+        **/
 
 
 
@@ -139,6 +157,9 @@ public class Robot extends TimedRobot {
 
 
             }
+//            if( OI.manipulatorController.getBackButtonPressed()){
+//                CargoCatch.setpoint = 250;
+//            }
 
             if (OI.manipulatorController.getBButtonPressed()) { //If B button is pressed...
                 CargoCatch.setSetpoint(false); //...go up

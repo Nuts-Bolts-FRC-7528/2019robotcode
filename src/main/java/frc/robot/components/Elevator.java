@@ -49,6 +49,7 @@ public class Elevator {
      * backwards.
      */
     public static void iterate() {
+        System.out.println("Integrator is: " + integral);
         if (goal > 3 && goal != 4) { //Checks if goal is higher than it should be
             goal = 3; //If it is, reset to highest possible level unless we want a height exception
         } else if (goal < 0) { //Checks if goal is lower than it should be
@@ -93,7 +94,7 @@ public class Elevator {
             } else if (goal == 2) { //Sets desired level to 2
                 setpoint = 4700; //Ticks at level 2
             } else if (goal == 3) { //Sets desired level to 2
-                setpoint = 8300;
+                setpoint = 7900;
             }
         } else { //Setpoints for ball height
             if (goal == 0) { //Sets desired level to 0
@@ -185,9 +186,7 @@ public class Elevator {
             if (retractionTimer == 60) { //@ 60 ticks
                 setGoal(0); // Sets Goal to 0, telling the elevator to go to the bottom
             }
-            if (retractionTimer == 80) { //@80 ticks
-                Robot.pistonExtended = false; //Unlocks cargo manipulator after task is complete
-            }
+
         } else {
             dLeftPressed = false; //Sets dLeftPressed to false ( turns off the method)
             retractionTimer = 0; // resets retractionTimer for next iteration
@@ -199,7 +198,7 @@ public class Elevator {
         if (dRightPressed && extensionTimer < 180) { //Checks if dRightPressed is true and time is leses than 7.5 seconds
             extensionTimer++;
             if (extensionTimer == 10) { //@ 10 ticks
-                setpoint = 800;
+                setpoint = 920;
             }
             if (extensionTimer == 40) { //@40 ticks
                 robotMap.hatchPushOne.set(DoubleSolenoid.Value.kForward); // Extends Hatch Base
@@ -228,6 +227,9 @@ public class Elevator {
             }
             if (startTimer == 50) { //@ 60 ticks
                 robotMap.hatchPushOne.set(DoubleSolenoid.Value.kForward); //Pushes hatch mechanism out
+            }
+            if (retractionTimer == 80) { //@80 ticks
+                Robot.pistonExtended = false; //Unlocks cargo manipulator after task is complete
             }
             if (startTimer == 65){
                 Elevator.setGoal(0);

@@ -48,11 +48,11 @@ public class CargoCatch {
          */
 //        System.out.println("************************");
 //        System.out.println("THE WINNING NUMBER IS:\n" + drive);
-//        System.out.println("\nEncoder1:  " + robotMap.encoderPivotOne.get());
-//        System.out.println("\nEncoder2:  " + robotMap.encoderPivotTwo.get());
-//        System.out.println("\nSetpoint is:  " + getSetpoint());
-        System.out.println("\nsetInMotorPickUp:  " + setInMotorPickUp);
-        System.out.println("\nsetInMotorInBall:  " + setInMotorHolding);
+        System.out.println("\nEncoder1:  " + robotMap.encoderPivotOne.get());
+        System.out.println("\nEncoder2:  " + robotMap.encoderPivotTwo.get());
+        System.out.println("\nSetpoint is:  " + getSetpoint());
+        //System.out.println("\nsetInMotorPickUp:  " + setInMotorPickUp);
+        //System.out.println("\nsetInMotorInBall:  " + setInMotorHolding);
 //        System.out.println("\npivotExtended:  " + frc.robot.Robot.pistonExtended);
 
         if (setInMotorPickUp && !setInMotorHolding){ //If Intake and pivot is set to pick up mode, AND NOT Retain mode

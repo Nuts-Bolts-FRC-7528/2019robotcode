@@ -56,11 +56,11 @@ public class Drivetrain {
         int cameraCenterPix = robotMap.cameraResolution / 2;
         if (!turnInPlace) {
             if (targetCenterPix + 5 > cameraCenterPix) {
-                setRightMotorSpeed(.25);
-                setLeftMotorSpeed(.45);
+                setRightMotorSpeed(.15);
+                setLeftMotorSpeed(.35);
             } else if (targetCenterPix - 5 < cameraCenterPix) {
-                setRightMotorSpeed(.45);
-                setLeftMotorSpeed(.25);
+                setRightMotorSpeed(.35);
+                setLeftMotorSpeed(.15);
 
             }
         } else {
