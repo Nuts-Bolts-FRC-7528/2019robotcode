@@ -24,6 +24,7 @@ public class Robot extends TimedRobot {
     private final DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
     //Creates a DifferentialDrive using both SpeedControllerGroups
     public static boolean pistonExtended = false;
+    public static boolean fortyFiveEmergencyOn = false;
     private NetworkTable table; //This table is for object recognition
     NetworkTableEntry Elevatoryesworks;
     /*
@@ -44,6 +45,12 @@ public class Robot extends TimedRobot {
         robotMap.cargoPivotOne.setNeutralMode(NeutralMode.Brake);
         robotMap.cargoPivotTwo.setNeutralMode(NeutralMode.Brake);
         robotMap.elevator.setNeutralMode(NeutralMode.Brake);
+        
+        Elevator.reset(); //Reset elevator position and encoder
+        CargoCatch.reset(); //Reset manipulator position and encoder
+        pnuematicsProtectionTimer = 0;
+        robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); //So wings start out as OPEN
+        pistonExtended = true;
     }
 
     @Override
@@ -135,11 +142,16 @@ public class Robot extends TimedRobot {
         if (OI.driveJoystick.getRawButtonPressed(8)) { //If joystick button 11 is pressed
             Elevator.setGoal(0); //Sets the Elevator to level 0
         }
+        //BAND-AID 45* code
         //This functions but we can't do anything after using it
-        /**if( OI.manipulatorController.getBackButtonPressed()){
-            CargoCatch.setpoint = 250;
+        if( OI.manipulatorController.getBackButtonPressed() && !fortyFiveEmergencyOn){ //Checks if BackButtonPressed AND 45Out is false
+            CargoCatch.setpoint = 250; //Sets setpoint to 250, which is about 45 degrees
+            fortyFiveEmergencyOn = true; // Sets 45Out is true for next button press
+        }else if (OI.manipulatorController.getBackButtonPressed() && fortyFiveEmergencyOn){ //Checks if BBPressed AND 45Out is true
+            CargoCatch.setpoint = CargoCatch.MinSetpoint; //Sets setpoint back to Minimum for hatching
+            fortyFiveEmergencyOn = false; // Sets 45Out to false for next time
         }
-        **/
+
 
 
 
@@ -157,9 +169,7 @@ public class Robot extends TimedRobot {
 
 
             }
-//            if( OI.manipulatorController.getBackButtonPressed()){
-//                CargoCatch.setpoint = 250;
-//            }
+
 
             if (OI.manipulatorController.getBButtonPressed()) { //If B button is pressed...
                 CargoCatch.setSetpoint(false); //...go up
