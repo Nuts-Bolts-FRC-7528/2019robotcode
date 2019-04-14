@@ -75,20 +75,20 @@ public class CargoCatch {
      */
 
 
-    public static double upOrDown(double drive) {
-        if (drive > 0)
-            drive *= 1.0; //1.0; //Sets drive lower if the maniuplator is going down (compensates for gravity)
-        else if (drive < 0)
-            drive *= 1.0; //Sets drive higher if the manipulator is going up
-//        if (drive < 0.24 && drive > 0.1) // roughly the minimum amount for motor movement
-//            drive = 0.24;
-//        if (drive > -0.36 && drive < -0.1)
-//            drive = -0.35;
-
-
-        return drive;
-
-    }
+//    public static double upOrDown(double drive) {
+//        if (drive > 0)
+//            drive *= 1.0; //1.0; //Sets drive lower if the maniuplator is going down (compensates for gravity)
+//        else if (drive < 0)
+//            drive *= 1.0; //Sets drive higher if the manipulator is going up
+////        if (drive < 0.24 && drive > 0.1) // roughly the minimum amount for motor movement
+////            drive = 0.24;
+////        if (drive > -0.36 && drive < -0.1)
+////            drive = -0.35;
+//
+//
+//        return drive;
+//
+//    }
 
     /**
      * Accessor for the setpoint.
