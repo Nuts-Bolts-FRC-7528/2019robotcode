@@ -58,12 +58,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        Elevator.reset(); //Reset elevator position and encoder
-        CargoCatch.reset(); //Reset manipulator position and encoder
-        pnuematicsProtectionTimer = 0;
         robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); //So wings start out as OPEN
-        pistonExtended = true;
-        fortyFiveEmergencyOn = false;
 
     }
 
@@ -75,9 +70,12 @@ public class Robot extends TimedRobot {
 
     //THIS IS ONLY FOR TESTING PURPOSES, COMMENT OUT OR DELETE WHEN STARTING TO PRACTICE
     @Override
-    public void teleopInit() {
+    public void teleopInit() {Elevator.reset(); //Reset elevator position and encoder
+        CargoCatch.reset(); //Reset manipulator position and encoder
+        pnuematicsProtectionTimer = 0;
         robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); //So wings start out as OPEN
         pistonExtended = true;
+        fortyFiveEmergencyOn = false;
 
     }
 
@@ -95,7 +93,7 @@ public class Robot extends TimedRobot {
         pnuematicsProtectionTimer++; //Increments pneumaticsProtectionTimer
         if(pnuematicsProtectionTimer == 50){ //Once the timer reaches 70 ticks
 //            robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse); //Pull the claw back in
-            pistonExtended = false;
+            pistonExtended = true;
         }
         if(pnuematicsProtectionTimer == 40){
             robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse); //Pull the hatch mechanism back in
@@ -148,6 +146,9 @@ public class Robot extends TimedRobot {
         if (OI.driveJoystick.getRawButtonPressed(8)) { //If joystick button 11 is pressed
             Elevator.setGoal(0); //Sets the Elevator to level 0
         }
+        //CARGO SHIP BUTTON
+        //if (OI.driveJoystick.getRawButtonPressed(__)) { //If joystick button __ is pressed
+        //            Elevator.setGoal(5); //Sets the Elevator to level 5
         //BAND-AID 45* code
         //This functions but we can't do anything after using it
 //        System.out.println("fortyFiveEmergencyON = " + fortyFiveEmergencyOn);
@@ -253,7 +254,7 @@ public class Robot extends TimedRobot {
             }
 
             if (OI.manipulatorController.getBumperPressed(GenericHID.Hand.kRight)) { //If right bumper pressed
-                pistonExtended = true; //Restricts cargo manipulator
+                pistonExtended = false; //Restricts cargo manipulator
                 robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse);//Pull in hatch catching solenoid
                 Elevator.hatchOrCargo = false;//Sets elevator setpoints to hatch height for rocket
             }

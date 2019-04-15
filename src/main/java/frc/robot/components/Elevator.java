@@ -34,8 +34,9 @@ public class Elevator {
      **/
 
     public static void reset() {
-        goal = 0;
+        goal = -1;
         robotMap.elevatorEncoder.reset();
+        robotMap.elevator.set(ControlMode.PercentOutput, 0);
     }
 
     public static double getElevatorDrive() {
@@ -52,7 +53,7 @@ public class Elevator {
 //        System.out.println("Integrator is: " + integral);
         if (goal > 3 && goal != 4) { //Checks if goal is higher than it should be
             goal = 3; //If it is, reset to highest possible level unless we want a height exception
-        } else if (goal < 0) { //Checks if goal is lower than it should be
+        } else if (goal < 0 && goal != -1) { //Checks if goal is lower than it should be
             goal = 0; //If it is, reset to lowest possible level
         }
         if ((!dLeftPressed && retractionTimer == 0) && (!dRightPressed && extensionTimer == 0)) {
@@ -60,23 +61,25 @@ public class Elevator {
         }
 
         PI(); // Runs control loop
-        if (goal == 0 && robotMap.elevatorEncoder.get() < 200 && robotMap.elevatorEncoder.get() > -2) {
+        if (goal <= 0 && robotMap.elevatorEncoder.get() < 200) {
+            setGoal(-1);
             robotMap.elevator.set(ControlMode.PercentOutput, 0);
         } else {
             robotMap.elevator.set(ControlMode.PercentOutput, -drive); // Engages the elevator motor (Because of its positioning, negative makes the elevator go up)
         }
 
 //        Print methods
-//        System.out.println("\n\n*******************************");
-//        System.out.println("\nElevator drive:  " + drive);
-//        System.out.println("\nElevator is at:  " + robotMap.elevatorEncoder.get());
-//        System.out.println("\nElevator Setpoint:  " + setpoint);
-//        System.out.println("\nElevator Goal:  " + goal);
-//        if (hatchOrCargo) {
-//            System.out.println("BALL        BALL");
-//        } else {
-//            System.out.println("HATCH       HATCH");
-//        }
+        System.out.println("\n\n*******************************");
+        System.out.println("\nElevator drive:  " + drive);
+        System.out.println("\nElevator is at:  " + robotMap.elevatorEncoder.get());
+        System.out.println("\nElevator Setpoint:  " + setpoint);
+        System.out.println("\nElevator Goal:  " + goal);
+        System.out.println("\nElevator " + robotMap.elevator.getMotorOutputPercent());
+        if (hatchOrCargo) {
+            System.out.println("BALL        BALL");
+        } else {
+            System.out.println("HATCH       HATCH");
+        }
 //        END of print methods
     }
 
