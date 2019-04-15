@@ -178,9 +178,9 @@ public class CargoCatch {
         if(!xPressed && xTimer == 0 && !setInMotorHolding && !setInMotorPickUp) {
             robotMap.cargoIntake.set(0);
         }
-        System.out.println("************************");
-        System.out.println("TimerX =" + xTimer);
-        System.out.println("xPressed =" + xPressed);
+//        System.out.println("************************");
+//        System.out.println("TimerX =" + xTimer);
+//        System.out.println("xPressed =" + xPressed);
     }
 
 }

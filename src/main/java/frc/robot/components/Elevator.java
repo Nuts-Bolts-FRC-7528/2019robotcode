@@ -49,7 +49,7 @@ public class Elevator {
      * backwards.
      */
     public static void iterate() {
-        System.out.println("Integrator is: " + integral);
+//        System.out.println("Integrator is: " + integral);
         if (goal > 3 && goal != 4) { //Checks if goal is higher than it should be
             goal = 3; //If it is, reset to highest possible level unless we want a height exception
         } else if (goal < 0) { //Checks if goal is lower than it should be
@@ -61,7 +61,7 @@ public class Elevator {
 
         PI(); // Runs control loop
         if (goal == 0 && robotMap.elevatorEncoder.get() < 200 && robotMap.elevatorEncoder.get() > -2) {
-            robotMap.elevator.set(ControlMode.PercentOutput, 0.0);
+            robotMap.elevator.set(ControlMode.PercentOutput, 0);
         } else {
             robotMap.elevator.set(ControlMode.PercentOutput, -drive); // Engages the elevator motor (Because of its positioning, negative makes the elevator go up)
         }

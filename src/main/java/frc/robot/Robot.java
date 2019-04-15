@@ -150,7 +150,7 @@ public class Robot extends TimedRobot {
         }
         //BAND-AID 45* code
         //This functions but we can't do anything after using it
-        System.out.println("fortyFiveEmergencyON = " + fortyFiveEmergencyOn);
+//        System.out.println("fortyFiveEmergencyON = " + fortyFiveEmergencyOn);
         if( OI.manipulatorController.getBackButtonPressed()) {
             if (!fortyFiveEmergencyOn) { //Checks if BackButtonPressed AND 45Out is false
                 CargoCatch.setpoint = 250; //Sets setpoint to 250, which is about 45 degrees
