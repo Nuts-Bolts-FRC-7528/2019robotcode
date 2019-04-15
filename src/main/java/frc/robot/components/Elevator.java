@@ -111,6 +111,10 @@ public class Elevator {
                 setpoint = 7700; //Ticks at level 3
             }
         }
+        //NOT TESTED
+        if (goal == 5) {
+            setpoint = 2500; //rough average for cargo ship NOT TESTED
+        }
     }
 
     /**
@@ -131,7 +135,7 @@ public class Elevator {
      * @param height The desired goal level. Valid ranges are 1-4
      */
     public static void setGoal(int height) {
-        if (height < 5 && height > -1) { //Checks if goal is between 0 and 3 inclusive
+        if (height < 6 && height > -1) { //Checks if goal is between 0 and 3 inclusive
             goal = height; //Sets goal equal to the input level
         }
     }
