@@ -147,8 +147,9 @@ public class Robot extends TimedRobot {
             Elevator.setGoal(0); //Sets the Elevator to level 0
         }
         //CARGO SHIP BUTTON
-        //if (OI.driveJoystick.getRawButtonPressed(__)) { //If joystick button __ is pressed
-        //            Elevator.setGoal(5); //Sets the Elevator to level 5
+//        if (OI.driveJoystick.getRawButtonPressed(10)) { //If joystick button 10 is pressed
+//                    Elevator.setGoal(5); //Sets the Elevator to level 5
+//            }
         //BAND-AID 45* code
         //This functions but we can't do anything after using it
 //        System.out.println("fortyFiveEmergencyON = " + fortyFiveEmergencyOn);
