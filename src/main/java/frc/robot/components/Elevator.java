@@ -61,7 +61,7 @@ public class Elevator {
 
         PI(); // Runs control loop
         if (goal == 0 && robotMap.elevatorEncoder.get() < 200) {
-            robotMap.elevator.set(ControlMode.PercentOutput, 0);
+            robotMap.elevator.set(ControlMode.PercentOutput, 0.0);
         } else {
             robotMap.elevator.set(ControlMode.PercentOutput, -drive); // Engages the elevator motor (Because of its positioning, negative makes the elevator go up)
         }

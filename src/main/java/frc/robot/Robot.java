@@ -89,14 +89,16 @@ public class Robot extends TimedRobot {
 
         //This is mostly for testing to ensure that the hatch mechanism
         // automatically retracts so we don't break it
-
-//        pnuematicsProtectionTimer++; //Increments pneumaticsProtectionTimer
-//        if(pnuematicsProtectionTimer == 50){ //Once the timer reaches 70 ticks
-//            robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse); //Pull the claw back in
-//        }
-//        if(pnuematicsProtectionTimer == 40){
-//            robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse); //Pull the hatch mechanism back in
-//        }
+        if(pnuematicsProtectionTimer < 70){
+        pnuematicsProtectionTimer++; //Increments pneumaticsProtectionTimer
+        if(pnuematicsProtectionTimer == 50){ //Once the timer reaches 70 ticks
+            robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse); //Pull the claw back in
+            pistonExtended = false;
+        }
+        if(pnuematicsProtectionTimer == 40){
+            robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse); //Pull the hatch mechanism back in
+        }
+        }
 
 
         /*  [ROBOT DRIVING] */
@@ -190,7 +192,8 @@ public class Robot extends TimedRobot {
             }
         }
 
-        robotMap.cargoIntake.set(OI.manipulatorController.getY(GenericHID.Hand.kLeft) / 2);//Run the intake wheels
+        // [CARGO INTAKE MANUAL (TEST)
+        //robotMap.cargoIntake.set(OI.manipulatorController.getY(GenericHID.Hand.kLeft) / 2);//Run the intake wheels
 
 
         /*  [ITERATING METHODS] */
