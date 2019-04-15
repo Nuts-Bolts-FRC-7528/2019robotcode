@@ -16,6 +16,8 @@ import frc.robot.components.CargoCatch;
 import frc.robot.components.Drivetrain;
 import frc.robot.components.Elevator;
 
+import static frc.robot.components.CargoCatch.xPressed;
+
 public class Robot extends TimedRobot {
     private final SpeedControllerGroup m_left = new SpeedControllerGroup(robotMap.leftFrontDrive, robotMap.leftRearDrive);
     //Defines a SpeedControllerGroup for the left side
@@ -185,7 +187,7 @@ public class Robot extends TimedRobot {
             }
 
             if (OI.manipulatorController.getXButtonPressed()) { //If X button is pressed
-                CargoCatch.xPressed = true; //Set xPressed to true(used in xIsPressed method)
+                xPressed = true; //Set xPressed to true(used in xIsPressed method)
                 CargoCatch.setInMotorHolding = false; //Prevent motors from sucking
                 CargoCatch.setInMotorPickUp = false; //Prevent motors from sucking x2
                 Elevator.hatchOrCargo = true; //Sets elevator setpoints to ball height for rocket
