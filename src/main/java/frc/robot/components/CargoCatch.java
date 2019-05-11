@@ -25,9 +25,9 @@ public class CargoCatch {
     //This can cause the manipulator to violently flop and potentially
     //damage itself
     //OPTIMAL = DO NOT CHANGE EXCEPT FOR EMERGENCIES
-    private static final double P = 0.27; //Proportional Constant, OPTIMAL 4/10 : 0.22
-    private static final double I = 0.16; //Integrator Constant, OPTIMAL 4/10 : 0.11
-    private static final double D = 2.8; //Derivative Constant, OPTIMAL 4/10 : 2.6
+    private static final double P = 0.09; //Proportional Constant, OPTIMAL 4/10 : 0.22
+    private static final double I = 0.144; //Integrator Constant, OPTIMAL 4/10 : 0.11
+    private static final double D = 0.009; //Derivative Constant, OPTIMAL 4/10 : 2.6
     private static final double integrator_limit = 1.0; //Used to prevent integrator windup
 
     public static double MinSetpoint = 30; //Minimum Setpoint, OPTIMAL 4/10 : 30
@@ -46,10 +46,10 @@ public class CargoCatch {
                 [PRINT STATEMENTS]
             Use for testing and problem solving
          */
-//        System.out.println("************************");
+        System.out.println("************************");
 //        System.out.println("THE WINNING NUMBER IS:\n" + drive);
-//        System.out.println("\nEncoder1:  " + robotMap.encoderPivotOne.get());
-//        System.out.println("\nEncoder2:  " + robotMap.encoderPivotTwo.get());
+        System.out.println("\nEncoder1:  " + robotMap.encoderPivotOne.get());
+        System.out.println("\nEncoder2:  " + robotMap.encoderPivotTwo.get());
 //        System.out.println("\nSetpoint is:  " + getSetpoint());
         //System.out.println("\nsetInMotorPickUp:  " + setInMotorPickUp);
         //System.out.println("\nsetInMotorInBall:  " + setInMotorHolding);
@@ -160,10 +160,10 @@ public class CargoCatch {
             integral = -integrator_limit; //Set it to -integrator
         }
         drive = (P * error + I * integral + D * derivative) / 100.0; //Calculate the PI loop based on the above equation
-        if (drive > 0.4) { //If we want to go forward too fast...
+        if (drive > 0.2) { //If we want to go forward too fast...
             drive = .2; //...limit it to 20% power
-        } else if (drive < -.8) { //Else we want to go backwards too fast...
-            drive = -.8; //...limit it to -80% power
+        } else if (drive < -.4) { //Else we want to go backwards too fast...
+            drive = -.4; //...limit it to -80% power
         }
     }
     public static void xIsPressed(){
