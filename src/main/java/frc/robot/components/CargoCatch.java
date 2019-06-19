@@ -25,9 +25,9 @@ public class CargoCatch {
     //This can cause the manipulator to violently flop and potentially
     //damage itself
     //OPTIMAL = DO NOT CHANGE EXCEPT FOR EMERGENCIES
-    private static final double P = 0.09; //Proportional Constant, OPTIMAL 4/10 : 0.22
-    private static final double I = 0.144; //Integrator Constant, OPTIMAL 4/10 : 0.11
-    private static final double D = 0.009; //Derivative Constant, OPTIMAL 4/10 : 2.6
+    private static final double P = 0.22; //Proportional Constant, OPTIMAL 4/10 : 0.22
+    private static final double I = 0.114; //Integrator Constant, OPTIMAL 4/10 : 0.11
+    private static final double D = 0.7; //Derivative Constant, OPTIMAL 4/10 : 2.6
     private static final double integrator_limit = 1.0; //Used to prevent integrator windup
 
     public static double MinSetpoint = 30; //Minimum Setpoint, OPTIMAL 4/10 : 30
@@ -56,7 +56,7 @@ public class CargoCatch {
 //        System.out.println("\npivotExtended:  " + frc.robot.Robot.pistonExtended);
 
         if (setInMotorPickUp && !setInMotorHolding){ //If Intake and pivot is set to pick up mode, AND NOT Retain mode
-            robotMap.cargoIntake.set(0.7); // Set Intake to 70% power
+            robotMap.cargoIntake.set(0.65); // Set Intake to 70% power
 //            System.out.println("Intake should be at 70%");
         }
         else if (setInMotorHolding && !setInMotorPickUp) { //If intake and pivot motors are set to retain(hold onto the ball) mode, AND NOT pick up mode

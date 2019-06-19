@@ -69,12 +69,12 @@ public class Elevator {
         }
 
 //        Print methods
-        System.out.println("\n\n*******************************");
-        System.out.println("\nElevator drive:  " + drive);
-        System.out.println("\nElevator is at:  " + robotMap.elevatorEncoder.get());
-        System.out.println("\nElevator Setpoint:  " + setpoint);
-        System.out.println("\nElevator Goal:  " + goal);
-        System.out.println("\nElevator " + robotMap.elevator.getMotorOutputPercent());
+//        System.out.println("\n\n*******************************");
+//        System.out.println("\nElevator drive:  " + drive);
+//        System.out.println("\nElevator is at:  " + robotMap.elevatorEncoder.get());
+//        System.out.println("\nElevator Setpoint:  " + setpoint);
+//        System.out.println("\nElevator Goal:  " + goal);
+//        System.out.println("\nElevator " + robotMap.elevator.getMotorOutputPercent());
         if (hatchOrCargo) {
             System.out.println("BALL        BALL");
         } else {
