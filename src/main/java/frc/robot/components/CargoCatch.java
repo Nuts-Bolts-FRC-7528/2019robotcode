@@ -1,11 +1,10 @@
 package frc.robot.components;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import frc.robot.common.robotMap;
 
 /**
- * Creates a PID loop for the pivoting cargo arm.
+ * Manages the PIDF loop for the cargo manipulator
  */
 public class CargoCatch {
 
