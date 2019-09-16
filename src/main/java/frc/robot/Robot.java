@@ -25,35 +25,25 @@ public class Robot extends TimedRobot {
     //Defines a SpeedControllerGroup for the right drive
     private final DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
     //Creates a DifferentialDrive using both SpeedControllerGroups
-    public static boolean pistonExtended = false;
-    public static boolean fortyFiveEmergencyOn = false;
-    private NetworkTable table; //This table is for object recognition
-    NetworkTableEntry Elevatoryesworks;
-    /*
-    * The hatch mechanism sometimes slides out when the robot is enabled. I believe that this has to do something with pneumatics
-    * and how unreliable it is. It's random when this happens. Using this so that when this timer reaches a certain time,
-    * the system will automatically retract
-    */
-    private static int pnuematicsProtectionTimer;
+    private NetworkTable visionTable; //This table is for object recognition
 
+    //TODO: Add safety code override
 
     @Override
     public void robotInit() {
-        NetworkTableInstance ntinst = NetworkTableInstance.getDefault(); //Gets global NetworkTable instance
-        table = ntinst.getTable("vision"); //Gets vision table from vision coprocessor (Raspberry Pi)
-        CameraServer.getInstance().startAutomaticCapture(); //This likes to be red. Activates camera
-//        robotMap.alignmentLeds.set(true);
-        Elevatoryesworks = SmartDashboard.getEntry("Elevator");
-        robotMap.cargoPivotOne.setNeutralMode(NeutralMode.Brake);
-        robotMap.cargoPivotTwo.setNeutralMode(NeutralMode.Brake);
-        robotMap.elevator.setNeutralMode(NeutralMode.Brake);
+        /*   [NETWORKTABLES / USB CAMERAS]   */
+        NetworkTableInstance ntInst = NetworkTableInstance.getDefault(); //Gets global NetworkTable instance
+        visionTable = ntInst.getTable("vision"); //Gets vision table from vision coprocessor (Raspberry Pi)
+        CameraServer.getInstance().startAutomaticCapture(); //Activates USB camera streaming from RIO
 
+        /*   [BREAK MODES]   */
+        robotMap.cargoPivotOne.setNeutralMode(NeutralMode.Brake); //Set cargo pivot one to break mode (in case it wasn't already)
+        robotMap.cargoPivotTwo.setNeutralMode(NeutralMode.Brake); //Set cargo pivot two to break mode (in case it wasn't already)
+        robotMap.elevator.setNeutralMode(NeutralMode.Brake); //Set elevator motor to break mode
+
+        /*   [MANIPULATOR RESETS]  */
         Elevator.reset(); //Reset elevator position and encoder
         CargoCatch.reset(); //Reset manipulator position and encoder
-        pnuematicsProtectionTimer = 0;
-        robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); //So wings start out as OPEN
-        pistonExtended = true;
-        fortyFiveEmergencyOn = false;
     }
 
     @Override
@@ -67,50 +57,22 @@ public class Robot extends TimedRobot {
         teleopPeriodic(); //Run all normal teleop functions
     }
 
-
-    //THIS IS ONLY FOR TESTING PURPOSES, COMMENT OUT OR DELETE WHEN STARTING TO PRACTICE
-    @Override
-    public void teleopInit() {Elevator.reset(); //Reset elevator position and encoder
-        CargoCatch.reset(); //Reset manipulator position and encoder
-        pnuematicsProtectionTimer = 0;
-        robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); //So wings start out as OPEN
-        pistonExtended = true;
-        fortyFiveEmergencyOn = false;
-
-    }
-
     @Override
     public void teleopPeriodic() { //Happens roughly every 1/20th of a second while teleop is active
-        Elevatoryesworks.setBoolean(Elevator.hatchOrCargo);
-        SmartDashboard.putBoolean("Ele",Elevator.hatchOrCargo);
-
-
-        /*  [PNUEMATICS STARTUP PROTECTION(ONLY FOR TESTING)] */
-
-        //This is mostly for testing to ensure that the hatch mechanism
-        // automatically retracts so we don't break it
-        if(pnuematicsProtectionTimer < 70){
-        pnuematicsProtectionTimer++; //Increments pneumaticsProtectionTimer
-        if(pnuematicsProtectionTimer == 50){ //Once the timer reaches 70 ticks
-//            robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse); //Pull the claw back in
-            pistonExtended = true;
-        }
-        if(pnuematicsProtectionTimer == 40){
-            robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse); //Pull the hatch mechanism back in
-        }
-        }
-
-
         /*  [ROBOT DRIVING] */
 
-        if(Elevator.setpoint > 5000){
-            m_drive.arcadeDrive((-OI.driveJoystick.getY() * 0.5), (OI.driveJoystick.getX() * 0.5)); //Actually drives the robot. Uses the joystick.
+            /*   {JOYSTICK CONTROL}    */
+        if(Elevator.setpoint > 4300){ //If the elevator is at or above rocket level 2...
+            m_drive.arcadeDrive((-OI.driveJoystick.getY() * 0.5), (OI.driveJoystick.getX() * 0.5)); //...Drive the robot at 50% speed for stability
         }
-        else {
+        else { //...Else, drive the robot at regular speed
             m_drive.arcadeDrive((-OI.driveJoystick.getY()), (OI.driveJoystick.getX())); //Actually drives the robot. Uses the joystick.
         }
         //We suspect that there may be an issue with the Joystick, b/c it is inverted/reversed. We resolved this by flipping Y,X to X,Y and putting a negative on Y
-        robotMap.elevator.set(ControlMode.PercentOutput, OI.manipulatorController.getY(GenericHID.Hand.kRight) * .5); //Allows manual control of the elevator
+
+            /*    {FINE CONTROL}     */
+
+        //Fine control is mapped to the D-Pad of the joystick and allows the driver to make more precise movements
         if(OI.driveJoystick.getPOV() == 0){
             Drivetrain.setLeftMotorSpeed(0.25);
             Drivetrain.setRightMotorSpeed(0.25);
@@ -128,9 +90,9 @@ public class Robot extends TimedRobot {
             Drivetrain.setRightMotorSpeed(0.35);
         }
 
-        /*  [ELEVATOR USE]  */
+        /*  [ELEVATOR]  */
 
-
+            /*  {LEVEL SETTER}   */
         if (OI.driveJoystick.getRawButtonPressed(7)) { //If joystick button 7 is pressed
             Elevator.setGoal(3); //Sets the Elevator to level 3
         }
@@ -148,57 +110,26 @@ public class Robot extends TimedRobot {
         }
         //CARGO SHIP BUTTON
         if (OI.driveJoystick.getRawButtonPressed(10)) { //If joystick button 10 is pressed
-                    Elevator.setGoal(5); //Sets the Elevator to level 5
-            }
-        //BAND-AID 45* code
-        //This functions but we can't do anything after using it
-//        System.out.println("fortyFiveEmergencyON = " + fortyFiveEmergencyOn);
-        if( OI.manipulatorController.getBackButtonPressed()) {
-            if (!fortyFiveEmergencyOn) { //Checks if BackButtonPressed AND 45Out is false
-                CargoCatch.setpoint = 250; //Sets setpoint to 250, which is about 45 degrees
-                fortyFiveEmergencyOn = true; // Sets 45Out is true for next button press
-            } else if (fortyFiveEmergencyOn) { //Checks if BBPressed AND 45Out is true
-                CargoCatch.setpoint = CargoCatch.MinSetpoint; //Sets setpoint back to Minimum for hatching
-                fortyFiveEmergencyOn = false; // Sets 45Out to false for next time
+            Elevator.setGoal(5); //Sets the Elevator to level 5
+        }
+
+        /*  [CARGO MANIPULATOR]   */
+
+        if(OI.manipulatorController.getAButtonPressed()) { //When the A button is pressed...
+            if(safeToDeployCargo()) { //...If it is safe to deploy cargo manipulator...
+                CargoCatch.setSetpoint(true); //...Deploy cargo manipulator
             }
         }
 
-
-
-
-        robotMap.alignmentLeds.set(OI.driveJoystick.getRawButton(5)); //Turn on alignment LED while button 5 is pressed
-
-
-        /*  [MANIPULATOR USE]   */
-
-
-        if(!pistonExtended) { //If the piston has NOT been extended, SAFETY CODE
-            if (OI.manipulatorController.getAButtonPressed()) { //If A button is pressed...
-//                robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse);
-                CargoCatch.setSetpoint(true); //...go down
-                Elevator.hatchOrCargo = true;//Sets elevator setpoints to ball height for rocket
-
-
-            }
-
-
-            if (OI.manipulatorController.getBButtonPressed()) { //If B button is pressed...
-                CargoCatch.setSetpoint(false); //...go up
-                Elevator.hatchOrCargo = true; //Sets Elevator setpoints to ball height for rocket
-
-            }
-
-            if (OI.manipulatorController.getXButtonPressed()) { //If X button is pressed
-                xPressed = true; //Set xPressed to true(used in xIsPressed method)
-                CargoCatch.setInMotorHolding = false; //Prevent motors from sucking
-                CargoCatch.setInMotorPickUp = false; //Prevent motors from sucking x2
-                Elevator.hatchOrCargo = true; //Sets elevator setpoints to ball height for rocket
-            }
+        if(OI.manipulatorController.getBButtonPressed()) { //When the B button is pressed...
+            CargoCatch.setSetpoint(false); //...Bring cargo manipulator up
         }
 
-        // [CARGO INTAKE MANUAL (TEST)
-        //robotMap.cargoIntake.set(OI.manipulatorController.getY(GenericHID.Hand.kLeft) / 2);//Run the intake wheels
-
+        if(OI.manipulatorController.getBackButtonPressed()) { //When back button is pressed...
+            if(safeToDeployCargo()) { //If it is safe to deploy cargo manipulator...
+                CargoCatch.toggle45(); //...Toggle 45 degree mode
+            }
+        }
 
         /*  [ITERATING METHODS] */
 
@@ -211,13 +142,14 @@ public class Robot extends TimedRobot {
         /*  [OBJECT RECOGNITION]    */
 
 
-        NetworkTableEntry centerCargo = table.getEntry("cargoCenterPix"); //Fetch the NetworkTableEntry of the centerPix of the cargo from the coprocesor
-        NetworkTableEntry centerHatch = table.getEntry("hatchCenterPix"); //Fetch NetworkTableEntry for center pixel of hatch
-        NetworkTableEntry centerTargets = table.getEntry("vtCenterPix"); //Fetch NetworkTablEntry for center pixel of vision targets
-        int ballCenterPix = (int) centerCargo.getDouble(-1); //Gets the actual number from the cargo NetworkTableEntry
+        NetworkTableEntry centerCargo = visionTable.getEntry("cargoCenterPix"); //Fetch the NetworkTableEntry of the centerPix of the cargo from the coprocesor
+        NetworkTableEntry centerHatch = visionTable.getEntry("hatchCenterPix"); //Fetch NetworkTableEntry for center pixel of hatch
+        NetworkTableEntry centerTargets = visionTable.getEntry("vtCenterPix"); //Fetch NetworkTablEntry for center pixel of vision targets
+        int ballCenterPix = (int) centerCargo.getDouble(-1); //Gets the actual number from the cargo NetworkTableEntry. Defaults to -1 if faulty connection
         int hatchCenterPix = (int) centerHatch.getDouble(-1); //Gets the actual number from the hatch NetworkTableEntry
         int vtCenterPix = (int) centerTargets.getDouble(-1); //Gets the actual number from the vision targets NetworkTableEntry
 
+        robotMap.alignmentLeds.set(OI.driveJoystick.getRawButton(5)); //Turn on alignment LED while button 5 is pressed
 
         /*  [CARGO ALIGNMENT]   */
 
@@ -244,66 +176,49 @@ public class Robot extends TimedRobot {
 
 
         /*  [PNEUMATICS]    */
-        Elevator.startIsPressed(); //Iterates startIsPresse, checks if startPressed is true, otherwise does nothing
-        Elevator.dRightIsPressed(); //Iterates dRightisPressed, checks if dRightPressed is true, otherwise does nothing
-        Elevator.dLeftIsPressed(); //Iterates dLeftisPressed, checks if dLeftPressed is true, otherwise does nothing
-        if (CargoCatch.getSetpoint() == CargoCatch.MinSetpoint && robotMap.encoderPivotTwo.get() < CargoCatch.MinSetpoint + 40) { //If cargo manipulator is trying to go up
-            if (OI.manipulatorController.getBumperPressed(GenericHID.Hand.kLeft)) { //If left bumper pressed
-                pistonExtended = true; //Restricts cargo manipulator
-                robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); //Push out hatch catching solenoid
-                Elevator.hatchOrCargo = false; //Sets elevator setpoints to hatch height for rocket
-            }
 
-            if (OI.manipulatorController.getBumperPressed(GenericHID.Hand.kRight)) { //If right bumper pressed
-                pistonExtended = false; //Restricts cargo manipulator
-                robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse);//Pull in hatch catching solenoid
-                Elevator.hatchOrCargo = false;//Sets elevator setpoints to hatch height for rocket
-            }
-
-            if (OI.manipulatorController.getPOV() == 180) { //If d-pad is pressed down
-                pistonExtended = false; //Allows cargo manipulator to function
-                robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse); //Pull hatch mechanism in
-                Elevator.hatchOrCargo = false;//Sets elevator setpoints to hatch height for rocket
-            }
-
-            if (OI.manipulatorController.getPOV() == 0) { //If d-pad is pressed up
-                pistonExtended = true; //Restricts cargo manipulator
-                robotMap.hatchPushOne.set(DoubleSolenoid.Value.kForward); //Push hatch mechanism out
-                Elevator.hatchOrCargo = false;//Sets elevator setpoints to hatch height for rocket
-            }
-
-            if (OI.manipulatorController.getPOV() == 270){ //Checks if left on d-pad is pressed
-                Elevator.dLeftPressed = true; //Sets dLeftPressed to true engages dLeftIsPressed method
-                pistonExtended = true; //Prevents ball manipulator from being used
-                Elevator.hatchOrCargo = false; //Sets elevator setpoints to hatch height for rocket
-            }
-
-            if (OI.manipulatorController.getPOV() == 90){ //Checks if right on d-pad is pressed
-                Elevator.dRightPressed = true; //Sets dRightPressed to true engages dRightIsPressed method
-                pistonExtended = true; //Prevents ball manipulator from being used
-                Elevator.hatchOrCargo = false; //Sets elevator setpoints to hatch height for rocket
-                Elevator.goal = 4;
-            }
-
-            if(OI.manipulatorController.getStartButtonPressed()){ //If the start button is pressed
-                Elevator.startPressed = true; //Sets startPressed to true, which engages startIsPressed method
-                pistonExtended = true; //Prevents ball manipulator from being used
-                Elevator.hatchOrCargo = false; //Sets elevator setpoints ot hatch height for rocket
+        if(OI.manipulatorController.getBumperPressed(GenericHID.Hand.kLeft)) { //If left bumper is pressed...
+            if(safeToDeployHatch()) { //...If it is safe to deploy the hatch manipulator...
+                robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); //...Deploy hatch wings
             }
         }
 
+        if(OI.manipulatorController.getBumperPressed(GenericHID.Hand.kRight)) { //If right bumper is pressed...
+            robotMap.hatchCatch.set(DoubleSolenoid.Value.kReverse); //...Retract hatch wings
+        }
+
+        if(OI.manipulatorController.getPOV() == 0) { //If forward is pressed on D-Pad...
+            if(safeToDeployHatch()) { ///...If it is safe to deploy the hatch manipulator...
+                robotMap.hatchPushOne.set(DoubleSolenoid.Value.kForward); //...Push hatch mechanism out
+            }
+        }
+
+        if(OI.manipulatorController.getPOV() == 180) { //If backwards is pressed on D-Pad...
+            robotMap.hatchPushOne.set(DoubleSolenoid.Value.kReverse); //...Pull hatch mechanism in
+        }
     }
-
-
-    @Override
-    public void robotPeriodic() {
-//        System.out.println("Right analog stick: " + OI.manipulatorController.getY(GenericHID.Hand.kRight) * .5);
-    }
-
 
     @Override
     public void testPeriodic() {
         robotMap.elevator.set(ControlMode.PercentOutput, OI.manipulatorController.getY() * .6); //Elevator Motor (throttle limited to 60%)
         m_drive.arcadeDrive((-OI.driveJoystick.getY()), (OI.driveJoystick.getX())); //Drives the robot arcade style using the joystick
+    }
+
+    /**
+     * Evaluates whether it is safe to deploy the cargo manipulator given the state of the hatch manipulator
+     * @return If true, it is safe to deploy the cargo manip. False otherwise
+     */
+    private boolean safeToDeployCargo() {
+        //If the hatch mechanism is retracted, it is safe to deploy
+        return robotMap.hatchPushOne.get() == DoubleSolenoid.Value.kReverse && robotMap.hatchCatch.get() == DoubleSolenoid.Value.kReverse;
+    }
+
+    /**
+     * Evaluates whether it is safe to deploy the hatch manipulator given the state of the cargo manipulator
+     * @return If true, it is safe to deploy the hatch manip. False otherwise
+     */
+    private boolean safeToDeployHatch() {
+        //If the cargo mechanism is in a neutral state, it is safe to deploy
+        return CargoCatch.getManipulatorState() == CargoCatch.CargoManipulatorState.NEUTRAL;
     }
 }
