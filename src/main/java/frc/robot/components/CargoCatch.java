@@ -78,16 +78,20 @@ public class CargoCatch {
         /*   [STATE BEHAVIORS]   */
         //Based on the state the manipulator is in it will do one of the following
 
-        if (manipulatorState == CargoManipulatorState.COLLECTING_BALL) { //If Intake and pivot is set to pick up mode, AND NOT Retain mode
-            robotMap.cargoIntake.set(0.65); // Set Intake to 70% power
-        } else if (manipulatorState == CargoManipulatorState.HOLDING_BALL) { //If intake and pivot motors are set to retain(hold onto the ball) mode, AND NOT pick up mode
-            robotMap.cargoIntake.set(0.2); // minimum for keeping the ball in is 0.2
-        } else if (manipulatorState == CargoManipulatorState.NEUTRAL) {
-            setpoint = minSetpoint;
-            robotMap.cargoIntake.set(0);
-        } else if (manipulatorState == CargoManipulatorState.EXTENDED) {
-            setpoint = fortyFiveSetpoint;
-            robotMap.cargoIntake.set(0);
+        if (manipulatorState == CargoManipulatorState.COLLECTING_BALL) { //If we're trying to collect the ball
+            robotMap.cargoIntake.set(0.65); //Set Intake to 70% power
+            setpoint = maxSetpoint; //Set setpoint to maximum (90 degrees)
+        } else if (manipulatorState == CargoManipulatorState.HOLDING_BALL) { //If we're in ball holding mode
+            robotMap.cargoIntake.set(0.2); //Set intake to 20% power
+            setpoint = minSetpoint; //Set setpoint to minimum (vertical)
+        } else if (manipulatorState == CargoManipulatorState.NEUTRAL) { //If we're in neutral mode
+            robotMap.cargoIntake.set(0); //Disengage intake motor
+            setpoint = minSetpoint; //Set setpoint to minimum (vertical)
+        } else if (manipulatorState == CargoManipulatorState.EXTENDED) { //If we're in 45 degree mode
+            robotMap.cargoIntake.set(0); //Disengage intake motor
+            setpoint = fortyFiveSetpoint; //Set setpoint to forty five degree angle
+        } else if (manipulatorState == CargoManipulatorState.EXPELLING_BALL) { //If we're trying to expel the ball
+            robotMap.cargoIntake.set(-1.0); //Set intake to -100%
         }
     }
 
@@ -146,6 +150,7 @@ public class CargoCatch {
      * Runs the calculations for the PID loop based on the
      * current setpoint and the current encoder value
      */
+    @SuppressWarnings("Duplicates")
     private static void PID() {
         //TODO: Incorporate feedforward
         //PID = P * error + I * (sum of all error) * D * (previous error)
@@ -172,17 +177,17 @@ public class CargoCatch {
     /**
      * Fires the action that occurs when X is pressed.
      * <br>
-     * More specifically, this expels any ball that the manipulator may be carrying
+     * More specifically, this expels any ball that the manipulator may be carrying. Note that this will
+     * reset the manipulator to neutral after it's done
      */
     public static void xIsPressed() {
         if (xPressed && xTimer < 21) { //If the X Button gets pressed and timer is les than 21
+            manipulatorState = CargoManipulatorState.EXPELLING_BALL;
             xTimer++; //Increment timer by 1
-            robotMap.cargoIntake.set(-1.0); //Set the motor to -1.0
         } else { //Once timer goes over 21 ticks
             xTimer = 0; //reset timer
-            xPressed = false; //reset xPressed
-            if (manipulatorState == CargoManipulatorState.EXPELLING_BALL) //If we're still expelling (the state hasn't changed)...
-                manipulatorState = CargoManipulatorState.NEUTRAL; //Reset state to neutral
+            xPressed = false; //reset xPressed..
+            manipulatorState = CargoManipulatorState.NEUTRAL; //Reset state to neutral
         }
     }
 }
