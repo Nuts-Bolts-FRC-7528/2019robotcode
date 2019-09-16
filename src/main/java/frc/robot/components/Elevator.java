@@ -38,9 +38,8 @@ public class Elevator {
      * Resets the elevator goal levels and encoder
      **/
     public static void reset() {
-        goal = -1;
-        robotMap.elevatorEncoder.reset();
-        robotMap.elevator.set(ControlMode.PercentOutput, 0);
+        goal = -1; //Set elevator goal level to -1 (Disengage motor)
+        robotMap.elevatorEncoder.reset(); //Reset elevator encoder
     }
 
     /**
@@ -71,7 +70,11 @@ public class Elevator {
         } else if (goal < 0 && goal != -1) { //Checks if goal is lower than it should be
             goal = 0; //If it is, reset to lowest possible level
         }
-        setSetpoint();
+        setSetpoint(); //Sets setpoint based off of current goal level
+
+        /*   [CONTROL LOOP]   */
+        //These next few lines run the control loop, as well as disengage the motor when it's on the floor
+        //to prevent burning out of the motor
 
         PID(); // Runs control loop
         if (goal <= 0 && robotMap.elevatorEncoder.get() < 200) { //If the elevator is on the ground and we don't want to move the elevator...
