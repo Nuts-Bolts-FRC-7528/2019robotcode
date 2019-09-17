@@ -1,8 +1,6 @@
 package frc.robot.components;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import frc.robot.Robot;
 import frc.robot.common.robotMap;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
@@ -12,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
  *     <b>NOTE:</b> Because the elevator motor is flipped backwards, you actually set
  *     the motor in <i>reverse</i> when you want to go upwards, and vice versa.
  */
+@SuppressWarnings("FieldCanBeLocal")
 public class Elevator {
     private static int goal = 0; //Determines the desired height of the elevator
 

@@ -16,8 +16,6 @@ import frc.robot.components.CargoCatch;
 import frc.robot.components.Drivetrain;
 import frc.robot.components.Elevator;
 
-import static frc.robot.components.CargoCatch.xPressed;
-
 public class Robot extends TimedRobot {
     private final SpeedControllerGroup m_left = new SpeedControllerGroup(robotMap.leftFrontDrive, robotMap.leftRearDrive);
     //Defines a SpeedControllerGroup for the left side
@@ -46,10 +44,16 @@ public class Robot extends TimedRobot {
         CargoCatch.reset(); //Reset manipulator position and encoder
     }
 
-    @Override
+    /*@Override
     public void autonomousInit() {
         robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); //So wings start out as OPEN
 
+    }*/
+
+    @Override
+    public void robotPeriodic() {
+        SmartDashboard.putString("Cargo Manipulator State", CargoCatch.getManipulatorState().name()); //Report Cargo Manipulator State to Shuffleboard
+        SmartDashboard.putNumber("Cargo Manipulator Angle", robotMap.encoderPivotOne.get() * 5.778); //Report Cargo Manipulator Angle to Shuffleboard
     }
 
     @Override
