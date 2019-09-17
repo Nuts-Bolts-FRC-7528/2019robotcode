@@ -16,8 +16,6 @@ import frc.robot.components.CargoCatch;
 import frc.robot.components.Drivetrain;
 import frc.robot.components.Elevator;
 
-import static frc.robot.components.CargoCatch.xPressed;
-
 public class Robot extends TimedRobot {
     private final SpeedControllerGroup m_left = new SpeedControllerGroup(robotMap.leftFrontDrive, robotMap.leftRearDrive);
     //Defines a SpeedControllerGroup for the left side
