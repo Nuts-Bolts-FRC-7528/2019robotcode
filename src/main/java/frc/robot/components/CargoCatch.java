@@ -7,6 +7,7 @@ import frc.robot.common.robotMap;
 /**
  * Creates a PID loop for the pivoting cargo arm.
  */
+@SuppressWarnings("FieldCanBeLocal")
 public class CargoCatch {
 
     /**
@@ -18,7 +19,6 @@ public class CargoCatch {
         EXPELLING_BALL, //The cargo manipulator is expelling the ball (VERTICAL, INTAKE AT -100%)
         EXTENDED, //The cargo manipulator is extended past neutral but not collecting a ball (aka 45 degree [sic] mode) (EXTENDED, INTAKE AT 0%)
         NEUTRAL //The cargo manipulator is in a neutral position (VERTICAL, INTAKE AT 0%)
-
     }
 
     private static CargoManipulatorState manipulatorState = CargoManipulatorState.NEUTRAL; //Contains the cargo manipulator's state
@@ -78,16 +78,20 @@ public class CargoCatch {
         /*   [STATE BEHAVIORS]   */
         //Based on the state the manipulator is in it will do one of the following
 
-        if (manipulatorState == CargoManipulatorState.COLLECTING_BALL) { //If Intake and pivot is set to pick up mode, AND NOT Retain mode
+        if (manipulatorState == CargoManipulatorState.COLLECTING_BALL) { //If we are in ball collection mode
+            setpoint = maxSetpoint; //Set setpoint to maximum (90 degree angle)
             robotMap.cargoIntake.set(0.65); // Set Intake to 70% power
-        } else if (manipulatorState == CargoManipulatorState.HOLDING_BALL) { //If intake and pivot motors are set to retain(hold onto the ball) mode, AND NOT pick up mode
+        } else if (manipulatorState == CargoManipulatorState.HOLDING_BALL) { //If we are in ball holding mode
+            setpoint = minSetpoint; //Set setpoint to minimum (vertical)
             robotMap.cargoIntake.set(0.2); // minimum for keeping the ball in is 0.2
-        } else if (manipulatorState == CargoManipulatorState.NEUTRAL) {
-            setpoint = minSetpoint;
-            robotMap.cargoIntake.set(0);
-        } else if (manipulatorState == CargoManipulatorState.EXTENDED) {
-            setpoint = fortyFiveSetpoint;
-            robotMap.cargoIntake.set(0);
+        } else if (manipulatorState == CargoManipulatorState.NEUTRAL) { //If we are in neutral mode
+            setpoint = minSetpoint; //Set setpoint to minimum (vertical)
+            robotMap.cargoIntake.set(0); //Disengage intake motors
+        } else if (manipulatorState == CargoManipulatorState.EXTENDED) { //If we are in 45 degree mode
+            setpoint = fortyFiveSetpoint; //Set setpoint to 45 degree angle
+            robotMap.cargoIntake.set(0); //Disengage intake motors
+        } else if(manipulatorState == CargoManipulatorState.EXPELLING_BALL) { //If we are expelling the ball
+            robotMap.cargoIntake.set(-1.0); //Reverse motors at full speed to expel ball
         }
     }
 
@@ -157,7 +161,7 @@ public class CargoCatch {
 
         integral += error * .02; //Calculate integral sum
         if (integral > integrator_limit) { //If the integral is too high...
-            integral = integrator_limit; //Set it to the intergrator limit
+            integral = integrator_limit; //Set it to the integrator limit
         } else if (integral < -integrator_limit) { //Else if the integral is too low...
             integral = -integrator_limit; //Set it to -integrator
         }
@@ -174,15 +178,17 @@ public class CargoCatch {
      * <br>
      * More specifically, this expels any ball that the manipulator may be carrying
      */
+    @SuppressWarnings("ConstantConditions")
     public static void xIsPressed() {
-        if (xPressed && xTimer < 21) { //If the X Button gets pressed and timer is les than 21
+        CargoManipulatorState previousState = manipulatorState; //Holds previous manipulator state
+
+        if (xPressed && xTimer < 21) { //If the X Button gets pressed and timer is less than 21
+            manipulatorState = CargoManipulatorState.EXPELLING_BALL; //Set state to expelling ball
             xTimer++; //Increment timer by 1
-            robotMap.cargoIntake.set(-1.0); //Set the motor to -1.0
         } else { //Once timer goes over 21 ticks
             xTimer = 0; //reset timer
             xPressed = false; //reset xPressed
-            if (manipulatorState == CargoManipulatorState.EXPELLING_BALL) //If we're still expelling (the state hasn't changed)...
-                manipulatorState = CargoManipulatorState.NEUTRAL; //Reset state to neutral
+            manipulatorState = previousState;
         }
     }
 }
