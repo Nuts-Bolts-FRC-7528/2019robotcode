@@ -22,8 +22,10 @@ public class CargoCatch {
     }
 
     private static CargoManipulatorState manipulatorState = CargoManipulatorState.NEUTRAL; //Contains the cargo manipulator's state
-    public static boolean xPressed = false; //Initialize booleans for Intake Out mode
+
+    private static boolean xPressed = false; //Initialize booleans for Intake Out mode
     private static int xTimer = 0; //Initialize timer
+    private static CargoManipulatorState previousState; //State to revert to after expelling ball (see xIsPressed())
 
     private static double drive = 0;
     private static double setpoint = 0;
@@ -150,6 +152,7 @@ public class CargoCatch {
      * Runs the calculations for the PID loop based on the
      * current setpoint and the current encoder value
      */
+    @SuppressWarnings("Duplicates")
     private static void PID() {
         //TODO: Incorporate feedforward
         //PID = P * error + I * (sum of all error) * D * (previous error)
@@ -163,7 +166,7 @@ public class CargoCatch {
         if (integral > integrator_limit) { //If the integral is too high...
             integral = integrator_limit; //Set it to the integrator limit
         } else if (integral < -integrator_limit) { //Else if the integral is too low...
-            integral = -integrator_limit; //Set it to -integrator
+            integral = -integrator_limit; //Set it to -integrator_limit
         }
         drive = (P * error + I * integral + D * derivative) / 100.0; //Calculate the PI loop based on the above equation
         if (drive > 0.2) { //If we want to go forward too fast...
@@ -178,17 +181,19 @@ public class CargoCatch {
      * <br>
      * More specifically, this expels any ball that the manipulator may be carrying
      */
-    @SuppressWarnings("ConstantConditions")
     public static void xIsPressed() {
-        CargoManipulatorState previousState = manipulatorState; //Holds previous manipulator state
-
-        if (xPressed && xTimer < 21) { //If the X Button gets pressed and timer is less than 21
+        if (xPressed && xTimer < 21) { //If the X Button is pressed and timer is less than 21 (ie less than 21 after pressing the X button)
+            if(previousState == null) { //If we haven't already recorded the manipulator's previous state...
+                previousState = manipulatorState; //...Record its current state
+            }
             manipulatorState = CargoManipulatorState.EXPELLING_BALL; //Set state to expelling ball
             xTimer++; //Increment timer by 1
+
         } else { //Once timer goes over 21 ticks
             xTimer = 0; //reset timer
             xPressed = false; //reset xPressed
-            manipulatorState = previousState;
+            manipulatorState = previousState; //Reset manipulator state to how it was before
+            previousState = null; //Set previousState to null so that we can use it the next time around
         }
     }
 }
