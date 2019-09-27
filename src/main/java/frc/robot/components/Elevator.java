@@ -1,6 +1,5 @@
 package frc.robot.components;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import frc.robot.Robot;
 import frc.robot.common.robotMap;
@@ -8,7 +7,11 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 
 /**
  * Provides an automatic control loop for the Elevator.
+ * <br>
+ * It is important to remember that because of the positioning of the elevator's motor, you actually
+ * need to run it in reverse in order for it to go up.
  */
+@SuppressWarnings("FieldCanBeLocal")
 public class Elevator {
     public static int goal = 0; //Determines the desired height of the elevator
 
@@ -18,15 +21,15 @@ public class Elevator {
     private static final double P = 0.2; //Proportional Constant, optimal 4/10 : 0.2
     private static final double I = 0.1; //Integrator Constant, optimal 4/10 : 0.1
     private static final double D = 1; //Derivative Constant, optimal 4/10 : 1
+    //TODO: Tune PID again
     private static final double integrator_limit = 1.0; //Used to prevent integrator windup
 
-    public static boolean dRightPressed = false;
-    public static boolean dLeftPressed = false;
-    private static int retractionTimer = 0;
-    private static int extensionTimer = 0;
-    public static boolean hatchOrCargo = false; //Boolean for changing the elevator setPoint based on scoring hatch or ball
-    public static boolean startPressed = false;
-    private static int startTimer = 0;
+    public static boolean dRightPressed, dLeftPressed, startPressed = false; //Listener for d-pad right, left, and start
+    private static int startTimer = 0; //Timer for the method that occurs when start is pressed
+
+    private static int retractionTimer = 0; //Timer for automatic retraction.
+    private static int extensionTimer = 0; //Timer for automatic extension movements.
+    public static boolean isHatchMode = false; //If true, elevator is in hatch mode. If false, elevator is in cargo mode
 
     /**
      * Resets the level and goal in teleopInit
@@ -37,10 +40,6 @@ public class Elevator {
         goal = -1;
         robotMap.elevatorEncoder.reset();
         robotMap.elevator.set(ControlMode.PercentOutput, 0);
-    }
-
-    public static double getElevatorDrive() {
-        return drive;
     }
 
     /**
@@ -60,12 +59,12 @@ public class Elevator {
             setSetpoint(); //Ensures that the setpoint is where we want it when dLeft AND dRight has not been pressed and its' methods is completed
         }
 
-        PI(); // Runs control loop
+        PID(); // Runs control loop
         if (goal <= 0 && robotMap.elevatorEncoder.get() < 200) {
             setGoal(-1);
             robotMap.elevator.set(ControlMode.PercentOutput, 0);
         } else {
-            robotMap.elevator.set(ControlMode.PercentOutput, -drive); // Engages the elevator motor (Because of its positioning, negative makes the elevator go up)
+            robotMap.elevator.set(ControlMode.PercentOutput, -drive); // Engages the elevator motor
         }
 
 //        Print methods
@@ -75,11 +74,11 @@ public class Elevator {
 //        System.out.println("\nElevator Setpoint:  " + setpoint);
 //        System.out.println("\nElevator Goal:  " + goal);
 //        System.out.println("\nElevator " + robotMap.elevator.getMotorOutputPercent());
-        if (hatchOrCargo) {
-            System.out.println("BALL        BALL");
-        } else {
-            System.out.println("HATCH       HATCH");
-        }
+//        if (hatchOrCargo) {
+//            System.out.println("BALL        BALL");
+//        } else {
+//            System.out.println("HATCH       HATCH");
+//        }
 //        END of print methods
     }
 
@@ -90,7 +89,7 @@ public class Elevator {
     // IS MINUS 100 FROM DESIRED VALUE
     //To fix this, added 100 to ALL setpoints
     private static void setSetpoint() {
-        if (!hatchOrCargo) { //Set points for hatch height
+        if (!isHatchMode) { //Set points for hatch height
             if (goal == 0) { //Sets desired level to 0
                 setpoint = 0; //Ticks at level 0
             } else if (goal == 1) { //Sets desired level to 1
@@ -121,12 +120,8 @@ public class Elevator {
      * Sets the setPoint lower by 129 ticks for hatch placement. Since the hatch mechanism gets caught on screws on
      * the mechanism, we need to lower the elevator by a little bit in order to be able to retract the hatch mechanism
      */
-    public static void subSetpoint() {
+    private static void subSetpoint() {
         setpoint -= 300; //Makes the elevator go down before retraction by 300 encoder ticks
-    }
-
-    public static void superSetpoint() {
-        setpoint += 300; //Makes the elevator go up after extension by 300 encoder ticks
     }
 
     /**
@@ -135,7 +130,7 @@ public class Elevator {
      * @param height The desired goal level. Valid ranges are 1-4
      */
     public static void setGoal(int height) {
-        if (height < 6 && height > -1) { //Checks if goal is between 0 and 3 inclusive
+        if (height <= 5 && height >= 0) { //Checks if goal is between 0 and 3 inclusive
             goal = height; //Sets goal equal to the input level
         }
     }
@@ -145,7 +140,8 @@ public class Elevator {
      * Runs the calculations for the PI loop based on the
      * current setpoint and the current encoder value
      */
-    private static void PI() {
+    @SuppressWarnings("Duplicates")
+    private static void PID() {
 
         //PI = P * error + I * D * derivative
         //Where P, I, and D are constants and error is the difference between the setpoint and the current position
@@ -237,7 +233,7 @@ public class Elevator {
                 robotMap.hatchPushOne.set(DoubleSolenoid.Value.kForward); //Pushes hatch mechanism out
             }
             if (retractionTimer == 80) { //@80 ticks
-                Robot.pistonExtended = false; //Unlocks cargo manipulator after task is complete
+                Robot.hatchPushPistonExtended = false; //Unlocks cargo manipulator after task is complete
             }
             if (startTimer == 65){
                 Elevator.setGoal(0);

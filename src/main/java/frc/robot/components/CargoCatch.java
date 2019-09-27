@@ -1,29 +1,26 @@
 package frc.robot.components;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import frc.robot.common.robotMap;
 
 /**
  * Creates a PID loop for the pivoting cargo arm.
  */
+@SuppressWarnings("FieldCanBeLocal")
 public class CargoCatch {
 
     public static boolean setInMotorPickUp = false; // Initialize boolean for Intake PickUp mode
     public static boolean setInMotorHolding = false; //Initialize boolean for Intake Holding mode
     public static boolean xPressed = false; //Initialize booleans for Intake Out mode
-    public static int xTimer = 0; //Initialize timer
+    private static int xTimer = 0; //Initialize timer
 
     private static double drive = 0;
     public static double setpoint = 0;
     private static double integral, error, derivative = 0;
     private static double previousError = 0; //Derivative is based on finding the slope of our function.
-    //Equation is (x2 - x1)/(y2 - y1) to find slope. In this case, teleopPeriodic is iterative so we only worry about the
+    //Equation is (x2 - x1)/(y2 - y1) to find derivative slope. In this case, teleopPeriodic is iterative so we only worry about the
     //x part of the equation
 
-    //Be careful setting the proportional or integral constants > 1
-    //This can cause the manipulator to violently flop and potentially
-    //damage itself
     //OPTIMAL = DO NOT CHANGE EXCEPT FOR EMERGENCIES
     private static final double P = 0.22; //Proportional Constant, OPTIMAL 4/10 : 0.22
     private static final double I = 0.114; //Integrator Constant, OPTIMAL 4/10 : 0.11
@@ -35,7 +32,7 @@ public class CargoCatch {
      * Is called by teleopPeriodic. Handles iterative logic for the arm.
      */
     public static void iterate() {
-        PI(); //Calculate control loop values
+        PID(); //Calculate control loop values
         if (setpoint < MinSetpoint) {
             setpoint = MinSetpoint; //Make sure the manipulator doesn't go *all* the way back, preventing the ball from being pushed out
         }
@@ -46,10 +43,10 @@ public class CargoCatch {
                 [PRINT STATEMENTS]
             Use for testing and problem solving
          */
-        System.out.println("************************");
-//        System.out.println("THE WINNING NUMBER IS:\n" + drive);
-        System.out.println("\nEncoder1:  " + robotMap.encoderPivotOne.get());
-        System.out.println("\nEncoder2:  " + robotMap.encoderPivotTwo.get());
+//        System.out.println("************************");
+//        System.out.println("Drive Value:\n" + drive);
+//        System.out.println("\nEncoder1:  " + robotMap.encoderPivotOne.get());
+//        System.out.println("\nEncoder2:  " + robotMap.encoderPivotTwo.get());
 //        System.out.println("\nSetpoint is:  " + getSetpoint());
         //System.out.println("\nsetInMotorPickUp:  " + setInMotorPickUp);
         //System.out.println("\nsetInMotorInBall:  " + setInMotorHolding);
@@ -64,31 +61,6 @@ public class CargoCatch {
 //            System.out.println("Intake should be running at 20%");
         }
     }
-
-    /**
-     * Mutator for drive
-     *
-     * @param drive
-     * @return mutated drive depending on up or down
-     * We want it to go slower on the down
-     * and faster on the up
-     */
-
-
-//    public static double upOrDown(double drive) {
-//        if (drive > 0)
-//            drive *= 1.0; //1.0; //Sets drive lower if the maniuplator is going down (compensates for gravity)
-//        else if (drive < 0)
-//            drive *= 1.0; //Sets drive higher if the manipulator is going up
-////        if (drive < 0.24 && drive > 0.1) // roughly the minimum amount for motor movement
-////            drive = 0.24;
-////        if (drive > -0.36 && drive < -0.1)
-////            drive = -0.35;
-//
-//
-//        return drive;
-//
-//    }
 
     /**
      * Accessor for the setpoint.
@@ -122,7 +94,7 @@ public class CargoCatch {
      * @param down Whether to set the setpoint to go down (if true, it will attempt to go down)
      */
     public static void setSetpoint(boolean down) {
-        int set = 480;
+        int set = 480; //The amount we vary the setpoint each time we set it
 
         if (down && setpoint < 520) { //If we want to go down AND we are not all the way down
             setpoint += set;//Go down by 420 encoder ticks
@@ -144,10 +116,11 @@ public class CargoCatch {
      * Runs the calculations for the PI loop based on the
      * current setpoint and the current encoder value
      */
-    private static void PI() {
+    @SuppressWarnings("Duplicates")
+    private static void PID() {
 
-        //PI = P * error + I * (previous error)
-        //Where P and I are constants and error is the difference between the setpoint and the current position
+        //PID = P * error + I * (sigma_previous_error) * D * (last_error)
+        //Where P, I, and D are constants and error is the difference between the setpoint and the current position
 
         previousError = error;
         error = setpoint - robotMap.encoderPivotTwo.get(); //Set error to the difference of the setpoint and the current position
@@ -157,9 +130,9 @@ public class CargoCatch {
         if (integral > integrator_limit) { //If the integral is too high...
             integral = integrator_limit; //Set it to the intergrator limit
         } else if (integral < -integrator_limit) { //Else if the integral is too low...
-            integral = -integrator_limit; //Set it to -integrator
+            integral = -integrator_limit; //Set it to -integrator_limit
         }
-        drive = (P * error + I * integral + D * derivative) / 100.0; //Calculate the PI loop based on the above equation
+        drive = (P * error + I * integral + D * derivative) / 100.0; //Calculate the PID loop based on the above equation
         if (drive > 0.2) { //If we want to go forward too fast...
             drive = .2; //...limit it to 20% power
         } else if (drive < -.4) { //Else we want to go backwards too fast...
@@ -178,9 +151,6 @@ public class CargoCatch {
         if(!xPressed && xTimer == 0 && !setInMotorHolding && !setInMotorPickUp) {
             robotMap.cargoIntake.set(0);
         }
-//        System.out.println("************************");
-//        System.out.println("TimerX =" + xTimer);
-//        System.out.println("xPressed =" + xPressed);
     }
 
 }

@@ -1,12 +1,12 @@
 package frc.robot.components;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.common.robotMap;
 
 /**
  * These provide some convenience methods for the Drivetrain. It gives methods for setting motor speeds,
  * getting motor speeds, and more.
  */
+@SuppressWarnings("unused")
 public class Drivetrain {
     /**
      * Sets the speed for the left Drivetrain motors
