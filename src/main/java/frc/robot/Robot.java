@@ -58,8 +58,11 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        CargoCatch.reset(); //Reset manipulator position and encoder
+        pnuematicsProtectionTimer = 0; //Reset pneumatics protection timer
         robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); //So wings start out as OPEN
-
+        pistonExtended = true; //Set relevant booleans
+        fortyFiveEmergencyOn = false;
     }
 
     @Override
@@ -68,15 +71,8 @@ public class Robot extends TimedRobot {
     }
 
 
-    //THIS IS ONLY FOR TESTING PURPOSES, COMMENT OUT OR DELETE WHEN STARTING TO PRACTICE
     @Override
-    public void teleopInit() {Elevator.reset(); //Reset elevator position and encoder
-        CargoCatch.reset(); //Reset manipulator position and encoder
-        pnuematicsProtectionTimer = 0;
-        robotMap.hatchCatch.set(DoubleSolenoid.Value.kForward); //So wings start out as OPEN
-        pistonExtended = true;
-        fortyFiveEmergencyOn = false;
-
+    public void teleopInit() {
     }
 
     @Override
